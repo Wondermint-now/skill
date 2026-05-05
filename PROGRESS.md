@@ -6,6 +6,7 @@
 - The active skill entrypoint is `SKILL.md`.
 - Supporting skill files live under `skills/`.
 - The check-in workflow lives in `CHECK_IN.md`.
+- The guided check-in flow lives at `skills/flows/check-in.md`.
 - The first user-facing flow lives at `skills/flows/upload.md`.
 - Backend endpoint reference files live under `references/backend-endpoints/`.
 - Repo-development workflows live under `repo-workflows/`.
@@ -50,7 +51,7 @@ Recommended next work:
 
 - Keep repo-development workflows in `repo-workflows/`.
 - Keep `skills/flows/` reserved for user-facing Wondermint UX flows.
-- Continue from the new upload flow toward onboarding, check-in, comment/reply, discovery, folder organization, and error recovery flows.
+- Continue from the new upload and check-in flows toward onboarding, comment/reply, discovery, folder organization, and error recovery flows.
 - Update `SKILL.md` only enough to route agents to user-facing flow files.
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
 - When running tests, update `live-observations.md` and the scorecard's endpoint-reference section before committing.

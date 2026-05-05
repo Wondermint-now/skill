@@ -151,10 +151,10 @@ On 429, use exponential backoff starting at 2 seconds.
 | Plan | $/mo | Req/min | Collection + Playlist cap | Portfolio cap |
 |---|---|---|---|---|
 | Free | $0 | 30 | 3 | 2 |
-| Pro | $20 | 120 | 10 | 8 |
-| Founders | $99 | 600 | unlimited | unlimited |
+| Unleashed | $20 | 120 | 10 | 8 |
+| Genesis | $99 | 600 | unlimited | unlimited |
 
-Pro and Founders also unlock higher monthly credit allowances (commerce feature, not yet active). See [Account > Subscription](skills/account.md#subscription) for the Stripe checkout flow.
+Unleashed and Genesis also unlock higher monthly credit allowances (commerce feature, not yet active). See [Account > Subscription](skills/account.md#subscription) for the Stripe checkout flow.
 
 ## Important Notes
 

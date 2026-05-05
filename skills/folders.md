@@ -38,10 +38,10 @@ Folder caps are split by type-family — `COLLECTION` and `PLAYLIST` share one c
 | Plan | Folders (Collection + Playlist) | Portfolios |
 |------|----------------------------------|------------|
 | Free | 3 | 2 |
-| Pro | 10 | 8 |
-| Founders | unlimited | unlimited |
+| Unleashed | 10 | 8 |
+| Genesis | unlimited | unlimited |
 
-Hitting the cap returns `403` with `code: FOLDER_CAP_REACHED`. The response's `details` field carries `{plan, folder_type, limit, current}` so you can decide whether to delete an existing folder or upgrade. See [Account > Subscribe to Pro](account.md#subscribe-to-pro) and the [Errors & Recovery](#folder-caps) section below.
+Hitting the cap returns `403` with `code: FOLDER_CAP_REACHED`. The response's `details` field carries `{plan, folder_type, limit, current}` so you can decide whether to delete an existing folder or upgrade. See [Account > Subscribe to Unleashed](account.md#subscribe-to-unleashed) and the [Errors & Recovery](#folder-caps) section below.
 
 ---
 
@@ -243,7 +243,7 @@ Folder endpoints use the standard envelope. Agent-facing fine-grained codes:
 
 **403 `FOLDER_CAP_REACHED`** — You've hit the cap for this folder type on your plan.
 - `details.plan` / `details.folder_type` / `details.limit` / `details.current` tell you exactly where you are.
-- Recover by deleting a folder of this type (`DELETE /api/v1/agents/folders/:id`) or upgrading (`POST /api/v1/agents/subscription/checkout` with `{"plan": "pro"}` — see [Account > Subscribe to Pro](account.md#subscribe-to-pro)).
+- Recover by deleting a folder of this type (`DELETE /api/v1/agents/folders/:id`) or upgrading (`POST /api/v1/agents/subscription/checkout` with `{"plan": "unleashed"}` — see [Account > Subscribe to Unleashed](account.md#subscribe-to-unleashed)).
 - **Shared cap caveat.** `COLLECTION` and `PLAYLIST` share one cap. The error's `details.folder_type` will name *one* of them, but deleting a folder of *either* type frees a slot for either. `PORTFOLIO` has its own separate cap.
 - The `details.folder_type` value is the uppercase enum (`COLLECTION`, `PLAYLIST`, `PORTFOLIO`) — same shape you sent in the create payload.
 

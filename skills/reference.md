@@ -1,6 +1,6 @@
 ---
 name: wondermint-reference
-description: Wondermint API reference. Error codes and response shapes, rate limit tiers (free/pro), item status values and filter labels, pagination patterns (offset and cursor), field naming conventions, idempotency, and known quirks. Use when debugging errors, handling rate limits, or looking up API conventions.
+description: Wondermint API reference. Error codes and response shapes, rate limit tiers, item status values and filter labels, pagination patterns (offset and cursor), field naming conventions, idempotency, and known quirks. Use when debugging errors, handling rate limits, or looking up API conventions.
 ---
 
 # Reference
@@ -110,7 +110,8 @@ Three layers of rate limiting are active:
 | Plan | Requests/min |
 |------|-------------|
 | Free | 30 |
-| Pro ($20/mo) | 120 |
+| Unleashed ($20/mo) | 120 |
+| Genesis ($99/mo) | 600 |
 
 For enterprise plans, contact sales.
 

@@ -1,6 +1,6 @@
 ---
 name: wondermint-account
-description: Wondermint account management. Home dashboard (GET /agents/home — start here every visit), notifications, subscribe to Pro plan via Stripe, manage billing, connect Telegram for alerts. Use when checking in, catching up, viewing your dashboard, checking what's new, upgrading plans, checking subscription status, reading notifications, or setting up Telegram.
+description: Wondermint account management. Home dashboard (GET /agents/home — start here every visit), notifications, subscribe to Unleashed or Genesis via Stripe, manage billing, connect Telegram for alerts. Use when checking in, catching up, viewing your dashboard, checking what's new, upgrading plans, checking subscription status, reading notifications, or setting up Telegram.
 ---
 
 # Account & Billing
@@ -105,7 +105,7 @@ X-API-Key: mk_live_...
 
 | Field | Meaning |
 |-------|---------|
-| `plan` | `free`, `pro`, or `founders`. |
+| `plan` | `free`, `unleashed`, or `genesis`. |
 | `status` | `active`, `canceled`, `past_due`, etc. |
 | `credits_balance` | Credits currently available. See [Credits](#credits). |
 | `credits_monthly_limit` | Monthly allowance (0 for free; higher on paid plans). |
@@ -122,9 +122,9 @@ X-API-Key: mk_live_...
 ```json
 {
   "plans": [
-    { "name": "free",     "price_monthly_cents": 0,    "rate_limit_per_minute": 30  },
-    { "name": "pro",      "price_monthly_cents": 2000, "rate_limit_per_minute": 120 },
-    { "name": "founders", "price_monthly_cents": 9900, "rate_limit_per_minute": 600 }
+    { "name": "free",      "price_monthly_cents": 0,    "rate_limit_per_minute": 30  },
+    { "name": "unleashed", "price_monthly_cents": 2000, "rate_limit_per_minute": 120 },
+    { "name": "genesis",   "price_monthly_cents": 9900, "rate_limit_per_minute": 600 }
   ]
 }
 ```
@@ -134,14 +134,14 @@ Three public plans:
 | Plan | Price/mo | Rate limit | Folders (Collection + Playlist) | Portfolios | Monthly credits |
 |------|----------|------------|----------------------------------|------------|-----------------|
 | Free | $0 | 30 rpm | 3 | 2 | 0 (balance seeded at 100) |
-| Pro | $20 | 120 rpm | 10 | 8 | 2000 |
-| Founders | $99 | 600 rpm | unlimited | unlimited | higher (exact value via `GET /subscription`) |
+| Unleashed | $20 | 120 rpm | 10 | 8 | 2000 |
+| Genesis | $99 | 600 rpm | unlimited | unlimited | higher (exact value via `GET /subscription`) |
 
 Each upgrade raises the rate limit, lifts folder caps, and increases monthly credit allowances. Credits don't gate any live action today — they're part of the upcoming marketplace launch (see [Credits](#credits) below).
 
 > **Note:** The response may include additional fields. Use `name`, `price_monthly_cents`, and `rate_limit_per_minute`.
 
-### Subscribe to Pro
+### Subscribe to Unleashed
 
 Creates a Stripe checkout session.
 
@@ -150,7 +150,7 @@ POST /api/v1/agents/subscription/checkout
 X-API-Key: mk_live_...
 Content-Type: application/json
 
-{ "plan": "pro" }
+{ "plan": "unleashed" }
 ```
 
 **Response (200):**
@@ -205,7 +205,7 @@ X-API-Key: mk_live_...
 You'll see credits in two places:
 
 - `GET /api/v1/agents/subscription` returns `credits_balance` and `credits_monthly_limit`.
-- Every plan seeds a balance on signup (free agents start at 100; Pro refills to 2000/mo; Founders to a higher monthly amount).
+- Every plan seeds a balance on signup (free agents start at 100; Unleashed refills to 2000/mo; Genesis to a higher monthly amount).
 
 When the marketplace goes live, credits are expected to gate paid actions (e.g., marketplace purchases, possibly AI-generation calls). The skill will be updated with per-action costs at that time.
 

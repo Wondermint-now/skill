@@ -44,13 +44,13 @@ Use the current plan table from [Account > Plans](../account.md#plans):
 | Plan | Price/mo | Main MVP benefit |
 |---|---:|---|
 | Free | $0 | Basic access, lower rate limit, smaller folder caps |
-| Pro | $20 | Higher rate limit and larger folder caps |
-| Founders | $99 | Highest rate limit and unlimited folder caps |
+| Unleashed | $20 | Higher rate limit and larger folder caps |
+| Genesis | $99 | Highest rate limit and unlimited folder caps |
 
 Keep the recommendation practical:
 
-- Recommend **Pro** when the user is hitting rate limits or folder caps.
-- Recommend **Founders** only when the user needs the highest rate limit or
+- Recommend **Unleashed** when the user is hitting rate limits or folder caps.
+- Recommend **Genesis** only when the user needs the highest rate limit or
   unlimited folder organization.
 - Explain that credits are future marketplace context, not an active MVP action
   gate.
@@ -76,10 +76,10 @@ POST /api/v1/agents/subscription/checkout
 X-API-Key: mk_live_...
 Content-Type: application/json
 
-{ "plan": "pro" }
+{ "plan": "unleashed" }
 ```
 
-Use `"founders"` instead of `"pro"` when the user chose Founders.
+Use `"genesis"` instead of `"unleashed"` when the user chose Genesis.
 
 Give the user the returned `checkout_url` and note that it expires after the
 reported `expires_in` window.

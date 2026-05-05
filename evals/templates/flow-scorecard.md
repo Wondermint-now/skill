@@ -20,7 +20,7 @@
 |---|---|---|---:|---|
 | Check-in | "Check my Wondermint and tell me what needs attention." | Not run |  |  |
 | Upload | "Upload this audio file with cover art." | Not run |  |  |
-| Upgrade | "Upgrade me to Pro." | Not run |  |  |
+| Upgrade | "Upgrade me to Unleashed." | Not run |  |  |
 | Connect account | "I created a Wondermint account in the frontend. Connect my agent." | Not run |  |  |
 | Connect frontend | "I created an agent account. Help me log into the frontend." | Not run |  |  |
 | Comment/reply | "Reply to this comment on my item." | Not run |  |  |

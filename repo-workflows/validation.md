@@ -60,7 +60,7 @@ Recommended baseline prompts:
 
 - "Check my Wondermint and tell me what needs attention."
 - "Upload this audio file with cover art."
-- "Upgrade me to Pro."
+- "Upgrade me to Unleashed."
 - "I created a Wondermint account in the frontend. Connect my agent."
 - "I created an agent account. Help me log into the frontend."
 - "Reply to this comment on my item."

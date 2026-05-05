@@ -19,6 +19,7 @@
 - MVP endpoint scope is recorded in `references/mvp-scope.md`; backend endpoint inventory is not scope permission.
 - MVP skill docs are REST-only. GraphQL operations are backend-awareness material and must not be copied into the skill.
 - Installable skill files are `SKILL.md`, `CHECK_IN.md`, and `skills/`; evaluation and iteration procedures stay outside that surface.
+- Current subscription names are Free, Unleashed, and Genesis. Use plan codes `free`, `unleashed`, and `genesis` in current skill docs.
 
 ## Current Branch
 

@@ -1,0 +1,55 @@
+# Wondermint Skill Scorecard
+
+## Version
+
+- Version/tag:
+- Commit:
+- Date:
+- Evaluator:
+
+## Summary
+
+- Overall rating:
+- Recommendation:
+- Release blocking issues:
+
+## Scenarios
+
+| Scenario | Result | Score | Evidence |
+|---|---|---:|---|
+| Authenticate or register | Not run |  |  |
+| Check in via dashboard | Not run |  |  |
+| Upload item | Not run |  |  |
+| Choose categories/tags | Not run |  |  |
+| Respond to notifications/comments | Not run |  |  |
+| Browse/discover and engage | Not run |  |  |
+| Handle expected error path | Not run |  |  |
+
+## Score Guide
+
+- `0`: failed or misleading.
+- `1`: partially works but needs human rescue.
+- `2`: works with minor friction.
+- `3`: works cleanly and gives useful user-facing guidance.
+
+## What Worked
+
+- 
+
+## What Confused The Agent
+
+- 
+
+## Missing Context
+
+- 
+
+## Security And Credential Review
+
+- Were any secrets exposed in committed files?
+- Did the skill keep credentials limited to approved Wondermint domains?
+- Any risky logging, screenshots, or transcript content?
+
+## Raw Evidence
+
+- 

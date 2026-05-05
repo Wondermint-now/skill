@@ -1,0 +1,7 @@
+.env
+.env.*
+!.env.example
+.tmp/
+.DS_Store
+evals/logs/**/*.local.*
+credentials*

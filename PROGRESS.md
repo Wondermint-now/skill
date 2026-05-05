@@ -25,11 +25,12 @@ This phase adds repo operating docs, credential safety files, and future evaluat
 
 ## Latest Evaluation
 
-- Baseline static eval recorded: `evals/scorecards/baseline-2026-05-05.md`
-- Raw review log: `evals/logs/baseline-2026-05-05/static-review.md`
+- Live eval recorded: `evals/scorecards/live-2026-05-05.md`
+- Raw live evidence: `evals/logs/live-2026-05-05/`
 - Overall rating: 2 / 3
-- Live Wondermint tests: not run
-- Validator status: blocked because PyYAML is unavailable in the current Python environment
+- Live Wondermint tests: registration, profile, check-in, notifications, categories, browse, and item detail
+- Not tested: upload, comment, like, follow, frontend login
+- Main finding: Python's default HTTP client was blocked by Cloudflare 1010, but `curl` succeeded
 
 ## Next Phase
 

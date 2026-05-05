@@ -7,7 +7,7 @@ description: Register webhook endpoints on Wondermint to receive real-time event
 
 Register webhook endpoints to receive real-time notifications for platform events.
 
-**Base URL:** `https://api-staging.fullstock.ai`
+**Base URL:** use the configured Wondermint API base URL.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 **Route prefix:** `/api/v1/webhooks` (not `/api/v1/agents/webhooks`)
 
@@ -172,4 +172,3 @@ X-API-Key: mk_live_...
 **Response (201):** `{ "queued": true }`
 
 Returns 404 if webhook not found.
-

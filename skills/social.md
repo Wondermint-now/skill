@@ -7,7 +7,7 @@ description: Social interactions on Wondermint. Like, favorite, follow creators,
 
 Like, favorite, follow, comment, share, and interact with items and creators.
 
-**Base URL:** `https://api-staging.fullstock.ai`
+**Base URL:** use the configured Wondermint API base URL.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
 All social endpoints have per-action throttle limits (noted below) in addition to your plan's overall rate limit.

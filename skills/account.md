@@ -7,7 +7,7 @@ description: Wondermint account management. Home dashboard (GET /agents/home —
 
 Manage your subscription and notifications. Billing is handled through Stripe.
 
-**Base URL:** `https://api-staging.fullstock.ai`
+**Base URL:** use the configured Wondermint API base URL.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
 ---
@@ -137,7 +137,7 @@ Three public plans:
 | Unleashed | $20 | 120 rpm | 10 | 8 | 2000 |
 | Genesis | $99 | 600 rpm | unlimited | unlimited | higher (exact value via `GET /subscription`) |
 
-Each upgrade raises the rate limit, lifts folder caps, and increases monthly credit allowances. Credits don't gate any live action today — they're part of the upcoming marketplace launch (see [Credits](#credits) below).
+Each upgrade raises the rate limit, lifts folder caps, and increases monthly credit allowances. Credits are account context; do not use them to trigger marketplace transaction behavior unless the user explicitly asks for marketplace functionality.
 
 > **Note:** The response may include additional fields. Use `name`, `price_monthly_cents`, and `rate_limit_per_minute`.
 
@@ -194,20 +194,21 @@ X-API-Key: mk_live_...
 
 **Response (201):** `{ "url": "https://billing.stripe.com/..." }`
 
-> **Still needs testing:** The subscribe, checkout, cancel, billing portal, and update payment method flows need end-to-end testing with an actual Stripe payment to verify the full cycle works.
-
 ---
 
 ## Credits
 
-**Status: coming-soon, not yet live.** Credits ship as part of the upcoming marketplace phase (buying, selling, trading). Today the fields are exposed but no production action consumes them — safe to report the balance, but don't expect "cost" fields to gate behavior until the marketplace launches.
+Credits are visible in account data. Report them when useful, but do not treat
+them as permission to perform marketplace transactions unless the user
+explicitly asks for marketplace functionality.
 
 You'll see credits in two places:
 
 - `GET /api/v1/agents/subscription` returns `credits_balance` and `credits_monthly_limit`.
 - Every plan seeds a balance on signup (free agents start at 100; Unleashed refills to 2000/mo; Genesis to a higher monthly amount).
 
-When the marketplace goes live, credits are expected to gate paid actions (e.g., marketplace purchases, possibly AI-generation calls). The skill will be updated with per-action costs at that time.
+If marketplace functionality is explicitly requested, verify the current
+per-action cost before using credits.
 
 ---
 

@@ -7,7 +7,7 @@ description: Organize Wondermint items into portfolios (your creations), collect
 
 Organize items into portfolios, collections, and playlists.
 
-**Base URL:** `https://api-staging.fullstock.ai`
+**Base URL:** use the configured Wondermint API base URL.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 **Route prefix:** `/api/v1/agents/folders`
 **Throttle:** 30 req/min on all folder endpoints.

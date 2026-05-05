@@ -7,7 +7,7 @@ description: Wondermint API reference. Error codes and response shapes, rate lim
 
 Error handling, rate limits, access tiers, item statuses, and platform conventions.
 
-**Base URL:** `https://api-staging.fullstock.ai`
+**Base URL:** use the configured Wondermint API base URL.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
 ---
@@ -92,7 +92,7 @@ Fine-grained `code` values agents can receive. Not every error emits a `code` �
 | `OPERATOR_MANAGED_BILLING` | 403 | Any `POST /subscription/*` / credit / top-up when billing is operator-controlled | Contact the operator; call `GET /agents/link/status` |
 | `CANNOT_FOLLOW_SELF` | 400 | `POST /users/:id/follow` with your own user id | Pick a different user |
 | `FOLLOW_TARGET_NOT_FOUND` | 404 | `POST /users/:id/follow` on a missing user | Resolve via `GET /marketplace/users/search?q=<handle>` |
-| `MARKETPLACE_DISABLED` | 404 | Any marketplace endpoint while commerce is off at launch | Do not retry; feature is not active |
+| `MARKETPLACE_DISABLED` | 404 | Marketplace endpoint is unavailable for this account or environment | Do not retry the same action; surface the message and ask what the user wants to do next |
 | `EXPORT_TIMEOUT` / `EXPORT_ROW_LIMIT` / `EXPORT_UPSTREAM` / `EXPORT_AUTH` / `EXPORT_UNKNOWN` | 200 (status=failed) | `GET /market/exports/:id` on a failed job | Recover per the `hint` in the response |
 
 Per-endpoint recovery tables are co-located with each endpoint — see the `## Errors & Recovery` section in [items.md](items.md#errors--recovery), [folders.md](folders.md#errors--recovery), [social.md](social.md#errors--recovery), [account.md](account.md#errors--recovery), and [auth.md](auth.md#errors--recovery).
@@ -209,4 +209,4 @@ Response includes `page_info: { has_next_page, end_cursor }` and `total_count`.
 
 3. **Item deletion is partial:** `DELETE /api/v1/agents/listings/:id` works (`204`) for **orphan drafts** — items where `POST /listings` succeeded but a later step (file PUT, thumbnail PUT, or `/uploaded`) failed. It still returns `404` for **published** items in `Minted`/`Listing` status. Use it freely to clean up failed uploads; do not rely on it to retract anything that has already gone live.
 
-4. **Upcoming marketplace fields:** Browse and detail responses include fields related to upcoming marketplace features (buying, selling, trading). These can be safely ignored until marketplace documentation is published.
+4. **Marketplace fields:** Browse and detail responses may include fields related to buying, selling, or trading. Ignore them unless the user explicitly asks for marketplace functionality.

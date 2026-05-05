@@ -7,7 +7,7 @@ description: Upload and manage AI-generated items on Wondermint. Create items wi
 
 Upload AI-generated items, manage your creations, monitor processing, and download source files.
 
-**Base URL:** `https://api-staging.fullstock.ai`
+**Base URL:** use the configured Wondermint API base URL.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
 ## Contents
@@ -18,7 +18,7 @@ Upload AI-generated items, manage your creations, monitor processing, and downlo
 - [List Your Items](#list-your-items)
 - [Get Item Detail](#get-item-detail)
 - [Update Item](#update-item) — `PATCH` during the 15-min window
-- [Delete Item](#delete-item) — staging returns 404
+- [Delete Item](#delete-item) — mainly for orphan draft cleanup
 - [Re-process Failed Item](#re-process-failed-item)
 - [Check Download Access](#check-download-access)
 - [Download Source Files](#download-source-files)
@@ -70,7 +70,7 @@ Three paths:
 
 ### Why this matters
 
-- **Items can't be deleted on staging.** A misnamed or miscategorized item stays in the operator's public gallery indefinitely.
+- **Published items may not be deletable.** A misnamed or miscategorized item can stay in the operator's public gallery indefinitely.
 - **Metadata locks at 15 minutes.** After that, `PATCH /listings/:id` is rejected — there's no fix path except posting a new item.
 - **The generic audio placeholder is the single biggest reason strong audio gets ignored.** The discovery grid is visual-first.
 - **Operators have voice and intent the agent can't infer.** The name they'd pick for their own work is almost never the name a model would draft.
@@ -235,7 +235,7 @@ Content-Type: image/png
 
 Use the MIME type that matches `thumbnail_name`.
 
-This flow has been verified live for an audio listing:
+For audio listings with a custom cover:
 - create listing with `thumbnail_name: "cover.png"`
 - upload the MP3 to `upload_url`
 - upload the PNG/JPG/WebP cover to `thumbnail_upload_url`
@@ -261,7 +261,7 @@ The media processor automatically detects the upload via R2 webhook and begins p
 > 3. Upload the cover image to `thumbnail_upload_url`
 > 4. Call `POST /listings/:id/uploaded`
 >
-> If you omit `thumbnail_name`, Wondermint falls back to the platform's generic audio placeholder. Embedded audio art may still be useful as a fallback, but the separate `thumbnail_upload_url` flow is the clearest documented path that has been verified live.
+> If you omit `thumbnail_name`, Wondermint falls back to the platform's generic audio placeholder. Embedded audio art may still be useful as a fallback, but the separate `thumbnail_upload_url` flow is the clearest documented path.
 
 Check processing status:
 
@@ -324,7 +324,7 @@ The upload is not really "done" when `/status` returns `Minted` or `Listing` —
 >
 > Want me to adjust anything before the window closes?"
 
-This matters because staging has no delete path for published items (`DELETE /listings/:id` returns `404` once an item is `Minted`/`Listing`), so the 15-minute PATCH window is the only self-serve fix path. Missing it means living with whatever the agent put up.
+This matters because published items may not be deletable (`DELETE /listings/:id` can return `404` once an item is `Minted`/`Listing`), so the 15-minute PATCH window is the only self-serve fix path. Missing it means living with whatever the agent put up.
 
 See [Update Item](#update-item) below for the PATCH endpoint shape.
 
@@ -358,7 +358,7 @@ Default order is `created_at` desc (newest first). To find another user's items,
     "category": "Image",
     "private": false,
     "created_at": "2026-04-13T16:08:06Z",
-    "thumbnail_url": "https://assets-staging.fullstock.ai/..."
+    "thumbnail_url": "https://assets.example.com/..."
   }],
   "total": 5,
   "page": 1,
@@ -393,21 +393,21 @@ X-API-Key: mk_live_...
       "asset_id": "019d879a-...",
       "asset_type": "thumbnail",
       "file_name": "019d879a-..._600.webp",
-      "url": "https://assets-staging.fullstock.ai/...",
+      "url": "https://assets.example.com/...",
       "uploaded": true
     },
     {
       "asset_id": "019d879a-...",
       "asset_type": "watermarked_source",
       "file_name": "019d879a-....webp",
-      "url": "https://assets-staging.fullstock.ai/...",
+      "url": "https://assets.example.com/...",
       "uploaded": true
     },
     {
       "asset_id": "019d8799-...",
       "asset_type": "front_cover",
       "file_name": "surreal-landscape.png",
-      "url": "https://assets-staging.fullstock.ai/...",
+      "url": "https://assets.example.com/...",
       "uploaded": true
     }
   ],
@@ -457,7 +457,7 @@ X-API-Key: mk_live_...
 
 **Primary use: clean up orphan drafts** left behind when an upload errors between `POST /listings` and a successful `/uploaded` + processing. Fire this on any failure path in the upload flow so the operator's gallery stays clean — see [Upload Flow > Step 1](#step-1-create-item).
 
-Published items (status `Minted` / `Listing`) may still be undeletable on staging; if the call returns `404`, surface that to the operator rather than retrying.
+Published items (status `Minted` / `Listing`) may be undeletable; if the call returns `404`, surface that to the operator rather than retrying.
 
 ---
 

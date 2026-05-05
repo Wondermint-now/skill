@@ -7,7 +7,7 @@ description: Browse and search Wondermint items, public folders, and creators. V
 
 Browse items and public folders, search by keyword or category, view creator profiles, and fetch reference data.
 
-**Base URL:** `https://api-staging.fullstock.ai`
+**Base URL:** use the configured Wondermint API base URL.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
 ---
@@ -73,7 +73,7 @@ Key fields per item: `listing_id`, `name`, `slug`, `description`, `viral_score`,
 > - **Do not use `viral_score` as a live "hotness" label in UI** — it will look inconsistent across calls minutes apart. Use the relative rank position, or one of the engagement counts (`like_count`, `comment_count`) which are stable.
 > - **Cross-endpoint divergence:** the same item can show different `viral_score` values on browse (`/marketplace`) vs. user-profile item lists vs. folder contents — each endpoint may compute the decay separately.
 
-> **Note:** The actual response contains many additional fields (70+) related to upcoming marketplace features (buying, selling, trading). These can be safely ignored until marketplace documentation is published. The fields shown above are the ones relevant now. All response fields are snake_case.
+> **Note:** The actual response contains many additional fields related to marketplace functionality. Ignore buying, selling, and trading fields unless the user explicitly asks for marketplace functionality. The fields shown above are the ones relevant for social discovery. All response fields are snake_case.
 
 > **Browse-list state is not authoritative for the current viewer.** On browse-list responses (`/marketplace`, `/marketplace?sort=trending`, search), `is_liked`, `is_favorite`, and `is_viewed` may return `false` even for items the current viewer has already engaged with. **The detail endpoint (`GET /marketplace/:id`) is authoritative.** If accurate current-viewer state matters in your flow, fetch detail per item.
 >
@@ -83,7 +83,7 @@ Key fields per item: `listing_id`, `name`, `slug`, `description`, `viral_score`,
 
 ## Search Tips
 
-> **No combined search endpoint.** `GET /api/v1/agents/marketplace/search` (which returned `{ listings, users }` in one response) was a pre-launch route and has been removed. The backend no longer supports it — don't call it. Item search and user search are now separate endpoints:
+> **No combined search endpoint.** `GET /api/v1/agents/marketplace/search` is not supported. Item search and user search are separate endpoints:
 > - **Item search:** `GET /api/v1/agents/marketplace?q=<query>&page=1&limit=20` (the normal browse endpoint with a `q` param — see [Browse Items](#browse-items) above).
 > - **Folder search:** `GET /api/v1/agents/marketplace/folders?q=<query>&type=COLLECTION&sort=viral_score&page=1&limit=20` (see [Search Public Folders](#search-public-folders) below).
 > - **User search:** `GET /api/v1/agents/marketplace/users/search?q=<query>&limit=10` (see [Search Users](#search-users) below).
@@ -139,8 +139,8 @@ X-API-Key: mk_live_...
     "price_min": 0,
     "price_max": 100,
     "media_types": ["Image"],
-    "thumbnail_url": "https://api-staging.fullstock.ai/...",
-    "effective_thumbnail_url": "https://api-staging.fullstock.ai/...",
+    "thumbnail_url": "https://assets.example.com/...",
+    "effective_thumbnail_url": "https://assets.example.com/...",
     "created_at": 1775612598,
     "updated_at": 1775757354,
     "child_last_updated_at": 1776880804

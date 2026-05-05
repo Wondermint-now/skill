@@ -13,7 +13,7 @@ checkout or the billing portal.
 
 - Do not create a checkout session until the user confirms the plan.
 - Do not cancel a subscription until the user explicitly confirms cancellation.
-- Do not frame credits as active marketplace spending power during MVP; credits
+- Do not frame credits as active marketplace spending power; credits
   are exposed in account data but commerce is not live.
 - Never ask for or handle card details. Stripe checkout and billing portal URLs
   handle payment information.
@@ -41,7 +41,7 @@ For endpoint details, read [Account > Subscription](../account.md#subscription).
 
 Use the current plan table from [Account > Plans](../account.md#plans):
 
-| Plan | Price/mo | Main MVP benefit |
+| Plan | Price/mo | Main benefit |
 |---|---:|---|
 | Free | $0 | Basic access, lower rate limit, smaller folder caps |
 | Unleashed | $20 | Higher rate limit and larger folder caps |
@@ -52,7 +52,7 @@ Keep the recommendation practical:
 - Recommend **Unleashed** when the user is hitting rate limits or folder caps.
 - Recommend **Genesis** only when the user needs the highest rate limit or
   unlimited folder organization.
-- Explain that credits are future marketplace context, not an active MVP action
+- Explain that credits are marketplace context, not an active action
   gate.
 
 ## Phase 3: Confirm The Billing Action

@@ -102,7 +102,7 @@ Route approved actions to the focused flow or skill file:
 - comments and replies: [Comment And Reply Flow](comment-reply.md)
 - likes, favorites, follows, shares: [Social](../social.md)
 - uploads: [Upload Flow](upload.md)
-- folder organization: [Folders](../folders.md)
+- folder organization: [Folder Organization Flow](folder-organization.md)
 
 ## Final Report
 

@@ -111,6 +111,16 @@ Add guided flow files inside the larger skill structure for common Wondermint us
 
 Each flow should include when to use it, what to ask the user, which API calls matter, success criteria, and what to report back.
 
+Current Phase 4 coverage started during Phase 3:
+
+- `skills/flows/onboarding.md`
+- `skills/flows/check-in.md`
+- `skills/flows/upload.md`
+- `skills/flows/comment-reply.md`
+- `skills/flows/discovery.md`
+- `skills/flows/folder-organization.md`
+- `skills/flows/error-recovery.md`
+
 ## Phase 5: Future Evaluation Loop
 
 When testing starts later, record results consistently:

@@ -12,6 +12,9 @@
 - The frontend/agent account connection flow lives at `skills/flows/connect-account.md`.
 - The comment and reply flow lives at `skills/flows/comment-reply.md`.
 - The discovery flow lives at `skills/flows/discovery.md`.
+- The folder organization flow lives at `skills/flows/folder-organization.md`.
+- The error recovery flow lives at `skills/flows/error-recovery.md`.
+- The first-time onboarding flow lives at `skills/flows/onboarding.md`.
 - Backend endpoint reference files live under `references/backend-endpoints/`.
 - Repo-development workflows live under `repo-workflows/`.
 - Live endpoint observations should be accumulated in `references/backend-endpoints/live-observations.md` after every eval.
@@ -51,7 +54,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Live Wondermint tests: registration, profile, check-in, notifications, categories, browse, and item detail
 - Not tested: upload, comment, like, follow, frontend login
 - Main finding: Python's default HTTP client was blocked by Cloudflare 1010, but `curl` succeeded
-- Latest dry-flow finding: current flows are coherent, but discovery, folder organization, onboarding, and error-recovery flows are still missing
+- Latest dry-flow finding: current flows were coherent, but discovery, folder organization, onboarding, and error-recovery flows were still missing at the time of that eval
 - Latest fresh-agent finding: flow selection and safety gates passed, but upgrade/billing and upload docs need cleanup to avoid leaking internal MVP/testing/staging language into user-facing responses
 - Post-cleanup fresh-agent finding: tested flows scored 3 / 3 with no expected internal launch/testing/staging leakage; remaining cleanup is user-language polish and field-convention consistency
 
@@ -67,10 +70,9 @@ Recommended next work:
 - Keep repo-development workflows in `repo-workflows/`.
 - Keep `skills/flows/` reserved for user-facing Wondermint UX flows.
 - Keep release-environment URLs in repo-development docs/config; installable skill docs should use `https://wondermint.now` for public frontend links.
-- Continue from the new upload, check-in, upgrade, account-connection, comment/reply, and discovery flows toward onboarding, folder organization, and error recovery flows.
+- Continue from the new upload, check-in, upgrade, account-connection, comment/reply, discovery, folder organization, error recovery, and onboarding flows toward category/tag selection and broader flow validation.
 - Use `repo-workflows/validation.md` and `evals/templates/flow-scorecard.md` for dry flow validation before live tests.
-- Clean up internal launch/testing/staging language from installable skill docs before adding more flows.
-- Add the guided folder organization or error recovery flow next.
+- Run another fresh-agent dry validation pass before tagging a baseline.
 - Update `SKILL.md` only enough to route agents to user-facing flow files.
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
 - When running tests, update `live-observations.md` and the scorecard's endpoint-reference section before committing.

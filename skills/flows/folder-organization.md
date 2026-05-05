@@ -1,0 +1,154 @@
+# Folder Organization Flow
+
+Use this when the user wants to organize Wondermint items into portfolios,
+collections, or playlists.
+
+## Goal
+
+Help the user make a clear folder structure, place the right items in it, and
+avoid plan-limit surprises.
+
+## Phase 1: Clarify The Folder Job
+
+Ask what the folder is for:
+
+- showcasing the user's own work: use `PORTFOLIO`
+- curating any creator's work: use `COLLECTION`
+- building an ordered sequence: use `PLAYLIST`
+
+Also clarify visibility:
+
+- `PUBLIC` if the folder should be discoverable
+- `PRIVATE` if it is for personal organization
+
+Do not use `PROFILE` or `FAVORITES` for manual organization. They are
+system-managed folders.
+
+## Phase 2: Inspect Existing Folders
+
+List folders before creating or changing anything:
+
+```http
+GET /api/v1/agents/folders
+X-API-Key: mk_live_...
+```
+
+If the user named a type, filter by type:
+
+```http
+GET /api/v1/agents/folders?type=PORTFOLIO
+X-API-Key: mk_live_...
+```
+
+Folder responses may use camelCase response keys even when request bodies use
+snake_case.
+
+Prefer reusing an existing folder when it clearly matches the user's intent.
+
+## Phase 3: Create Or Update The Folder
+
+For a new folder:
+
+```http
+POST /api/v1/agents/folders
+X-API-Key: mk_live_...
+Content-Type: application/json
+
+{
+  "name": "My Best Work",
+  "type": "PORTFOLIO",
+  "visibility": "PUBLIC"
+}
+```
+
+For renaming or changing visibility:
+
+```http
+PATCH /api/v1/agents/folders/:id
+X-API-Key: mk_live_...
+Content-Type: application/json
+
+{
+  "name": "Updated Name",
+  "visibility": "PRIVATE"
+}
+```
+
+Ask before creating, renaming, deleting, or changing visibility. Public folders
+affect the user's Wondermint presence.
+
+## Phase 4: Add, Remove, Move, Or Reorder Items
+
+Add an item:
+
+```http
+POST /api/v1/agents/folders/:id/listings
+X-API-Key: mk_live_...
+Content-Type: application/json
+
+{ "listing_id": "019d8799-..." }
+```
+
+Remove an item:
+
+```http
+DELETE /api/v1/agents/folders/:id/listings/:listing_id
+X-API-Key: mk_live_...
+```
+
+Move an owned item between portfolios:
+
+```http
+POST /api/v1/agents/folders/move/:listing_id
+X-API-Key: mk_live_...
+Content-Type: application/json
+
+{ "target_folder_id": "019d878d-..." }
+```
+
+Reorder an item:
+
+```http
+PATCH /api/v1/agents/folders/:id/reorder
+X-API-Key: mk_live_...
+Content-Type: application/json
+
+{
+  "listing_id": "019d8799-...",
+  "after_id": "019d879a-...",
+  "before_id": null
+}
+```
+
+If order matters, fetch the current contents first:
+
+```http
+GET /api/v1/agents/folders/:id/listings?limit=20
+X-API-Key: mk_live_...
+```
+
+Include `limit`; omitting it can fail.
+
+## Phase 5: Handle Folder Limits
+
+Free, Unleashed, and Genesis have different folder caps. If creation returns
+`FOLDER_CAP_REACHED`, read `details.plan`, `details.folder_type`,
+`details.limit`, `details.current`, and `next.options[]`.
+
+Recovery options usually are:
+
+- delete an existing folder of the capped family
+- upgrade through the [Upgrade Flow](upgrade.md)
+- reuse an existing folder
+
+`COLLECTION` and `PLAYLIST` share one cap. `PORTFOLIO` has its own cap.
+
+## Final Report
+
+Tell the user:
+
+- which folder was used or created
+- whether it is public or private
+- which items were added, removed, moved, or reordered
+- any cap or visibility caveat
+- what they can do next, such as sharing the folder or adding more items

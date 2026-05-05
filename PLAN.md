@@ -53,6 +53,9 @@ Recommended first restructure:
 - Start with `skills/flows/live-eval.md` and `skills/flows/upload.md`.
 - Add direct "read this when..." routing from `SKILL.md`.
 - Add the live-eval finding that Python's default HTTP client may be blocked by Cloudflare 1010 and `curl` worked in the 2026-05-05 test.
+- Define the installable package boundary before moving repo-management files around.
+- Add a small local validation script before introducing any generated-template system.
+- Do not adopt G stack-style templates until repeated boilerplate appears across multiple flow files.
 
 ## Phase 4: UX Flow Expansion
 
@@ -77,5 +80,6 @@ When testing starts later, record results consistently:
 - Save raw evidence in `evals/logs/vX.Y.Z/`.
 - Update `PROGRESS.md` with improvements, regressions, and next recommended work.
 - Use forward-testing with fresh agents when the skill becomes complex enough.
+- Consider adding `evals/runs.jsonl` after more live evals so score trends can be compared mechanically.
 
 Tests are not required during Phase 1.

@@ -52,6 +52,7 @@ Recommended next work:
 - Upload, comments, follows, password changes, and API key rotation need explicit approval gates.
 - Future evals should keep scorecards plus raw evidence, matching the repo's current `evals/` structure.
 - The live-eval pitfall from 2026-05-05 should become skill guidance: Python's default HTTP client was blocked by Cloudflare 1010, while `curl` succeeded.
+- Second-pass G stack analysis found useful repo mechanics, but Wondermint should start smaller: define package boundaries, add lightweight validation, and avoid templates until duplication justifies them.
 
 ## Open Questions
 

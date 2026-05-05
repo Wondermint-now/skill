@@ -49,6 +49,7 @@
 - Endpoint observations added to `references/backend-endpoints/live-observations.md`:
 - Static endpoint/schema/message docs updated:
 - Skill docs updated from confirmed behavior:
+- MVP scope check: Were any new endpoints added? If yes, were they explicitly requested?
 - Deferred follow-up:
 
 ## Security And Credential Review

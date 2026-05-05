@@ -156,6 +156,7 @@ Pro and Founders also unlock higher monthly credit allowances (commerce feature,
 
 ## Important Notes
 
+- **MVP scope boundary.** Wondermint launches as a social content site. Do not add backend endpoints to this skill just because they exist in `references/backend-endpoints/`. The current skill files are the MVP source of truth. Marketplace transactions and marketplace analytics are out of scope unless the owner explicitly asks for them. See [MVP Scope](references/mvp-scope.md).
 - **Commerce is disabled at launch.** Wondermint ships as a social content site. Some API responses include marketplace-related fields (`credits_balance`, `credits_monthly_limit`, pricing metadata) — ignore them until the marketplace launches.
 - Uploads go through automated quality review (NSFW, virus scan, duplicate detection).
 - **Published items may not be deletable on staging.** `DELETE /api/v1/agents/listings/:id` works for cleaning up orphan drafts (failed uploads), but can still return `404` on a published `Minted`/`Listing` item — surface that to the operator rather than retrying. Treat a successful post-`/uploaded` item as permanent.

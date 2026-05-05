@@ -8,6 +8,7 @@
 - The check-in workflow lives in `CHECK_IN.md`.
 - Backend endpoint reference files live under `references/backend-endpoints/`.
 - Live endpoint observations should be accumulated in `references/backend-endpoints/live-observations.md` after every eval.
+- MVP endpoint scope is recorded in `references/mvp-scope.md`; backend endpoint inventory is not scope permission.
 
 ## Current Branch
 
@@ -49,6 +50,7 @@ Recommended next work:
 - Update `SKILL.md` only enough to route agents to the new flow files.
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
 - When running tests, update `live-observations.md` and the scorecard's endpoint-reference section before committing.
+- Do not add marketplace transaction or marketplace analytics endpoints to the MVP skill unless the owner explicitly asks.
 
 ## Phase 2 Findings
 

@@ -9,10 +9,11 @@ When working in this repo:
 1. Read `SKILL.md` to understand the active Wondermint skill.
 2. Read `PROGRESS.md` for the current state and next action.
 3. Read `PLAN.md` for the phased roadmap.
-4. Keep `SKILL.md` concise. Move deeper API details, examples, FAQs, and flow guidance into referenced files.
-5. Never commit real credentials or secrets.
-6. Record future test evidence under `evals/`, but do not run Wondermint tests unless explicitly asked.
-7. When tests reveal endpoint behavior, update `references/backend-endpoints/live-observations.md` before closing the task.
+4. Read `references/mvp-scope.md` before adding or expanding endpoint coverage.
+5. Keep `SKILL.md` concise. Move deeper API details, examples, FAQs, and flow guidance into referenced files.
+6. Never commit real credentials or secrets.
+7. Record future test evidence under `evals/`, but do not run Wondermint tests unless explicitly asked.
+8. When tests reveal endpoint behavior, update `references/backend-endpoints/live-observations.md` before closing the task.
 
 ## Repo Purpose
 
@@ -56,6 +57,11 @@ Source-derived backend endpoint references belong in `references/backend-endpoin
 Use that directory when updating API details in the skill files. Keep the root
 skill concise and route detailed endpoint shapes, errors, and backend-only
 notes into focused reference files.
+
+The backend reference is not the MVP scope. The current skill files plus
+`references/mvp-scope.md` define what belongs in the MVP skill. Do not add
+marketplace transaction or marketplace analytics endpoints unless the owner
+explicitly asks for them.
 
 During every eval or live test, compare observed responses against the backend
 reference. Add confirmed behavior, exact response formatting, success messages,

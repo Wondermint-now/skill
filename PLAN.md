@@ -52,6 +52,11 @@ Backend source reference:
 - Keep source-derived endpoint inventory in `references/backend-endpoints/`.
 - Use that inventory to update the current skill docs before adding new flow files.
 - Treat backend source and line references as the authority when existing skill docs disagree.
+- Treat `references/mvp-scope.md` as the scope gate. Backend endpoints outside
+  the current skill files are out of scope for MVP unless the owner explicitly
+  asks to add them.
+- Exclude marketplace transactions and marketplace analytics from MVP skill
+  expansion.
 
 Recommended first restructure:
 

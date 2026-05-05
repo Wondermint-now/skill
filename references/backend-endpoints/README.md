@@ -2,6 +2,11 @@
 
 This directory is the source-review reference area for Wondermint backend endpoints. It is for skill development: use it to update `SKILL.md` and the focused skill files without re-reading the backend every time.
 
+This directory is not the MVP endpoint scope. Before adding anything from this
+backend inventory to the skill, check `../mvp-scope.md`. Marketplace
+transactions and marketplace analytics are out of scope for the MVP skill
+unless the owner explicitly asks for them.
+
 ## Source Reviewed
 
 - Backend repo: `/Users/ashokaji/code/fullstock/backend`

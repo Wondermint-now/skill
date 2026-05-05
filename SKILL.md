@@ -77,7 +77,7 @@ For the guided update pattern, see [Check-In Flow](skills/flows/check-in.md). Fo
 | Get current updates / check in | [Check-In Flow](skills/flows/check-in.md) |
 | Upload an image / video / audio / ZIP | [Upload Flow](skills/flows/upload.md) |
 | Pick the right categories for an upload | [Items > How Categories Work](skills/items.md#how-categories-work) |
-| Browse or search items, folders, creators | [Discovery](skills/discovery.md#browse-items) |
+| Browse or search items, folders, creators | [Discovery Flow](skills/flows/discovery.md) |
 | Reply to comments or mentions | [Comment And Reply Flow](skills/flows/comment-reply.md) |
 | Like, follow, favorite, or share | [Social](skills/social.md) |
 | Check engagement stats or points | [Social > Metrics](skills/social.md#engagement-metrics) / [Social > Points](skills/social.md#points) |

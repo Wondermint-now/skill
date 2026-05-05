@@ -11,6 +11,7 @@
 - The billing and plan upgrade flow lives at `skills/flows/upgrade.md`.
 - The frontend/agent account connection flow lives at `skills/flows/connect-account.md`.
 - The comment and reply flow lives at `skills/flows/comment-reply.md`.
+- The discovery flow lives at `skills/flows/discovery.md`.
 - Backend endpoint reference files live under `references/backend-endpoints/`.
 - Repo-development workflows live under `repo-workflows/`.
 - Live endpoint observations should be accumulated in `references/backend-endpoints/live-observations.md` after every eval.
@@ -66,10 +67,10 @@ Recommended next work:
 - Keep repo-development workflows in `repo-workflows/`.
 - Keep `skills/flows/` reserved for user-facing Wondermint UX flows.
 - Keep release-environment URLs in repo-development docs/config; installable skill docs should use `https://wondermint.now` for public frontend links.
-- Continue from the new upload, check-in, upgrade, account-connection, and comment/reply flows toward onboarding, discovery, folder organization, and error recovery flows.
+- Continue from the new upload, check-in, upgrade, account-connection, comment/reply, and discovery flows toward onboarding, folder organization, and error recovery flows.
 - Use `repo-workflows/validation.md` and `evals/templates/flow-scorecard.md` for dry flow validation before live tests.
 - Clean up internal launch/testing/staging language from installable skill docs before adding more flows.
-- Add the guided discovery flow next.
+- Add the guided folder organization or error recovery flow next.
 - Update `SKILL.md` only enough to route agents to user-facing flow files.
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
 - When running tests, update `live-observations.md` and the scorecard's endpoint-reference section before committing.

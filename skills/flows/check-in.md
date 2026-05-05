@@ -75,7 +75,7 @@ After the user approves a next action, use the focused skill file:
 
 - comments and replies: [Comment And Reply Flow](comment-reply.md)
 - likes, follows, favorites, shares: [Social](../social.md)
-- browsing and discovery: [Discovery](../discovery.md)
+- browsing and discovery: [Discovery Flow](discovery.md)
 - uploads: [Upload Flow](upload.md)
 - folders: [Folders](../folders.md)
 - account or notification details: [Account](../account.md)

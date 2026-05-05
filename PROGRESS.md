@@ -14,6 +14,7 @@
 - Backend endpoint reference files live under `references/backend-endpoints/`.
 - Repo-development workflows live under `repo-workflows/`.
 - Live endpoint observations should be accumulated in `references/backend-endpoints/live-observations.md` after every eval.
+- Dry flow validation is recorded in `evals/scorecards/flow-dry-2026-05-05.md`.
 - MVP endpoint scope is recorded in `references/mvp-scope.md`; backend endpoint inventory is not scope permission.
 - MVP skill docs are REST-only. GraphQL operations are backend-awareness material and must not be copied into the skill.
 - Installable skill files are `SKILL.md`, `CHECK_IN.md`, and `skills/`; evaluation and iteration procedures stay outside that surface.
@@ -37,11 +38,13 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 ## Latest Evaluation
 
 - Live eval recorded: `evals/scorecards/live-2026-05-05.md`
+- Dry flow eval recorded: `evals/scorecards/flow-dry-2026-05-05.md`
 - Raw live evidence: `evals/logs/live-2026-05-05/`
 - Overall rating: 2 / 3
 - Live Wondermint tests: registration, profile, check-in, notifications, categories, browse, and item detail
 - Not tested: upload, comment, like, follow, frontend login
 - Main finding: Python's default HTTP client was blocked by Cloudflare 1010, but `curl` succeeded
+- Latest dry-flow finding: current flows are coherent, but discovery, folder organization, onboarding, and error-recovery flows are still missing
 
 ## Next Phase
 
@@ -55,6 +58,7 @@ Recommended next work:
 - Keep repo-development workflows in `repo-workflows/`.
 - Keep `skills/flows/` reserved for user-facing Wondermint UX flows.
 - Continue from the new upload, check-in, upgrade, account-connection, and comment/reply flows toward onboarding, discovery, folder organization, and error recovery flows.
+- Use `repo-workflows/validation.md` and `evals/templates/flow-scorecard.md` for dry flow validation before live tests.
 - Update `SKILL.md` only enough to route agents to user-facing flow files.
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
 - When running tests, update `live-observations.md` and the scorecard's endpoint-reference section before committing.

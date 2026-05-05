@@ -77,6 +77,7 @@ Development workflows belong in `repo-workflows/`:
 - `repo-workflows/live-eval.md` for live skill evaluation.
 - `repo-workflows/iteration.md` for changing skill files from feedback,
   research, backend observations, and eval results.
+- `repo-workflows/validation.md` for dry checks before live testing.
 
 ## Backend Source Reference
 

@@ -11,6 +11,9 @@ is requested, follow `repo-workflows/live-eval.md`.
 - `logs/`: raw notes, transcripts, screenshots, API observations, and other evidence.
 - `templates/`: reusable formats for future evaluations.
 
+Use `evals/templates/flow-scorecard.md` for dry flow reviews and
+`evals/templates/scorecard.md` for broader version or live API evaluations.
+
 ## Version Evidence
 
 When a version is evaluated:

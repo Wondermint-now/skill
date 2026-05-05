@@ -57,6 +57,19 @@ Recommended first restructure:
 - Add a small local validation script before introducing any generated-template system.
 - Do not adopt G stack-style templates until repeated boilerplate appears across multiple flow files.
 
+Additional pattern source: Faces skill bundle.
+
+Use the Faces analysis in `research/faces-skill-analysis.md` to shape the
+first Wondermint flow files:
+
+- Borrow guided flow structure, auth triage, reuse-before-creation, artifact
+  records, and approval gates.
+- Do not copy the multi-command topology yet.
+- Keep root `SKILL.md` as a concise router and put detailed flow behavior in
+  directly referenced files.
+- Avoid host-specific shell interpolation or frontmatter unless it is required
+  by the target install environment.
+
 ## Phase 4: UX Flow Expansion
 
 Add guided flow files inside the larger skill structure for common Wondermint user journeys:

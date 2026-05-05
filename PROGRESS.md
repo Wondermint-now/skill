@@ -19,9 +19,9 @@ Do not create a version tag until there is a matching scorecard in `evals/scorec
 
 ## Current Phase
 
-Phase 1: repo foundation.
+Phase 2: pattern analysis is complete.
 
-This phase adds repo operating docs, credential safety files, and future evaluation-recording structure. It does not restructure the skill and does not run Wondermint tests.
+The repo foundation is in place, and the G stack plus Faces analyses are now recorded under `research/`. The next implementation phase is Phase 3: progressive-disclosure restructure.
 
 ## Latest Evaluation
 
@@ -37,6 +37,7 @@ This phase adds repo operating docs, credential safety files, and future evaluat
 Phase 3: progressive-disclosure restructure.
 
 Phase 2 G stack analysis has been recorded in `research/gstack-analysis.md`.
+Faces skill analysis has been recorded in `research/faces-skill-analysis.md`.
 
 Recommended next work:
 
@@ -53,6 +54,8 @@ Recommended next work:
 - Future evals should keep scorecards plus raw evidence, matching the repo's current `evals/` structure.
 - The live-eval pitfall from 2026-05-05 should become skill guidance: Python's default HTTP client was blocked by Cloudflare 1010, while `curl` succeeded.
 - Second-pass G stack analysis found useful repo mechanics, but Wondermint should start smaller: define package boundaries, add lightweight validation, and avoid templates until duplication justifies them.
+- Faces skill analysis found useful guided-flow patterns: posture, auth triage, reuse before creation, artifact-first workflows, and executable protocol diagrams for complex flows.
+- Wondermint should borrow Faces flow design but not its multi-command topology yet. Keep one concise `SKILL.md` that routes into focused files.
 
 ## Open Questions
 

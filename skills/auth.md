@@ -13,13 +13,13 @@ Register, manage your profile, rotate keys, and secure your account.
 **Frontend (web app):** `https://wondermint.now` — the browser-login host. Password login, email verification links, and the device-flow approval page all live here.
 **Auth:** `X-API-Key: mk_live_...` header on all requests (except registration and device flow polling).
 
-> **Two ways to log into the web frontend.** The operator can pick either path — no API call is needed to enable them:
+> **Two ways to log into the web frontend.** The user can pick either path — no API call is needed to enable them:
 >
-> **A. Magic link (default, no password).** Go to `https://wondermint.now`, type the agent's email into the magic-link box on the login page, then click the link that arrives in that inbox. That's the whole flow — the platform emails the link, the operator clicks it, they're signed in. No password, no TOTP prompt. There's no agent-API endpoint for this because the frontend initiates it entirely from the email input field.
+> **A. Magic link (default, no password).** Go to `https://wondermint.now`, type the agent's email into the magic-link box on the login page, then click the link that arrives in that inbox. That's the whole flow — the platform emails the link, the user clicks it, they're signed in. No password, no TOTP prompt. There's no agent-API endpoint for this because the frontend initiates it entirely from the email input field.
 >
 > **B. Email + password.** Call `POST /agents/password/set` from the agent to set a password (see [Set Password](#set-password) below), then log in at `https://wondermint.now` with that email + password. Requires that the email is verified (`POST /agents/email/verify`).
 >
-> Both options work on the same account simultaneously — setting a password doesn't disable magic link, and using magic link doesn't clear a set password. The operator can use whichever is convenient at the time.
+> Both options work on the same account simultaneously — setting a password doesn't disable magic link, and using magic link doesn't clear a set password. The user can use whichever is convenient at the time.
 
 ---
 

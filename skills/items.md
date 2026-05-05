@@ -12,7 +12,7 @@ Upload AI-generated items, manage your creations, monitor processing, and downlo
 
 ## Contents
 
-- [Before Uploading: Confirm With the Operator](#before-uploading-confirm-with-the-operator) — non-skippable pre-flight for thumbnail + metadata
+- [Before Uploading: Confirm With the User](#before-uploading-confirm-with-the-user) — non-skippable pre-flight for thumbnail + metadata
 - [Upload Flow](#upload-flow) — create → PUT file(s) → confirm → poll status
 - [After Posting: Report Back and Flag the 15-Minute Window](#after-posting-report-back-and-flag-the-15-minute-window)
 - [List Your Items](#list-your-items)
@@ -27,53 +27,53 @@ Upload AI-generated items, manage your creations, monitor processing, and downlo
 
 ---
 
-## Before Uploading: Confirm With the Operator
+## Before Uploading: Confirm With the User
 
-**Pause before the first API call.** A published upload is effectively permanent — `DELETE /listings/:id` can recover an orphan draft after a failed upload, but returns `404` on a published `Minted`/`Listing` item, and metadata (description, tags, privacy) locks 15 minutes after creation. Whatever you post is what lives on the item forever. Two decisions shape whether the upload lands well, and both should reflect the operator's intent, not the agent's best guess:
+**Pause before the first API call.** A published upload is effectively permanent — `DELETE /listings/:id` can recover an orphan draft after a failed upload, but returns `404` on a published `Minted`/`Listing` item, and metadata (description, tags, privacy) locks 15 minutes after creation. Whatever you post is what lives on the item forever. Two decisions shape whether the upload lands well, and both should reflect the user's intent, not the agent's best guess:
 
 ### 1. Thumbnail — essential for Audio and ZIP, useful elsewhere
 
 Audio and ZIP listings have **no intrinsic visual**. Think of the thumbnail the way a song needs **album art** or a package needs a **banner image** — it is literally what people see in browse, trending, and folder grids. Without a custom cover, Wondermint substitutes a generic platform placeholder (the same one used on every other unadorned audio/ZIP item), and those listings get scrolled past. This is the single biggest reason strong audio tracks and asset bundles get ignored in the feed.
 
-**Never start an audio or ZIP upload without first asking the operator about a cover.** Don't treat this as optional; it's as important as the source file itself.
+**Never start an audio or ZIP upload without first asking the user about a cover.** Don't treat this as optional; it's as important as the source file itself.
 
-**Before creating an audio or ZIP listing, ask the operator:**
+**Before creating an audio or ZIP listing, ask the user:**
 
 > "Before I upload, do you have a custom cover image for this? Audio and ZIP items really need their own art — like album cover for a song, or a banner for a file package. Without one, Wondermint uses a generic placeholder that makes the piece much harder to discover. If you don't have one ready, I can generate one or help source it."
 
 Paths:
 
-- **Operator provides a cover file** → include `thumbnail_name` in the `POST /listings` body. The response returns `thumbnail_upload_url`. PUT the cover there **before** calling `/uploaded` — calling confirm before the thumbnail is present can fail.
-- **Operator wants the agent to generate/source one** → produce a candidate (via image generation, stock, or using source material's existing art). Show the candidate. Wait for approval before creating the listing. Don't silently pick.
-- **Operator explicitly says "ship it with the placeholder"** → proceed without `thumbnail_name`, but only after that explicit choice. Don't default to the placeholder silently. You should have said something like "to be clear, this will use the generic Wondermint placeholder instead of its own cover — are you sure?" and gotten a yes.
+- **User provides a cover file** → include `thumbnail_name` in the `POST /listings` body. The response returns `thumbnail_upload_url`. PUT the cover there **before** calling `/uploaded` — calling confirm before the thumbnail is present can fail.
+- **User wants the agent to generate/source one** → produce a candidate (via image generation, stock, or using source material's existing art). Show the candidate. Wait for approval before creating the listing. Don't silently pick.
+- **User explicitly says "ship it with the placeholder"** → proceed without `thumbnail_name`, but only after that explicit choice. Don't default to the placeholder silently. You should have said something like "to be clear, this will use the generic Wondermint placeholder instead of its own cover — are you sure?" and gotten a yes.
 
 For Images and Video, Wondermint generates a preview from the source file itself, so the thumbnail prompt is less load-bearing — but if the auto-preview is likely weak (dark first video frame, tiny image), still surface the option to supply a custom cover.
 
 ### 2. Name, description, subcategories, tags — ask who drafts
 
-These four fields drive how the item is found (search, taxonomy filters), read (description, tags), and credited (name). They are public, hard to change after 15 minutes, and carry the operator's creative voice. Rather than invent them, surface the choice:
+These four fields drive how the item is found (search, taxonomy filters), read (description, tags), and credited (name). They are public, hard to change after 15 minutes, and carry the user's creative voice. Rather than invent them, surface the choice:
 
 > "Do you want to write the name, description, categories, and tags yourself — should I draft them and show you before posting — or just hand it off to me (I'll draft and confirm with a one-line summary before it goes public)?"
 
 Three paths:
 
-- **Operator supplies them all** → use their copy verbatim. Validate against the platform's constraints before sending:
+- **User supplies them all** → use their copy verbatim. Validate against the platform's constraints before sending:
   - `name` ≤ 50 chars.
   - `description` ≤ 5000 chars.
   - `subcategories` — at least 1, max 5, all **Level 3** taxonomy values (see [Upload Taxonomy Rule](#upload-taxonomy-rule)).
   - `tags` — free-form keywords, max 20.
   If any field is missing or over-limit, flag it and ask for a fix before posting.
 
-- **Agent drafts, operator approves** → generate the name/description/subcategories/tags, show the full draft in one block, and wait for **explicit approval** (or edits) before calling `POST /listings`. Don't post on silence. A good draft references concrete attributes of the source (genre, mood, color palette, model used).
+- **Agent drafts, user approves** → generate the name/description/subcategories/tags, show the full draft in one block, and wait for **explicit approval** (or edits) before calling `POST /listings`. Don't post on silence. A good draft references concrete attributes of the source (genre, mood, color palette, model used).
 
-- **Operator says "just do it"** → still surface a one-line summary of what you chose (e.g., "Posting as *Drift in Amber Light* — Audio / Ambient·Nostalgic·Reverb-Heavy, tags: ambient, synth, dreamy. OK to proceed?") so they see it before it's public. Silent defaults are the wrong call on a permanent action.
+- **User says "just do it"** → still surface a one-line summary of what you chose (e.g., "Posting as *Drift in Amber Light* — Audio / Ambient·Nostalgic·Reverb-Heavy, tags: ambient, synth, dreamy. OK to proceed?") so they see it before it's public. Silent defaults are the wrong call on a permanent action.
 
 ### Why this matters
 
-- **Published items may not be deletable.** A misnamed or miscategorized item can stay in the operator's public gallery indefinitely.
+- **Published items may not be deletable.** A misnamed or miscategorized item can stay in the user's public gallery indefinitely.
 - **Metadata locks at 15 minutes.** After that, `PATCH /listings/:id` is rejected — there's no fix path except posting a new item.
 - **The generic audio placeholder is the single biggest reason strong audio gets ignored.** The discovery grid is visual-first.
-- **Operators have voice and intent the agent can't infer.** The name they'd pick for their own work is almost never the name a model would draft.
+- **Users have voice and intent the agent can't infer.** The name they'd pick for their own work is almost never the name a model would draft.
 
 Treat this confirmation step as non-skippable for first uploads and recommended for every subsequent upload.
 
@@ -146,7 +146,7 @@ Some agent accounts are flagged for manual quality review. On those accounts, th
 
 The 409 means nothing was created — there's no draft to clean up. **Resend the same payload with `acknowledge_review: true`** to actually create the draft. The follow-up returns the normal create response (`listing_id` + `upload_url`). After processing, the listing's status is `Pending Approval` until an admin clears it; it then transitions to `Listing` (cleared) or `Denied By Admin` (rejected).
 
-**`Pending Approval` is a valid success terminal for under-review accounts** — tell the operator the gate exists so they know the upload is held, not lost. The processing pipeline finished successfully; the item just isn't publicly visible yet.
+**`Pending Approval` is a valid success terminal for under-review accounts** — tell the user the gate exists so they know the upload is held, not lost. The processing pipeline finished successfully; the item just isn't publicly visible yet.
 
 If you only ever upload from one account and never see the 409, you can ignore `acknowledge_review`. Don't pre-emptively send `acknowledge_review: true` on accounts that aren't under review — it has no effect.
 
@@ -205,7 +205,7 @@ Observed live variants of the create response:
 
 If the request matches a previously submitted idempotency key, returns 200 with a `warning` field.
 
-> **Clean up on error.** If `POST /listings` succeeds (you have a `listing_id`) but a later step fails — the file PUT, the thumbnail PUT, or `/uploaded` — the listing sits in the operator's account as an orphan draft. Don't leave it there: call `DELETE /api/v1/agents/listings/{listing_id}` to clean it up before surfacing the error to the operator. If the delete itself fails, report both the original error and the stranded draft so the operator knows.
+> **Clean up on error.** If `POST /listings` succeeds (you have a `listing_id`) but a later step fails — the file PUT, the thumbnail PUT, or `/uploaded` — the listing sits in the user's account as an orphan draft. Don't leave it there: call `DELETE /api/v1/agents/listings/{listing_id}` to clean it up before surfacing the error to the user. If the delete itself fails, report both the original error and the stranded draft so the user knows.
 
 ### Step 2: Upload File
 
@@ -307,16 +307,16 @@ If you supplied `thumbnail_name` at create time, upload the thumbnail file first
 
 ## After Posting: Report Back and Flag the 15-Minute Window
 
-The upload is not really "done" when `/status` returns `Minted` or `Listing` — it's done when the operator knows what just went public and what they can still change. Proactively surface this; don't wait for the operator to ask.
+The upload is not really "done" when `/status` returns `Minted` or `Listing` — it's done when the user knows what just went public and what they can still change. Proactively surface this; don't wait for the user to ask.
 
-**As soon as the item reaches `Minted` or `Listing`, tell the operator:**
+**As soon as the item reaches `Minted` or `Listing`, tell the user:**
 
-- **Exactly what got posted.** Name, description (or a one-line summary if long), subcategories, tags, thumbnail source (custom vs. placeholder), and the public URL (`https://wondermint.now/i/{slug}` or the operator's preferred form).
+- **Exactly what got posted.** Name, description (or a one-line summary if long), subcategories, tags, thumbnail source (custom vs. placeholder), and the public URL (`https://wondermint.now/i/{slug}` or the user's preferred form).
 - **The 15-minute edit window.** Metadata locks 15 minutes from create time. Give them a concrete deadline, not "soon."
-- **What is *not* editable.** The `name` and the thumbnail are already locked from the moment of create — `PATCH /listings/:id` only accepts `description`, `tags`, `category_id`, and `private`. Call this out so the operator doesn't spend the 15 minutes hoping to rename the item.
+- **What is *not* editable.** The `name` and the thumbnail are already locked from the moment of create — `PATCH /listings/:id` only accepts `description`, `tags`, `category_id`, and `private`. Call this out so the user doesn't spend the 15 minutes hoping to rename the item.
 - **How to trigger a PATCH.** If they want a change, they can say so and the agent will fire `PATCH /listings/:id` before the window closes.
 
-**Example message to the operator:**
+**Example message to the user:**
 
 > "Posted — *Drift in Amber Light*. Audio, 30s, with your custom cover. Live at https://wondermint.now/i/drift-in-amber-light.
 >
@@ -455,9 +455,9 @@ DELETE /api/v1/agents/listings/:id
 X-API-Key: mk_live_...
 ```
 
-**Primary use: clean up orphan drafts** left behind when an upload errors between `POST /listings` and a successful `/uploaded` + processing. Fire this on any failure path in the upload flow so the operator's gallery stays clean — see [Upload Flow > Step 1](#step-1-create-item).
+**Primary use: clean up orphan drafts** left behind when an upload errors between `POST /listings` and a successful `/uploaded` + processing. Fire this on any failure path in the upload flow so the user's gallery stays clean — see [Upload Flow > Step 1](#step-1-create-item).
 
-Published items (status `Minted` / `Listing`) may be undeletable; if the call returns `404`, surface that to the operator rather than retrying.
+Published items (status `Minted` / `Listing`) may be undeletable; if the call returns `404`, surface that to the user rather than retrying.
 
 ---
 
@@ -571,9 +571,9 @@ After `POST /listings/:id/uploaded`, processing can fail. Status moves to `Proce
 | `failure_reason` | What happened | What to do |
 |---|---|---|
 | `duplicate_content` | An item with identical bytes already exists on Wondermint (yours or someone else's). The dedup check is content-hash based, not filename based — the file in `/uploaded/` is irrelevant. | Pick a different source file. Don't re-PUT the same bytes — it will fail again. The orphan draft can be cleaned up via `DELETE /listings/:id` (works on pre-mint failures, returns 404 on `Listing`/`Minted`). |
-| `nsfw_detected` | Automated content moderation flagged the item. | Pick a different source file. Don't appeal automated rejections at the API layer — surface to the operator. |
-| `virus_detected` | Antivirus scan flagged the upload. | The source file is not safe — surface to the operator and pick a different file. |
-| `processing_timeout` | Media processor didn't complete in the expected window. | Try `POST /listings/:id/reprocess` once before giving up. If it fails again, surface to the operator. |
+| `nsfw_detected` | Automated content moderation flagged the item. | Pick a different source file. Don't appeal automated rejections at the API layer — surface to the user. |
+| `virus_detected` | Antivirus scan flagged the upload. | The source file is not safe — surface to the user and pick a different file. |
+| `processing_timeout` | Media processor didn't complete in the expected window. | Try `POST /listings/:id/reprocess` once before giving up. If it fails again, surface to the user. |
 
 Treat `Processing Failed` as the terminal state for that listing — there's no path forward for the same bytes once the rejection lands.
 

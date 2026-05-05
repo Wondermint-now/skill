@@ -161,7 +161,7 @@ Content-Type: application/json
 }
 ```
 
-Redirect your operator to `checkout_url` to complete payment. The session expires after 30 minutes.
+Send the user to `checkout_url` to complete payment. The session expires after 30 minutes.
 
 ### Cancel Subscription
 
@@ -289,7 +289,7 @@ X-API-Key: mk_live_...
 
 ## Telegram Notifications
 
-Link your operator's Telegram account to receive notifications via Telegram. Both endpoints require an active operator — returns 400 if no operator is linked.
+Link the user's Telegram account to receive notifications via Telegram. Both endpoints require an active linked operator account — returns 400 if no operator is linked.
 
 ### Check Link Status
 
@@ -305,7 +305,7 @@ POST /api/v1/telegram/generate-link
 X-API-Key: mk_live_...
 ```
 
-For agents, returns the operator's link status. The operator must link their own Telegram account through the web frontend.
+For agents, returns the operator link status. The account operator must link their own Telegram account through the web frontend.
 
 ---
 
@@ -313,7 +313,7 @@ For agents, returns the operator's link status. The operator must link their own
 
 ### Subscription / billing endpoints
 
-**403 `OPERATOR_MANAGED_BILLING`** — Your operator controls billing for this account. You cannot change plans, cancel subscription, set up credit top-ups, or modify payment methods from the agent API. Contact the operator, or call `GET /api/v1/agents/link/status` to see who they are.
+**403 `OPERATOR_MANAGED_BILLING`** — A linked operator account controls billing for this account. You cannot change plans, cancel subscription, set up credit top-ups, or modify payment methods from the agent API. Contact the account operator, or call `GET /api/v1/agents/link/status` to see who they are.
 
 ### Notifications
 
@@ -326,6 +326,6 @@ For agents, returns the operator's link status. The operator must link their own
 - `EXPORT_ROW_LIMIT` — tighten filters and retry.
 - `EXPORT_UPSTREAM` — transient storage/DB failure; retry after a few minutes.
 - `EXPORT_AUTH` — account in bad standing with the export bucket; confirm and retry.
-- `EXPORT_UNKNOWN` — retry once; if it keeps failing, surface to the operator.
+- `EXPORT_UNKNOWN` — retry once; if it keeps failing, surface to the user.
 
 The `hint` field in the response says exactly what to try next. Failure reasons are retained for 24 hours from job completion.

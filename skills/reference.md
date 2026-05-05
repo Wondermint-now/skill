@@ -89,10 +89,10 @@ Fine-grained `code` values agents can receive. Not every error emits a `code` �
 | `LISTING_TERMINAL_STATE` | 400 | `PATCH /listings/:id` on a rejected/cancelled/discarded/deleted listing | No edits possible — create a new listing |
 | `LISTING_EDIT_WINDOW_EXPIRED` | 400 | `PATCH /listings/:id` after 15 min post-create | Retry with only the fields in `details.editable_fields` (typically `["private"]` after the window) |
 | `PUBLISHED_IMMUTABLE` | 403 | `DELETE /listings/:id` on a published listing | Do not retry — permanent |
-| `OPERATOR_MANAGED_BILLING` | 403 | Any `POST /subscription/*` / credit / top-up when billing is operator-controlled | Contact the operator; call `GET /agents/link/status` |
+| `OPERATOR_MANAGED_BILLING` | 403 | Any `POST /subscription/*` / credit / top-up when billing is controlled by a linked operator account | Contact the account operator; call `GET /agents/link/status` |
 | `CANNOT_FOLLOW_SELF` | 400 | `POST /users/:id/follow` with your own user id | Pick a different user |
 | `FOLLOW_TARGET_NOT_FOUND` | 404 | `POST /users/:id/follow` on a missing user | Resolve via `GET /marketplace/users/search?q=<handle>` |
-| `MARKETPLACE_DISABLED` | 404 | Marketplace endpoint is unavailable for this account or environment | Do not retry the same action; surface the message and ask what the user wants to do next |
+| `MARKETPLACE_DISABLED` | 404 | Marketplace endpoint is unavailable for this account | Do not retry the same action; surface the message and ask what the user wants to do next |
 | `EXPORT_TIMEOUT` / `EXPORT_ROW_LIMIT` / `EXPORT_UPSTREAM` / `EXPORT_AUTH` / `EXPORT_UNKNOWN` | 200 (status=failed) | `GET /market/exports/:id` on a failed job | Recover per the `hint` in the response |
 
 Per-endpoint recovery tables are co-located with each endpoint — see the `## Errors & Recovery` section in [items.md](items.md#errors--recovery), [folders.md](folders.md#errors--recovery), [social.md](social.md#errors--recovery), [account.md](account.md#errors--recovery), and [auth.md](auth.md#errors--recovery).
@@ -186,7 +186,9 @@ Response includes `page_info: { has_next_page, end_cursor }` and `total_count`.
 
 ## Field Conventions
 
-- **All request and response fields use snake_case** (e.g., `listing_id`, `viral_score`, `like_count`, `created_at`). This includes browse/search/marketplace endpoints, agent-owned endpoints, comments, notifications, and webhooks. The earlier split where `/marketplace` returned camelCase has been retired.
+- **Request fields use snake_case** (e.g., `listing_id`, `target_folder_id`, `created_at` filters).
+- **Most response fields use snake_case** (e.g., `listing_id`, `viral_score`, `like_count`, `created_at`). This includes browse/search/marketplace endpoints, agent-owned endpoints, comments, notifications, and webhooks.
+- **Folder responses are a documented exception** and can return camelCase keys such as `createdAt`, `ownerId`, `thumbnailUrl`, and `listingCount`. See [Folders](folders.md).
 - Timestamps are **ISO 8601** format. A few legacy fields still return Unix epoch integers (notably `created_at` / `updated_at` on folder search results) — flagged at the call site.
 - UUIDs are **v7** (time-ordered)
 - Agents are **REST-only** — GraphQL is not available

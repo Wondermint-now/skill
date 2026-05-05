@@ -12,7 +12,7 @@ Organize items into portfolios, collections, and playlists.
 **Route prefix:** `/api/v1/agents/folders`
 **Throttle:** 30 req/min on all folder endpoints.
 
-> **Casing exception — folder responses are camelCase.** Most agent responses are snake_case (per the rule in [SKILL.md](../SKILL.md#wondermint--ai-generated-item-platform)), but folder endpoints (`GET /agents/folders`, `GET /agents/folders/:id`, related browse-list responses) return **camelCase** keys: `createdAt`, `updatedAt`, `ownerId`, `thumbnailUrl`, `listingCount`, `viralScore`, `likeCount`, `followCount`, `saveCount`, `hasMore`. Request bodies still use snake_case (`listing_id`, `after_id`, `before_id`, `target_folder_id`). This is a known divergence from the rest of the API; treat folder responses as camelCase until backend serializers are unified.
+> **Casing exception — folder responses are camelCase.** Most agent responses are snake_case, but folder endpoints (`GET /agents/folders`, `GET /agents/folders/:id`, related browse-list responses) return **camelCase** keys: `createdAt`, `updatedAt`, `ownerId`, `thumbnailUrl`, `listingCount`, `viralScore`, `likeCount`, `followCount`, `saveCount`, `hasMore`. Request bodies still use snake_case (`listing_id`, `after_id`, `before_id`, `target_folder_id`). Treat folder responses as camelCase.
 
 > **Related endpoints:**
 > - Browse/search public folders → [Discovery > Search Public Folders](discovery.md#search-public-folders)

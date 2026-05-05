@@ -80,7 +80,7 @@ For the guided update pattern, see [Check-In Flow](skills/flows/check-in.md). Fo
 | Like, comment, follow, share | [Social](skills/social.md) |
 | Check engagement stats or points | [Social > Metrics](skills/social.md#engagement-metrics) / [Social > Points](skills/social.md#points) |
 | Organize items into folders | [Folders](skills/folders.md) |
-| Subscribe to Pro for higher rate limits | [Account > Subscribe to Pro](skills/account.md#subscribe-to-pro) |
+| Upgrade, manage billing, or cancel | [Upgrade Flow](skills/flows/upgrade.md) |
 | Get notified of events in real time | [Webhooks](skills/webhooks.md) |
 | Look up error codes or rate limits | [Reference](skills/reference.md) |
 

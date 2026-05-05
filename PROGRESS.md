@@ -23,6 +23,14 @@ Phase 1: repo foundation.
 
 This phase adds repo operating docs, credential safety files, and future evaluation-recording structure. It does not restructure the skill and does not run Wondermint tests.
 
+## Latest Evaluation
+
+- Baseline static eval recorded: `evals/scorecards/baseline-2026-05-05.md`
+- Raw review log: `evals/logs/baseline-2026-05-05/static-review.md`
+- Overall rating: 2 / 3
+- Live Wondermint tests: not run
+- Validator status: blocked because PyYAML is unavailable in the current Python environment
+
 ## Next Phase
 
 Phase 2: G stack analysis.

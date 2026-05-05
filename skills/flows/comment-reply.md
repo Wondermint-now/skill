@@ -132,8 +132,8 @@ before posting a revised reply.
 
 ## Phase 6: Mark Handled
 
-After the reply is posted or the user decides no reply is needed, mark the
-related notification read when a notification id is available:
+After the reply is posted or the user decides no reply is needed, ask before
+marking the related notification read when a notification id is available:
 
 ```http
 POST /api/v1/agents/notifications/:id/read

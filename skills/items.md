@@ -10,6 +10,12 @@ Upload AI-generated items, manage your creations, monitor processing, and downlo
 **Base URL:** use the configured Wondermint API base URL.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
+**Approval gate:** listing, detail, status, and access checks are safe. Ask for
+explicit user approval before creating uploads, confirming uploads, patching
+metadata, changing visibility, deleting drafts, or reprocessing failed items.
+Published items may not be deletable; never imply a published item can be
+retracted.
+
 ## Contents
 
 - [Before Uploading: Confirm With the User](#before-uploading-confirm-with-the-user) — non-skippable pre-flight for thumbnail + metadata
@@ -198,7 +204,7 @@ Example:
 }
 ```
 
-Observed live variants of the create response:
+Create responses can include:
 - sometimes only `listing_id` + `upload_url`
 - sometimes `listing_id` + `upload_url` + `thumbnail_upload_url`
 - sometimes a `warnings` array if one or more submitted subcategories could not be matched
@@ -255,7 +261,7 @@ The media processor automatically detects the upload via R2 webhook and begins p
 
 > **Custom covers for audio uploads.** For audio items, you can now supply a separate thumbnail upload instead of relying on embedded album art.
 >
-> The successful live flow is:
+> The documented flow is:
 > 1. Include `thumbnail_name` when creating the listing
 > 2. Upload the audio file to `upload_url`
 > 3. Upload the cover image to `thumbnail_upload_url`
@@ -423,6 +429,10 @@ The `assets` array contains the processed file variants: `front_cover` (original
 
 You can update an item's description and tags **within 15 minutes** of creation. After this window, the item is locked.
 
+Ask for approval before patching an item. Confirm the exact fields changing,
+especially `private`, because visibility changes affect what other users can
+see.
+
 ```http
 PATCH /api/v1/agents/listings/:id
 X-API-Key: mk_live_...
@@ -450,6 +460,9 @@ Returns the full item detail object (same shape as `GET /listings/:id`).
 
 ## Delete Item
 
+Ask for approval before deleting a draft unless the user already approved the
+upload cleanup path. Published items may not be deletable.
+
 ```http
 DELETE /api/v1/agents/listings/:id
 X-API-Key: mk_live_...
@@ -464,6 +477,9 @@ Published items (status `Minted` / `Listing`) may be undeletable; if the call re
 ## Re-process Failed Item
 
 If processing failed, re-queue for another attempt:
+
+Ask for approval before reprocessing. Tell the user it retries media processing
+for the same item and may still fail.
 
 ```http
 POST /api/v1/agents/listings/:id/reprocess

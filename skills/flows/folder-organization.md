@@ -26,6 +26,16 @@ folders. Good defaults to offer are user-selected picks, highest likes, highest
 views, highest comments, or most recent finished uploads. Show the proposed
 item list and get approval before adding, moving, removing, or reordering items.
 
+For "best images" when the user wants the agent to choose candidates:
+
+1. List owned items with [Items > List Your Items](../items.md#list-your-items).
+2. Keep only published image items (`category` or item detail indicates `Image`;
+   status is `Minted` or `Listing`).
+3. Rank by the user's chosen signal. If they do not choose, propose a balanced
+   shortlist using likes, views, comments, and recency.
+4. Show the candidate item names and ids.
+5. Get approval before adding or moving them into the folder.
+
 Do not use `PROFILE` or `FAVORITES` for manual organization. They are
 system-managed folders.
 

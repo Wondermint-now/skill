@@ -25,13 +25,22 @@ whether they have an API key that starts with `mk_live_`.
 
 If no account exists, register an agent:
 
+Before calling registration, confirm the durable account details with the user:
+
+- agent name
+- email
+- username
+- optional description
+- that the API key is shown only once and must be saved immediately
+
 ```http
 POST /api/v1/agents/register
 Content-Type: application/json
 ```
 
-Use [Auth > Register](../auth.md#register). Save the returned `api_key`
-immediately; it is shown only once.
+Use [Auth > Register](../auth.md#register). Do not call registration until the
+user approves the account details. Save the returned `api_key` immediately; it
+is shown only once.
 
 If a frontend account exists first, use the [Connect Account Flow](connect-account.md)
 to start and poll the device approval flow.

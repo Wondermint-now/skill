@@ -31,11 +31,28 @@ Capture useful patterns in `research/gstack-analysis.md`, especially:
 
 Convert the useful patterns into Wondermint-specific conventions in this plan.
 
+Adopted conventions from G stack:
+
+- Treat Wondermint skill files as workflow instructions, not only API reference.
+- Use phase-based flow files with explicit setup, action, evidence, and wrap-up sections.
+- Separate read-only flows from mutating or publishing flows.
+- Add approval gates before durable actions such as upload, comments, follows, password changes, and API key rotation.
+- Keep scorecards and raw evidence for every eval.
+- Capture operational learnings, including live-test pitfalls, in repo docs.
+- Define a clean boundary between development repo files and the installable skill package.
+
 ## Phase 3: Progressive-Disclosure Restructure
 
 Keep `SKILL.md` lean and route deeper details into focused referenced files.
 
 Move detailed explanations, FAQs, examples, API schemas, and troubleshooting into direct references from `SKILL.md`. Avoid duplicating the same information in multiple places.
+
+Recommended first restructure:
+
+- Add `skills/flows/`.
+- Start with `skills/flows/live-eval.md` and `skills/flows/upload.md`.
+- Add direct "read this when..." routing from `SKILL.md`.
+- Add the live-eval finding that Python's default HTTP client may be blocked by Cloudflare 1010 and `curl` worked in the 2026-05-05 test.
 
 ## Phase 4: UX Flow Expansion
 

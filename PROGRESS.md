@@ -34,9 +34,24 @@ This phase adds repo operating docs, credential safety files, and future evaluat
 
 ## Next Phase
 
-Phase 2: G stack analysis.
+Phase 3: progressive-disclosure restructure.
 
-Analyze `/Users/ashokaji/code/External repos/gstack` and capture useful patterns for Wondermint skill development in `research/gstack-analysis.md`.
+Phase 2 G stack analysis has been recorded in `research/gstack-analysis.md`.
+
+Recommended next work:
+
+- Define the installable skill package boundary.
+- Add `skills/flows/`.
+- Start with `live-eval.md` and `upload.md`.
+- Update `SKILL.md` only enough to route agents to the new flow files.
+
+## Phase 2 Findings
+
+- G stack treats skills as executable workflows with phases, gates, outputs, and follow-up recommendations.
+- Wondermint should separate read-only flows from mutating or publishing flows.
+- Upload, comments, follows, password changes, and API key rotation need explicit approval gates.
+- Future evals should keep scorecards plus raw evidence, matching the repo's current `evals/` structure.
+- The live-eval pitfall from 2026-05-05 should become skill guidance: Python's default HTTP client was blocked by Cloudflare 1010, while `curl` succeeded.
 
 ## Open Questions
 

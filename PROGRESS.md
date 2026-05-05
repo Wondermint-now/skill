@@ -9,6 +9,7 @@
 - Backend endpoint reference files live under `references/backend-endpoints/`.
 - Live endpoint observations should be accumulated in `references/backend-endpoints/live-observations.md` after every eval.
 - MVP endpoint scope is recorded in `references/mvp-scope.md`; backend endpoint inventory is not scope permission.
+- MVP skill docs are REST-only. GraphQL operations are backend-awareness material and must not be copied into the skill.
 
 ## Current Branch
 
@@ -51,6 +52,7 @@ Recommended next work:
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
 - When running tests, update `live-observations.md` and the scorecard's endpoint-reference section before committing.
 - Do not add marketplace transaction or marketplace analytics endpoints to the MVP skill unless the owner explicitly asks.
+- Do not add GraphQL operations, queries, mutations, schemas, or `/graphql` examples to skill docs.
 
 ## Phase 2 Findings
 

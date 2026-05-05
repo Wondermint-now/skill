@@ -38,6 +38,20 @@ For MVP skill work:
 5. When tests reveal behavior for an existing MVP endpoint, update
    `references/backend-endpoints/live-observations.md` and the matching skill
    doc. Do not use that test as permission to add new endpoint areas.
+6. Agents may use only REST API endpoints. GraphQL is not an agent-accessible
+   API surface for the MVP skill.
+7. Do not copy GraphQL operation names, queries, mutations, schemas, or
+   `/graphql` examples into `SKILL.md`, `CHECK_IN.md`, or `skills/*.md`.
+
+## API Surface Rule
+
+The Wondermint MVP skill is REST-only. The only endpoints that may be used or
+added to skill docs are REST endpoints already represented in the current skill
+files, unless the owner explicitly asks for a new REST endpoint.
+
+The generated `references/backend-endpoints/graphql-operations.md` file exists
+only for backend awareness and historical source review. It is not a
+skill-authoring source, and it must not be used to expand agent behavior.
 
 ## Important Naming Caveat
 
@@ -106,4 +120,3 @@ maintained or clarified during MVP work:
 
 If a backend endpoint is not already in the current skill files, consider it
 out of scope for MVP. Ask the owner before adding it.
-

@@ -7,6 +7,11 @@ backend inventory to the skill, check `../mvp-scope.md`. Marketplace
 transactions and marketplace analytics are out of scope for the MVP skill
 unless the owner explicitly asks for them.
 
+The active Wondermint skill is REST-only. GraphQL inventory may remain here for
+backend awareness, but GraphQL operations, queries, mutations, schemas, and
+`/graphql` examples must not be copied into `SKILL.md`, `CHECK_IN.md`, or
+`skills/*.md`.
+
 ## Source Reviewed
 
 - Backend repo: `/Users/ashokaji/code/fullstock/backend`
@@ -17,7 +22,7 @@ unless the owner explicitly asks for them.
 ## Files
 
 - `rest-endpoints.md` — all NestJS controller routes, request bindings, guards/interceptors/pipes, and declared return types.
-- `graphql-operations.md` — GraphQL resolver operations from `@Query`, `@Mutation`, and `@Subscription` decorators.
+- `graphql-operations.md` — backend-awareness inventory only; do not use it to author agent skill behavior.
 - `schemas.md` — DTO/interface/type/enum structures from backend source.
 - `messages-errors.md` — normalized error envelope, static error messages, recovery hints, explicit return messages, validation messages, and throw sites.
 - `runtime-mounts.md` — Express mounts and Better Auth surfaces that are not ordinary NestJS controller routes.
@@ -37,6 +42,7 @@ unless the owner explicitly asks for them.
 2. Open `schemas.md` for the referenced request/response DTO fields.
 3. Open `messages-errors.md` for recovery metadata, validation messages, and backend-normalized error shape.
 4. Treat source file/line references as the authority when a type is inferred or marked broad.
+5. Ignore GraphQL operations for skill authoring; agents may use REST only.
 
 ## Maintenance During Tests
 

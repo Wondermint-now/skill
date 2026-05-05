@@ -50,6 +50,7 @@
 - Static endpoint/schema/message docs updated:
 - Skill docs updated from confirmed behavior:
 - MVP scope check: Were any new endpoints added? If yes, were they explicitly requested?
+- REST-only check: Were any GraphQL operations, queries, mutations, schemas, or `/graphql` examples added to skill docs?
 - Deferred follow-up:
 
 ## Security And Credential Review

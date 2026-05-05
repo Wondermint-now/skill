@@ -2,7 +2,9 @@
 
 Generated from backend commit `c50dd33d` on 2026-05-05.
 
-The backend mounts GraphQL through `GraphQLModule` with `autoSchemaFile: true`. This file inventories resolver operations from source decorators; use it when REST does not expose the needed surface.
+> Backend awareness only. Agents must not use GraphQL. Do not copy operation names, queries, mutations, schemas, or `/graphql` examples from this file into Wondermint skill files; the MVP skill is REST-only.
+
+The backend mounts GraphQL through `GraphQLModule` with `autoSchemaFile: true`. This file inventories resolver operations from source decorators for maintainers only.
 
 Total GraphQL operations: **305**.
 

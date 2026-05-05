@@ -55,6 +55,8 @@ Backend source reference:
 - Treat `references/mvp-scope.md` as the scope gate. Backend endpoints outside
   the current skill files are out of scope for MVP unless the owner explicitly
   asks to add them.
+- Use only REST endpoints when updating skill docs. GraphQL operations are
+  backend-awareness material only and are out of scope for agent behavior.
 - Exclude marketplace transactions and marketplace analytics from MVP skill
   expansion.
 
@@ -103,6 +105,7 @@ When testing starts later, record results consistently:
 - Save scorecards in `evals/scorecards/`.
 - Save raw evidence in `evals/logs/vX.Y.Z/`.
 - Update `PROGRESS.md` with improvements, regressions, and next recommended work.
+- Confirm no GraphQL operations or `/graphql` examples were added to skill docs.
 - Use forward-testing with fresh agents when the skill becomes complex enough.
 - Consider adding `evals/runs.jsonl` after more live evals so score trends can be compared mechanically.
 

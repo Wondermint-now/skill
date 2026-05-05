@@ -10,10 +10,11 @@ When working in this repo:
 2. Read `PROGRESS.md` for the current state and next action.
 3. Read `PLAN.md` for the phased roadmap.
 4. Read `references/mvp-scope.md` before adding or expanding endpoint coverage.
-5. Keep `SKILL.md` concise. Move deeper API details, examples, FAQs, and flow guidance into referenced files.
-6. Never commit real credentials or secrets.
-7. Record future test evidence under `evals/`, but do not run Wondermint tests unless explicitly asked.
-8. When tests reveal endpoint behavior, update `references/backend-endpoints/live-observations.md` before closing the task.
+5. Use only REST endpoints in skill docs. GraphQL operations are backend-awareness material only and must not be copied into the skill.
+6. Keep `SKILL.md` concise. Move deeper API details, examples, FAQs, and flow guidance into referenced files.
+7. Never commit real credentials or secrets.
+8. Record future test evidence under `evals/`, but do not run Wondermint tests unless explicitly asked.
+9. When tests reveal endpoint behavior, update `references/backend-endpoints/live-observations.md` before closing the task.
 
 ## Repo Purpose
 
@@ -62,6 +63,10 @@ The backend reference is not the MVP scope. The current skill files plus
 `references/mvp-scope.md` define what belongs in the MVP skill. Do not add
 marketplace transaction or marketplace analytics endpoints unless the owner
 explicitly asks for them.
+
+Only REST endpoints may be used to update the active skill. GraphQL operations
+may remain in backend reference files for awareness, but they are not an
+agent-facing API surface.
 
 During every eval or live test, compare observed responses against the backend
 reference. Add confirmed behavior, exact response formatting, success messages,

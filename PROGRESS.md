@@ -6,6 +6,7 @@
 - The active skill entrypoint is `SKILL.md`.
 - Supporting skill files live under `skills/`.
 - The check-in workflow lives in `CHECK_IN.md`.
+- Backend endpoint reference files live under `references/backend-endpoints/`.
 
 ## Current Branch
 
@@ -45,6 +46,7 @@ Recommended next work:
 - Add `skills/flows/`.
 - Start with `live-eval.md` and `upload.md`.
 - Update `SKILL.md` only enough to route agents to the new flow files.
+- Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
 
 ## Phase 2 Findings
 

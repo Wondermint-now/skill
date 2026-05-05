@@ -47,6 +47,12 @@ Keep `SKILL.md` lean and route deeper details into focused referenced files.
 
 Move detailed explanations, FAQs, examples, API schemas, and troubleshooting into direct references from `SKILL.md`. Avoid duplicating the same information in multiple places.
 
+Backend source reference:
+
+- Keep source-derived endpoint inventory in `references/backend-endpoints/`.
+- Use that inventory to update the current skill docs before adding new flow files.
+- Treat backend source and line references as the authority when existing skill docs disagree.
+
 Recommended first restructure:
 
 - Add `skills/flows/`.

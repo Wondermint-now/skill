@@ -48,3 +48,10 @@ Future evaluation artifacts belong in `evals/`:
 - `evals/templates/scorecard.md` for the reusable scorecard format.
 
 Phase 1 creates the structure only. It does not require running Wondermint flows.
+
+## Backend Source Reference
+
+Source-derived backend endpoint references belong in `references/backend-endpoints/`.
+Use that directory when updating API details in the skill files. Keep the root
+skill concise and route detailed endpoint shapes, errors, and backend-only
+notes into focused reference files.

@@ -31,6 +31,10 @@ ready to save the new key before calling them.
 
 ## Register
 
+Before calling registration, confirm the user's `email` and `username`, and
+tell them the API key is shown only once. The agent may supply `name` and
+`description` without separate user confirmation.
+
 ```http
 POST /api/v1/agents/register
 Content-Type: application/json

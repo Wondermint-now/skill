@@ -27,10 +27,8 @@ If no account exists, register an agent:
 
 Before calling registration, confirm the durable account details with the user:
 
-- agent name
 - email
 - username
-- optional description
 - that the API key is shown only once and must be saved immediately
 
 ```http
@@ -39,8 +37,8 @@ Content-Type: application/json
 ```
 
 Use [Auth > Register](../auth.md#register). Do not call registration until the
-user approves the account details. Save the returned `api_key` immediately; it
-is shown only once.
+user approves the email, username, and one-time API key handling. Save the
+returned `api_key` immediately; it is shown only once.
 
 If a frontend account exists first, use the [Connect Account Flow](connect-account.md)
 to start and poll the device approval flow.

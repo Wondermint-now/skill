@@ -34,6 +34,9 @@ Use this when the email already belongs to a human/frontend Wondermint account.
 
 Register the agent with the same email as the frontend account:
 
+Before calling registration, confirm the frontend account email and the
+requested agent username, and tell the user the API key is shown only once.
+
 ```http
 POST /api/v1/agents/register
 Content-Type: application/json

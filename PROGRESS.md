@@ -22,6 +22,7 @@
 - Fresh-agent dry flow validation is recorded in `evals/scorecards/flow-fresh-agent-2026-05-05.md`.
 - Post-cleanup fresh-agent dry flow validation is recorded in `evals/scorecards/flow-fresh-agent-post-cleanup-2026-05-05.md`.
 - Core-flow fresh-agent dry validation is recorded in `evals/scorecards/flow-fresh-agent-core-flows-2026-05-05.md`.
+- Safety-rerun fresh-agent dry validation is recorded in `evals/scorecards/flow-fresh-agent-safety-rerun-2026-05-05.md`.
 - MVP endpoint scope is recorded in `references/mvp-scope.md`; backend endpoint inventory is not scope permission.
 - MVP skill docs are REST-only. GraphQL operations are backend-awareness material and must not be copied into the skill.
 - Installable skill files are `SKILL.md`, `CHECK_IN.md`, and `skills/`; evaluation and iteration procedures stay outside that surface.
@@ -60,6 +61,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Post-cleanup fresh-agent finding: tested flows scored 3 / 3 with no expected internal launch/testing/staging leakage; remaining cleanup is user-language polish and field-convention consistency
 - Core-flow fresh-agent finding: scenario routing mostly passed, but direct endpoint docs still need local approval gates for compact check-in, social actions, billing, auth mutations, folders, and webhooks.
 - Direct-doc safety cleanup has been applied after the core-flow eval: compact check-in, social, account/billing, auth, folders, and webhooks now carry local approval gates; device-flow URL guidance and folder "best item" selection guidance were clarified.
+- Safety-rerun fresh-agent finding: prior P1 approval-gate issues are resolved, but remaining P2/P3 cleanup is needed for export references, item-management gates, notification-read consistency, folder candidate selection, onboarding registration approval, and live/eval wording in installable docs.
 
 ## Next Phase
 
@@ -73,9 +75,9 @@ Recommended next work:
 - Keep repo-development workflows in `repo-workflows/`.
 - Keep `skills/flows/` reserved for user-facing Wondermint UX flows.
 - Keep release-environment URLs in repo-development docs/config; installable skill docs should use `https://wondermint.now` for public frontend links.
-- Continue from the new upload, check-in, upgrade, account-connection, comment/reply, discovery, folder organization, error recovery, and onboarding flows toward category/tag selection and broader flow validation.
+- Continue from the new upload, check-in, upgrade, account-connection, comment/reply, discovery, folder organization, error recovery, and onboarding flows toward the safety-rerun cleanup items, category/tag selection, and broader flow validation.
 - Use `repo-workflows/validation.md` and `evals/templates/flow-scorecard.md` for dry flow validation before live tests.
-- Run another fresh-agent dry validation pass before tagging a baseline.
+- Fix safety-rerun P2/P3 findings and rerun fresh-agent dry validation before tagging a baseline.
 - Update `SKILL.md` only enough to route agents to user-facing flow files.
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
 - When running tests, update `live-observations.md` and the scorecard's endpoint-reference section before committing.

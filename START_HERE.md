@@ -12,6 +12,7 @@ When working in this repo:
 4. Keep `SKILL.md` concise. Move deeper API details, examples, FAQs, and flow guidance into referenced files.
 5. Never commit real credentials or secrets.
 6. Record future test evidence under `evals/`, but do not run Wondermint tests unless explicitly asked.
+7. When tests reveal endpoint behavior, update `references/backend-endpoints/live-observations.md` before closing the task.
 
 ## Repo Purpose
 
@@ -55,3 +56,9 @@ Source-derived backend endpoint references belong in `references/backend-endpoin
 Use that directory when updating API details in the skill files. Keep the root
 skill concise and route detailed endpoint shapes, errors, and backend-only
 notes into focused reference files.
+
+During every eval or live test, compare observed responses against the backend
+reference. Add confirmed behavior, exact response formatting, success messages,
+error messages, hints, and recovery notes to
+`references/backend-endpoints/live-observations.md`, then update the relevant
+skill docs if the agent's behavior should change.

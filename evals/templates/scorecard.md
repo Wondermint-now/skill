@@ -44,6 +44,13 @@
 
 - 
 
+## Endpoint Reference Updates
+
+- Endpoint observations added to `references/backend-endpoints/live-observations.md`:
+- Static endpoint/schema/message docs updated:
+- Skill docs updated from confirmed behavior:
+- Deferred follow-up:
+
 ## Security And Credential Review
 
 - Were any secrets exposed in committed files?

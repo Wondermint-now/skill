@@ -16,6 +16,7 @@ This directory is the source-review reference area for Wondermint backend endpoi
 - `schemas.md` — DTO/interface/type/enum structures from backend source.
 - `messages-errors.md` — normalized error envelope, static error messages, recovery hints, explicit return messages, validation messages, and throw sites.
 - `runtime-mounts.md` — Express mounts and Better Auth surfaces that are not ordinary NestJS controller routes.
+- `live-observations.md` — cumulative endpoint behavior confirmed during real tests.
 
 ## Counts
 
@@ -31,6 +32,20 @@ This directory is the source-review reference area for Wondermint backend endpoi
 2. Open `schemas.md` for the referenced request/response DTO fields.
 3. Open `messages-errors.md` for recovery metadata, validation messages, and backend-normalized error shape.
 4. Treat source file/line references as the authority when a type is inferred or marked broad.
+
+## Maintenance During Tests
+
+Every time a Wondermint eval or live test observes an endpoint response, update
+this reference before closing the task:
+
+1. Save raw evidence under `evals/logs/`, with secrets redacted.
+2. Add or update the relevant entry in `live-observations.md`.
+3. If the observation corrects or enriches a static source-derived file, update
+   the matching endpoint section or schema note.
+4. Update the scorecard's "Endpoint Reference Updates" section with what was
+   added, changed, or intentionally left unchanged.
+5. If the finding affects agent behavior, update the relevant skill doc under
+   `SKILL.md`, `CHECK_IN.md`, or `skills/`.
 
 ## Known Limitations
 

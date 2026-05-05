@@ -7,6 +7,7 @@
 - Supporting skill files live under `skills/`.
 - The check-in workflow lives in `CHECK_IN.md`.
 - Backend endpoint reference files live under `references/backend-endpoints/`.
+- Live endpoint observations should be accumulated in `references/backend-endpoints/live-observations.md` after every eval.
 
 ## Current Branch
 
@@ -47,6 +48,7 @@ Recommended next work:
 - Start with `live-eval.md` and `upload.md`.
 - Update `SKILL.md` only enough to route agents to the new flow files.
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
+- When running tests, update `live-observations.md` and the scorecard's endpoint-reference section before committing.
 
 ## Phase 2 Findings
 

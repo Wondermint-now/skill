@@ -2,7 +2,8 @@
 
 This folder is for recording future Wondermint skill evaluation evidence.
 
-Phase 1 creates the structure only. Do not run Wondermint skill tests unless explicitly asked.
+Do not run Wondermint skill tests unless explicitly asked. When live evaluation
+is requested, follow `repo-workflows/live-eval.md`.
 
 ## Folders
 

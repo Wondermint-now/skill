@@ -2,6 +2,19 @@
 
 This repo develops the Wondermint multi-folder skill file. The active skill starts at `SKILL.md`, with supporting domain files in `skills/`.
 
+## Package Boundary
+
+The installable Wondermint skill surface is:
+
+- `SKILL.md`
+- `CHECK_IN.md`
+- `skills/`
+
+Everything else in this repo is for developing and improving the skill. Do not
+put evaluation process, scorecard maintenance, release/versioning workflow,
+research notes, or backend-inventory review instructions into the installable
+skill files.
+
 ## Agent Handoff
 
 When working in this repo:
@@ -11,10 +24,12 @@ When working in this repo:
 3. Read `PLAN.md` for the phased roadmap.
 4. Read `references/mvp-scope.md` before adding or expanding endpoint coverage.
 5. Use only REST endpoints in skill docs. GraphQL operations are backend-awareness material only and must not be copied into the skill.
-6. Keep `SKILL.md` concise. Move deeper API details, examples, FAQs, and flow guidance into referenced files.
-7. Never commit real credentials or secrets.
-8. Record future test evidence under `evals/`, but do not run Wondermint tests unless explicitly asked.
-9. When tests reveal endpoint behavior, update `references/backend-endpoints/live-observations.md` before closing the task.
+6. Keep user-facing Wondermint flows in `skills/flows/`.
+7. Keep repo-development workflows in `repo-workflows/`.
+8. Keep `SKILL.md` concise. Move deeper API details, examples, FAQs, and flow guidance into referenced installable files.
+9. Never commit real credentials or secrets.
+10. Record future test evidence under `evals/`, but do not run Wondermint tests unless explicitly asked.
+11. When tests reveal endpoint behavior, update `references/backend-endpoints/live-observations.md` before closing the task.
 
 ## Repo Purpose
 
@@ -50,7 +65,18 @@ Future evaluation artifacts belong in `evals/`:
 - `evals/logs/` for raw notes, transcripts, screenshots, and API observations.
 - `evals/templates/scorecard.md` for the reusable scorecard format.
 
-Phase 1 creates the structure only. It does not require running Wondermint flows.
+Evaluation procedures belong in `repo-workflows/`, not in `SKILL.md`,
+`CHECK_IN.md`, or `skills/`.
+
+Do not run Wondermint live tests unless explicitly asked.
+
+## Repo Workflows
+
+Development workflows belong in `repo-workflows/`:
+
+- `repo-workflows/live-eval.md` for live skill evaluation.
+- `repo-workflows/iteration.md` for changing skill files from feedback,
+  research, backend observations, and eval results.
 
 ## Backend Source Reference
 

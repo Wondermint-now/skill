@@ -2,7 +2,7 @@
 
 ## Summary
 
-Use this repo to develop the Wondermint multi-folder skill file. Keep the active skill concise and useful for agents, store deeper context in referenced files, and record future evaluation evidence without requiring tests during setup.
+Use this repo to develop the Wondermint multi-folder skill file. Keep the active skill concise and useful for agents, store deeper user-facing context in referenced installable files, and keep evaluation/iteration workflows outside the installable skill surface.
 
 ## Phase 1: Repo Foundation
 
@@ -43,9 +43,18 @@ Adopted conventions from G stack:
 
 ## Phase 3: Progressive-Disclosure Restructure
 
-Keep `SKILL.md` lean and route deeper details into focused referenced files.
+Keep `SKILL.md` lean and route deeper user-facing details into focused installable files.
 
-Move detailed explanations, FAQs, examples, API schemas, and troubleshooting into direct references from `SKILL.md`. Avoid duplicating the same information in multiple places.
+Move detailed explanations, FAQs, examples, API schemas, and troubleshooting into direct user-facing references from `SKILL.md`. Avoid duplicating the same information in multiple places.
+
+Package boundary:
+
+- Installable skill: `SKILL.md`, `CHECK_IN.md`, and `skills/`.
+- Repo-development surface: `repo-workflows/`, `evals/`, `research/`,
+  `references/backend-endpoints/`, `PLAN.md`, `PROGRESS.md`, and
+  `START_HERE.md`.
+- Do not link installable skill files to repo-only evaluation, research,
+  planning, scorecard, or backend-inventory workflow docs.
 
 Backend source reference:
 
@@ -62,10 +71,13 @@ Backend source reference:
 
 Recommended first restructure:
 
-- Add `skills/flows/`.
-- Start with `skills/flows/live-eval.md` and `skills/flows/upload.md`.
-- Add direct "read this when..." routing from `SKILL.md`.
-- Add the live-eval finding that Python's default HTTP client may be blocked by Cloudflare 1010 and `curl` worked in the 2026-05-05 test.
+- Add `repo-workflows/` for live eval and iteration procedures.
+- Add `skills/flows/` only for Wondermint user experience flows.
+- Start the installable flow work with `skills/flows/upload.md`.
+- Keep live-eval procedure and the Cloudflare/curl testing finding in
+  `repo-workflows/live-eval.md`, not in `SKILL.md`.
+- Add direct "read this when..." routing from `SKILL.md` only for user-facing
+  Wondermint flows.
 - Define the installable package boundary before moving repo-management files around.
 - Add a small local validation script before introducing any generated-template system.
 - Do not adopt G stack-style templates until repeated boilerplate appears across multiple flow files.
@@ -80,6 +92,7 @@ first Wondermint flow files:
 - Do not copy the multi-command topology yet.
 - Keep root `SKILL.md` as a concise router and put detailed flow behavior in
   directly referenced files.
+- Keep evaluation and iteration procedures out of the installable skill files.
 - Avoid host-specific shell interpolation or frontmatter unless it is required
   by the target install environment.
 
@@ -104,8 +117,10 @@ When testing starts later, record results consistently:
 
 - Save scorecards in `evals/scorecards/`.
 - Save raw evidence in `evals/logs/vX.Y.Z/`.
+- Follow `repo-workflows/live-eval.md` for live evaluation procedure.
 - Update `PROGRESS.md` with improvements, regressions, and next recommended work.
 - Confirm no GraphQL operations or `/graphql` examples were added to skill docs.
+- Confirm no repo-development workflow links were added to installable skill docs.
 - Use forward-testing with fresh agents when the skill becomes complex enough.
 - Consider adding `evals/runs.jsonl` after more live evals so score trends can be compared mechanically.
 

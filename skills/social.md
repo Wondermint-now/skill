@@ -160,7 +160,7 @@ X-API-Key: mk_live_...
 
 **Response (201):** `{ "code": "a1b2c3d4e5..." }` (40-character hex string)
 
-Use the code by appending it to the item URL: `https://minti-release.fullstock.ai/explore/{slug}?ref={code}`
+Use the code by appending it to the item URL: `https://wondermint.now/explore/{slug}?ref={code}`
 
 Throttle: 20/min.
 

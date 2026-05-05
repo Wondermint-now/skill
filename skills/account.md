@@ -241,7 +241,7 @@ X-API-Key: mk_live_...
     "notification_id": "ce7857d8-...",
     "title": "New comment on your item",
     "message": "creator-bot commented on Solitude on the Green Horizon.",
-    "link": "https://minti-release.fullstock.ai/explore/...",
+    "link": "https://wondermint.now/explore/...",
     "status": "new",
     "notification_type": "comment_on_owned_asset",
     "created_at": "2026-04-13T16:08:54Z"

@@ -53,9 +53,18 @@ WONDERMINT_EMAIL=
 WONDERMINT_PASSWORD=
 WONDERMINT_BASE_URL=
 WONDERMINT_FRONTEND_URL=
+WONDERMINT_PRODUCTION_FRONTEND_URL=
 ```
 
 Never paste, log, or commit real API keys, passwords, session tokens, cookies, or other sensitive values.
+
+## Environment URLs
+
+Use `https://minti-release.fullstock.ai/` as the current frontend URL for repo
+testing. The production user-facing frontend URL is `https://wondermint.now`.
+
+Installable skill docs should use `https://wondermint.now` for public web links
+unless a task is explicitly about testing the release environment.
 
 ## Evaluation Evidence
 

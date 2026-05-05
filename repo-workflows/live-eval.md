@@ -26,10 +26,13 @@ Do not run live tests as part of ordinary skill-file edits.
 
 1. Confirm the working tree with `git status --short`.
 2. Load credentials from `.env` or an ignored `.tmp/*.env` file.
-3. Prefer `curl` for live HTTP calls. The 2026-05-05 live eval found that
+3. Use `WONDERMINT_FRONTEND_URL=https://minti-release.fullstock.ai` for current
+   frontend testing. `https://wondermint.now` is the production user-facing
+   frontend URL.
+4. Prefer `curl` for live HTTP calls. The 2026-05-05 live eval found that
    Python's default HTTP client could be blocked by Cloudflare 1010 with
    `browser_signature_banned`, while `curl` succeeded.
-4. Create a dated evidence folder under `evals/logs/`.
+5. Create a dated evidence folder under `evals/logs/`.
 
 ## Read-Only Pass
 

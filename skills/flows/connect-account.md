@@ -49,7 +49,7 @@ start a device authorization flow with status `pending_confirmation`.
 Show the user:
 
 - the `user_code`
-- the frontend approval URL from `verification_uri_complete`
+- the frontend approval URL: `https://wondermint.now{verification_uri_complete}`
 - the expiration window
 
 Tell them to approve the agent connection in their browser. Do not expose the

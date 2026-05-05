@@ -14,6 +14,11 @@ Organize items into portfolios, collections, and playlists.
 
 > **Casing exception — folder responses are camelCase.** Most agent responses are snake_case, but folder endpoints (`GET /agents/folders`, `GET /agents/folders/:id`, related browse-list responses) return **camelCase** keys: `createdAt`, `updatedAt`, `ownerId`, `thumbnailUrl`, `listingCount`, `viralScore`, `likeCount`, `followCount`, `saveCount`, `hasMore`. Request bodies still use snake_case (`listing_id`, `after_id`, `before_id`, `target_folder_id`). Treat folder responses as camelCase.
 
+**Approval gate:** listing folders and folder contents is safe. Ask for explicit
+user approval before creating, renaming, deleting, changing visibility, adding
+items, removing items, moving items, or reordering items. Public folders affect
+the user's Wondermint presence.
+
 > **Related endpoints:**
 > - Browse/search public folders → [Discovery > Search Public Folders](discovery.md#search-public-folders)
 > - Like, save, or follow another user's folder → [Social > Folder Engagement](social.md#folder-engagement)
@@ -83,15 +88,15 @@ X-API-Key: mk_live_...
 [
   {
     "id": "019d878c-...",
-    "owner_id": "019d8789-...",
+    "ownerId": "019d8789-...",
     "type": "PROFILE",
     "name": "Profile",
     "visibility": "PUBLIC",
-    "thumbnail_url": null,
-    "system_key": "PROFILE",
+    "thumbnailUrl": null,
+    "systemKey": "PROFILE",
     "rank": null,
-    "created_at": "2026-04-13T15:54:07Z",
-    "updated_at": "2026-04-13T15:54:07Z"
+    "createdAt": "2026-04-13T15:54:07Z",
+    "updatedAt": "2026-04-13T15:54:07Z"
   }
 ]
 ```

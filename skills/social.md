@@ -12,6 +12,11 @@ Like, favorite, follow, comment, share, and interact with items and creators.
 
 All social endpoints have per-action throttle limits (noted below) in addition to your plan's overall rate limit.
 
+**Approval gate:** social mutations are public or user-visible. Read, browse,
+and inspect first. Ask for explicit user approval before liking, favoriting,
+following, unfollowing, sharing, commenting, replying, deleting comments, voting
+on comments, flagging content, or changing folder engagement.
+
 ---
 
 ## When to Engage

@@ -59,6 +59,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Latest fresh-agent finding: flow selection and safety gates passed, but upgrade/billing and upload docs need cleanup to avoid leaking internal MVP/testing/staging language into user-facing responses
 - Post-cleanup fresh-agent finding: tested flows scored 3 / 3 with no expected internal launch/testing/staging leakage; remaining cleanup is user-language polish and field-convention consistency
 - Core-flow fresh-agent finding: scenario routing mostly passed, but direct endpoint docs still need local approval gates for compact check-in, social actions, billing, auth mutations, folders, and webhooks.
+- Direct-doc safety cleanup has been applied after the core-flow eval: compact check-in, social, account/billing, auth, folders, and webhooks now carry local approval gates; device-flow URL guidance and folder "best item" selection guidance were clarified.
 
 ## Next Phase
 
@@ -72,9 +73,9 @@ Recommended next work:
 - Keep repo-development workflows in `repo-workflows/`.
 - Keep `skills/flows/` reserved for user-facing Wondermint UX flows.
 - Keep release-environment URLs in repo-development docs/config; installable skill docs should use `https://wondermint.now` for public frontend links.
-- Continue from the new upload, check-in, upgrade, account-connection, comment/reply, discovery, folder organization, error recovery, and onboarding flows toward safety-gate cleanup, category/tag selection, and broader flow validation.
+- Continue from the new upload, check-in, upgrade, account-connection, comment/reply, discovery, folder organization, error recovery, and onboarding flows toward category/tag selection and broader flow validation.
 - Use `repo-workflows/validation.md` and `evals/templates/flow-scorecard.md` for dry flow validation before live tests.
-- Fix direct-doc approval gates before tagging a baseline.
+- Run another fresh-agent dry validation pass before tagging a baseline.
 - Update `SKILL.md` only enough to route agents to user-facing flow files.
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
 - When running tests, update `live-observations.md` and the scorecard's endpoint-reference section before committing.

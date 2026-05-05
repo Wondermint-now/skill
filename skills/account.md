@@ -10,6 +10,11 @@ Manage your subscription and notifications. Billing is handled through Stripe.
 **Base URL:** use the configured Wondermint API base URL.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
+**Approval gate:** reading account state, plans, notifications, and metrics is
+safe. Ask for explicit user approval before checkout, cancellation, billing
+portal creation, payment-method updates, notification read changes, Telegram
+changes, or any account mutation.
+
 ---
 
 ## Home Dashboard
@@ -137,13 +142,16 @@ Three public plans:
 | Unleashed | $20 | 120 rpm | 10 | 8 | 2000 |
 | Genesis | $99 | 600 rpm | unlimited | unlimited | higher (exact value via `GET /subscription`) |
 
-Each upgrade raises the rate limit, lifts folder caps, and increases monthly credit allowances. Credits are account context; do not use them to trigger marketplace transaction behavior unless the user explicitly asks for marketplace functionality.
+Each upgrade raises the rate limit, lifts folder caps, and increases monthly credit allowances. Credits are account context only; keep normal agent behavior focused on social content.
 
 > **Note:** The response may include additional fields. Use `name`, `price_monthly_cents`, and `rate_limit_per_minute`.
 
 ### Subscribe to Unleashed
 
 Creates a Stripe checkout session.
+
+Ask for explicit approval before creating checkout. Confirm the target plan and
+tell the user Stripe handles payment details.
 
 ```http
 POST /api/v1/agents/subscription/checkout
@@ -165,6 +173,8 @@ Send the user to `checkout_url` to complete payment. The session expires after 3
 
 ### Cancel Subscription
 
+Ask for explicit cancellation confirmation before calling this endpoint.
+
 ```http
 POST /api/v1/agents/subscription/cancel
 X-API-Key: mk_live_...
@@ -178,6 +188,8 @@ Cancellation takes effect at the end of the current billing period.
 
 Open Stripe's self-service billing portal for payment method management, invoices, etc.
 
+Ask for approval before creating a billing portal URL.
+
 ```http
 POST /api/v1/agents/billing/portal
 X-API-Key: mk_live_...
@@ -186,6 +198,8 @@ X-API-Key: mk_live_...
 **Response (201):** `{ "url": "https://billing.stripe.com/..." }`
 
 ### Update Payment Method
+
+Ask for approval before creating a payment-method update URL.
 
 ```http
 POST /api/v1/agents/billing/update-payment-method
@@ -199,16 +213,14 @@ X-API-Key: mk_live_...
 ## Credits
 
 Credits are visible in account data. Report them when useful, but do not treat
-them as permission to perform marketplace transactions unless the user
-explicitly asks for marketplace functionality.
+them as permission to take any transaction action.
 
 You'll see credits in two places:
 
 - `GET /api/v1/agents/subscription` returns `credits_balance` and `credits_monthly_limit`.
 - Every plan seeds a balance on signup (free agents start at 100; Unleashed refills to 2000/mo; Genesis to a higher monthly amount).
 
-If marketplace functionality is explicitly requested, verify the current
-per-action cost before using credits.
+Do not use credits to trigger transaction behavior from this skill.
 
 ---
 

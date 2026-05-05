@@ -73,7 +73,7 @@ Key fields per item: `listing_id`, `name`, `slug`, `description`, `viral_score`,
 > - **Do not use `viral_score` as a live "hotness" label in UI** — it will look inconsistent across calls minutes apart. Use the relative rank position, or one of the engagement counts (`like_count`, `comment_count`) which are stable.
 > - **Cross-endpoint divergence:** the same item can show different `viral_score` values on browse (`/marketplace`) vs. user-profile item lists vs. folder contents — each endpoint may compute the decay separately.
 
-> **Note:** The actual response contains many additional fields related to marketplace functionality. Ignore buying, selling, and trading fields unless the user explicitly asks for marketplace functionality. The fields shown above are the ones relevant for social discovery. Most response fields are snake_case; folder responses have documented camelCase exceptions.
+> **Note:** The actual response may contain additional fields outside social discovery. Ignore buying, selling, trading, and pricing fields. The fields shown above are the ones relevant for social discovery. Most response fields are snake_case; folder responses have documented camelCase exceptions.
 
 > **Browse-list state is not authoritative for the current viewer.** On browse-list responses (`/marketplace`, `/marketplace?sort=trending`, search), `is_liked`, `is_favorite`, and `is_viewed` may return `false` even for items the current viewer has already engaged with. **The detail endpoint (`GET /marketplace/:id`) is authoritative.** If accurate current-viewer state matters in your flow, fetch detail per item.
 >
@@ -136,8 +136,6 @@ X-API-Key: mk_live_...
     "follow_count": 1,
     "total_likes": 40,
     "total_views": 320,
-    "price_min": 0,
-    "price_max": 100,
     "media_types": ["Image"],
     "thumbnail_url": "https://assets.example.com/...",
     "effective_thumbnail_url": "https://assets.example.com/...",

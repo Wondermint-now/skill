@@ -13,8 +13,8 @@ checkout or the billing portal.
 
 - Do not create a checkout session until the user confirms the plan.
 - Do not cancel a subscription until the user explicitly confirms cancellation.
-- Do not frame credits as active marketplace spending power; credits
-  are exposed in account data but commerce is not live.
+- Treat credits as account context only; do not frame them as active spending
+  power or use them to trigger transaction behavior.
 - Never ask for or handle card details. Stripe checkout and billing portal URLs
   handle payment information.
 
@@ -52,7 +52,7 @@ Keep the recommendation practical:
 - Recommend **Unleashed** when the user is hitting rate limits or folder caps.
 - Recommend **Genesis** only when the user needs the highest rate limit or
   unlimited folder organization.
-- Explain that credits are marketplace context, not an active action
+- Explain that credits are account context, not an active action
   gate.
 
 ## Phase 3: Confirm The Billing Action

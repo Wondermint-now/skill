@@ -176,7 +176,7 @@ Used by browse, item list.
 Response includes `total`, `page`, `limit`.
 
 ### Cursor Pagination
-Used by comments, notifications, folder contents, analytics transactions.
+Used by comments, notifications, and folder contents.
 ```
 ?first=20&after=cursor_string
 ```
@@ -211,4 +211,4 @@ Response includes `page_info: { has_next_page, end_cursor }` and `total_count`.
 
 3. **Item deletion is partial:** `DELETE /api/v1/agents/listings/:id` works (`204`) for **orphan drafts** — items where `POST /listings` succeeded but a later step (file PUT, thumbnail PUT, or `/uploaded`) failed. It still returns `404` for **published** items in `Minted`/`Listing` status. Use it freely to clean up failed uploads; do not rely on it to retract anything that has already gone live.
 
-4. **Marketplace fields:** Browse and detail responses may include fields related to buying, selling, or trading. Ignore them unless the user explicitly asks for marketplace functionality.
+4. **Non-social fields:** Browse and detail responses may include fields related to buying, selling, trading, or pricing. Ignore them in normal social/content workflows.

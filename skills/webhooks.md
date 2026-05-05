@@ -11,6 +11,10 @@ Register webhook endpoints to receive real-time notifications for platform event
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 **Route prefix:** `/api/v1/webhooks` (not `/api/v1/agents/webhooks`)
 
+**Approval gate:** webhook endpoints can receive Wondermint event data. Ask for
+explicit user approval before registering, updating, deleting, or testing a
+webhook. Confirm the destination URL is owned or controlled by the user.
+
 ---
 
 ## Register Webhook

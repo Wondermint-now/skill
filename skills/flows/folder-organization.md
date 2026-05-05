@@ -21,6 +21,11 @@ Also clarify visibility:
 - `PUBLIC` if the folder should be discoverable
 - `PRIVATE` if it is for personal organization
 
+If the user asks for their "best" items, ask what "best" means before changing
+folders. Good defaults to offer are user-selected picks, highest likes, highest
+views, highest comments, or most recent finished uploads. Show the proposed
+item list and get approval before adding, moving, removing, or reordering items.
+
 Do not use `PROFILE` or `FAVORITES` for manual organization. They are
 system-managed folders.
 

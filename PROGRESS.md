@@ -107,6 +107,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Plan/FAQ dry validation is recorded in `evals/scorecards/flow-plan-faq-dry-2026-05-06.md`; it found and fixed stale root plan prices plus an FAQ caveat for coming-soon marketplace transactions.
 - Frontend create/upload update: owner-provided screenshots of the create form have been recorded. Installable guidance now explains the Create page labels, category-specific model choices, "Pick 3" descriptor behavior, custom `Other` model names, and the mapping from frontend `License*` choices to REST `contract_type`.
 - Create/upload dry validation is recorded in `evals/scorecards/flow-create-upload-dry-2026-05-06.md`; it passed image, video custom-model, audio thumbnail, edit-lock, taxonomy, and visibility/license separation scenarios with no blockers.
+- Frontend create form FAQ has been added to `skills/frontend.md` for Public Domain, Non-Exclusive Contract, visibility versus rights, Pick 3 descriptors, Other model names, edit-lock review, and audio/ZIP thumbnails.
 
 ## Next Phase
 

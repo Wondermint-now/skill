@@ -155,6 +155,30 @@ After upload, tell the user:
 Private uploads should be visible to the owning account in profile, uploads, or
 item management surfaces, but should not be promised in public discovery.
 
+## Create Form FAQ
+
+Use these concise answers when the user asks about the create form:
+
+- **What does Public Domain mean?** The user is confirming the work is free of
+  copyright and IP claims. In the API this is `contract_type: public_domain`.
+- **What does Non-Exclusive Contract mean?** The user keeps rights while
+  allowing licensed commercial use according to the license terms. In the API
+  this is `contract_type: non_exclusive`.
+- **Is Public Domain the same as public visibility?** No. Visibility and rights
+  are separate. A private item can still use Public Domain or Non-Exclusive
+  rights, and a public item still needs a license choice.
+- **Why do I need to pick 3 descriptors?** The website uses those choices to
+  describe and classify the post. For API uploads, use matching valid Level 3
+  `subcategories`.
+- **What if I choose Other for model?** Ask for the custom model name and record
+  it as the item model.
+- **Can I edit this later?** The frontend warns that text or information cannot
+  be edited after tapping Create. Before submission, help the user review name,
+  description, model, prompt, tags, descriptors, visibility, and license.
+- **Do audio or ZIP uploads need a thumbnail?** They need a useful cover image
+  for browse grids. Proceed with a placeholder only if the user explicitly wants
+  that.
+
 ## Portfolios, Playlists, And Feeds
 
 Use the user's words, but map them carefully:

@@ -113,6 +113,8 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - ZIP post-MVP fresh-agent dry validation is recorded in `evals/scorecards/flow-fresh-agent-zip-post-mvp-2026-05-06.md`; it passed with no blockers and removed one stale "file bundle" wording issue from the comment/reply flow.
 - ZIP post-MVP read-only live validation is recorded in `evals/scorecards/live-zip-post-mvp-2026-05-06.md`; live REST responses still expose Zip in categories and browse filters, but the MVP skill remains scoped to Image, Video, and Audio uploads only.
 - Root token-efficiency dry validation is recorded in `evals/scorecards/flow-root-token-efficiency-dry-2026-05-06.md`; root `SKILL.md` was reduced from 203 lines / 1,768 words to 144 lines / 1,152 words while preserving core routing and approval gates.
+- Tightened-root fresh-agent dry validation is recorded in `evals/scorecards/flow-tightened-root-fresh-agent-dry-2026-05-06.md`; it passed check-in, upload, upgrade, account connection, frontend login, comment/reply, folder-cap recovery, ZIP scope, and negative trigger scenarios with no blockers.
+- With-skill versus without-skill comparison is recorded in `evals/scorecards/flow-with-without-skill-comparison-2026-05-06.md`; it found the skill materially improves routing, approval gates, account-linking decisions, folder-cap recovery, ZIP-scope handling, and product-specific upload metadata behavior versus a generic baseline.
 
 ## Next Phase
 

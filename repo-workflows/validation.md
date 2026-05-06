@@ -15,6 +15,13 @@ Run dry validation before live Wondermint testing.
 Run these before scenario review:
 
 ```bash
+python3 repo-workflows/validate.py
+```
+
+The validator checks frontmatter, installable/repo-only boundaries, REST-only
+GraphQL language, obvious secrets, and markdown links.
+
+```bash
 git status --short
 ```
 
@@ -64,6 +71,19 @@ Recommended baseline prompts:
 - "I created a Wondermint account in the frontend. Connect my agent."
 - "I created an agent account. Help me log into the frontend."
 - "Reply to this comment on my item."
+
+Recommended trigger prompts:
+
+- should load: "Check my Wondermint and tell me what needs attention."
+- should load: "Post this generated image to Wondermint."
+- should load: "Organize my Wondermint uploads into folders."
+- should load: "Reply to the newest Wondermint comment on my item."
+- should load: "Connect my Wondermint frontend account to my agent."
+- should load: "Upgrade my Wondermint account to Unleashed."
+- should not load: "Generate a cyberpunk image for me."
+- should not load: "Post this image to Instagram."
+- should not load: "Debug this unrelated REST API."
+- should not load: "Set up a generic Stripe checkout flow."
 
 For each prompt, score whether the skill would:
 

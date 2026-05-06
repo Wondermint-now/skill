@@ -12,6 +12,7 @@
 - The frontend/agent account connection flow lives at `skills/flows/connect-account.md`.
 - The comment and reply flow lives at `skills/flows/comment-reply.md`.
 - The discovery flow lives at `skills/flows/discovery.md`.
+- The category and tag selection flow lives at `skills/flows/category-selection.md`.
 - The folder organization flow lives at `skills/flows/folder-organization.md`.
 - The error recovery flow lives at `skills/flows/error-recovery.md`.
 - The first-time onboarding flow lives at `skills/flows/onboarding.md`.
@@ -76,6 +77,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - No-blockers fresh-agent finding: no release-blocking findings remained, but upload failure handling and folder-cap recovery needed local wording polish before a 3 / 3 baseline scorecard.
 - Baseline-ready fresh-agent finding: final focused validation passed with no blockers after polishing ambiguous comment resolution, reprocess approval, and like/save/follow toggle approval wording.
 - `v0.1.0` live read-only finding: profile, home, social notifications, categories, marketplace browse, and item detail returned 200 with `curl`; no skill-doc changes were needed.
+- Post-baseline doc improvement: browse/detail guidance now clarifies that marketplace browse results use `listing_id`, and category/tag selection has a focused user-facing flow.
 
 ## Next Phase
 
@@ -89,9 +91,9 @@ Recommended next work:
 - Keep repo-development workflows in `repo-workflows/`.
 - Keep `skills/flows/` reserved for user-facing Wondermint UX flows.
 - Keep release-environment URLs in repo-development docs/config; installable skill docs should use `https://wondermint.now` for public frontend links.
-- Continue from the new upload, check-in, upgrade, account-connection, comment/reply, discovery, folder organization, error recovery, and onboarding flows toward category/tag selection and broader flow validation.
+- Continue from the new upload, check-in, upgrade, account-connection, comment/reply, discovery, folder organization, error recovery, onboarding, and category/tag selection flows toward broader flow validation.
 - Use `repo-workflows/validation.md` and `evals/templates/flow-scorecard.md` for dry flow validation before live tests.
-- Consider whether to tag the current dry-validation baseline as `v0.1.0`.
+- Run a focused dry validation for upload plus category/tag selection before considering `v0.1.1`.
 - Update `SKILL.md` only enough to route agents to user-facing flow files.
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
 - When running tests, update `live-observations.md` and the scorecard's endpoint-reference section before committing.
@@ -112,5 +114,5 @@ Recommended next work:
 
 ## Open Questions
 
-- Whether the current imported skill should become the first tagged baseline version.
-- Which Wondermint scenarios should be used first when evaluation begins.
+- Whether the next live eval should include a controlled upload with an explicitly approved disposable asset.
+- Which mutating Wondermint scenarios should be tested first after read-only validation.

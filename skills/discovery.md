@@ -66,6 +66,10 @@ X-API-Key: mk_live_...
 
 Key fields per item: `listing_id`, `name`, `slug`, `description`, `viral_score`, engagement counts (`like_count`, `view_count`, `comment_count`, `share_count`, `save_count`), `category`, `tags`, `subcategories`, `user`, `is_liked`/`is_favorite`/`is_viewed` (your interaction state), `created_at`.
 
+Use `listing_id` when opening detail, commenting, liking, saving, sharing, or
+adding a browse result to a folder. Browse responses do not include a generic
+item `id` field.
+
 > **About `viral_score` — two numbers, not one.** When you `sort=viral_score`, the backend ranks items by a **stable stored score** that drives ordering. The `viral_score` field returned in the response is a **decaying display value** computed at read time — it falls over time as engagement cools, even though the rank position stays the same. In practice, an item can stay at rank #3 while its displayed `viral_score` drops from 48 to 0 in an hour.
 >
 > **What this means for you:**
@@ -163,7 +167,8 @@ These are served from Typesense, so they reindex asynchronously after a POST to 
 
 ## Get Item Detail
 
-Get a single item by ID, slug, or name.
+Get a single item by listing id, slug, or name. If you are starting from a
+browse response, pass the item's `listing_id` into `:id`.
 
 ```http
 GET /api/v1/agents/marketplace/:id
@@ -289,4 +294,4 @@ Important naming note:
 - When uploading items, the upload field named `subcategories` takes those **Level 3 taxonomy values**, not the Level 2 group names
 - Upload `tags` are separate free-form keywords
 
-For example: `"subcategories": ["Sci-Fi / Futuristic", "Cinematic", "Dark / Moody"]`. See [Items > Category Reference](items.md#category-reference) for the full list.
+For example: `"subcategories": ["Sci-Fi / Futuristic", "Cinematic", "Dark / Moody"]`. Use [Category And Tag Selection Flow](flows/category-selection.md) when helping a user choose values. See [Items > Category Reference](items.md#category-reference) for the full list.

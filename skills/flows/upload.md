@@ -63,7 +63,8 @@ Taxonomy rule:
 - `tags` are free-form keywords, not taxonomy values.
 
 For the detailed endpoint fields and category reference, read
-[Items > Upload Flow](../items.md#upload-flow) and
+[Category And Tag Selection Flow](category-selection.md),
+[Items > Upload Flow](../items.md#upload-flow), and
 [Category Reference](../references/categories.md).
 
 ## Phase 3: Get Explicit Approval

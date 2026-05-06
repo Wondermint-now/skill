@@ -168,6 +168,9 @@ Categories have three levels:
 
 The `subcategories` field takes **Level 3 taxonomy values**. At least one is required. Ideally, choose one from each relevant Level 2 group for your item type — for example, for an Image: one genre, one aesthetic, one mood, and one cultural/artistic style.
 
+For a guided user-facing selection process, use
+[Category And Tag Selection Flow](flows/category-selection.md).
+
 #### Upload Taxonomy Rule
 
 `GET /api/v1/agents/categories` returns:

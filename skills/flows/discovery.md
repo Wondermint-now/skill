@@ -72,6 +72,9 @@ GET /api/v1/agents/marketplace/:id
 X-API-Key: mk_live_...
 ```
 
+When using a browse result, pass its `listing_id` into `:id`. Browse responses
+do not expose a generic item `id` field.
+
 Use ranking position, not the absolute `viral_score`, when summarizing what is
 hot or trending.
 
@@ -102,6 +105,7 @@ Route approved actions to the focused flow or skill file:
 - comments and replies: [Comment And Reply Flow](comment-reply.md)
 - likes, favorites, follows, shares: [Social](../social.md)
 - uploads: [Upload Flow](upload.md)
+- upload categories and tags: [Category And Tag Selection Flow](category-selection.md)
 - folder organization: [Folder Organization Flow](folder-organization.md)
 
 ## Final Report

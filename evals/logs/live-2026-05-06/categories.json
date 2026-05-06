@@ -1,0 +1,652 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Image",
+      "subcategories": [
+        {
+          "id": 83,
+          "name": "Genre / World",
+          "tags": [
+            {
+              "id": 84,
+              "name": "Sci-Fi / Futuristic"
+            },
+            {
+              "id": 98,
+              "name": "Everyday / Contemporary"
+            },
+            {
+              "id": 97,
+              "name": "Historical"
+            },
+            {
+              "id": 94,
+              "name": "Post-Apocalyptic"
+            },
+            {
+              "id": 93,
+              "name": "Dystopian"
+            },
+            {
+              "id": 92,
+              "name": "Utopian"
+            },
+            {
+              "id": 90,
+              "name": "Surreal / Dreamlike"
+            },
+            {
+              "id": 89,
+              "name": "Horror / Dark"
+            },
+            {
+              "id": 88,
+              "name": "Everyday / Dark"
+            },
+            {
+              "id": 87,
+              "name": "Steampunk"
+            },
+            {
+              "id": 86,
+              "name": "Cyberpunk"
+            },
+            {
+              "id": 85,
+              "name": "Fantasy / Mythic"
+            }
+          ]
+        },
+        {
+          "id": 51,
+          "name": "Aesthetic / Rendering",
+          "tags": [
+            {
+              "id": 53,
+              "name": "Hyper-Detailed"
+            },
+            {
+              "id": 54,
+              "name": "Cinematic"
+            },
+            {
+              "id": 55,
+              "name": "Painterly"
+            },
+            {
+              "id": 56,
+              "name": "Sketch / Line Art"
+            },
+            {
+              "id": 57,
+              "name": "Flat / Graphic"
+            },
+            {
+              "id": 58,
+              "name": "Minimal"
+            },
+            {
+              "id": 59,
+              "name": "Maximal"
+            },
+            {
+              "id": 60,
+              "name": "Low-poly"
+            },
+            {
+              "id": 63,
+              "name": "Stylized"
+            },
+            {
+              "id": 65,
+              "name": "Grainy / Film-grain"
+            },
+            {
+              "id": 66,
+              "name": "Glossy"
+            },
+            {
+              "id": 67,
+              "name": "Matte"
+            },
+            {
+              "id": 52,
+              "name": "Photoreal"
+            }
+          ]
+        },
+        {
+          "id": 187,
+          "name": "Mood/Tone",
+          "tags": [
+            {
+              "id": 193,
+              "name": "Playful / Whimsical"
+            },
+            {
+              "id": 192,
+              "name": "Dark / Moody"
+            },
+            {
+              "id": 191,
+              "name": "Calm / Peaceful"
+            },
+            {
+              "id": 190,
+              "name": "Energetic / Intense"
+            },
+            {
+              "id": 189,
+              "name": "Cold / Stark"
+            },
+            {
+              "id": 188,
+              "name": "Warm / Cozy"
+            }
+          ]
+        },
+        {
+          "id": 68,
+          "name": "Cultural / Artistic",
+          "tags": [
+            {
+              "id": 69,
+              "name": "Anime / Manga"
+            },
+            {
+              "id": 71,
+              "name": "Comic / Cartoon"
+            },
+            {
+              "id": 72,
+              "name": "Pixel Art"
+            },
+            {
+              "id": 73,
+              "name": "Vaporwave / Retro"
+            },
+            {
+              "id": 75,
+              "name": "Classic Fine Art"
+            },
+            {
+              "id": 80,
+              "name": "Pop Art"
+            },
+            {
+              "id": 81,
+              "name": "Street Art / Graffiti"
+            },
+            {
+              "id": 82,
+              "name": "Folk / Traditional"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Video",
+      "subcategories": [
+        {
+          "id": 131,
+          "name": "Genre / World",
+          "tags": [
+            {
+              "id": 134,
+              "name": "Cyberpunk"
+            },
+            {
+              "id": 132,
+              "name": "Sci-Fi / Futuristic"
+            },
+            {
+              "id": 133,
+              "name": "Fantasy / Mythic"
+            },
+            {
+              "id": 135,
+              "name": "Steampunk"
+            },
+            {
+              "id": 136,
+              "name": "Everyday / Dark"
+            },
+            {
+              "id": 137,
+              "name": "Horror / Dark"
+            },
+            {
+              "id": 138,
+              "name": "Surreal / Dreamlike"
+            },
+            {
+              "id": 140,
+              "name": "Utopian"
+            },
+            {
+              "id": 141,
+              "name": "Dystopian"
+            },
+            {
+              "id": 142,
+              "name": "Post-Apocalyptic"
+            },
+            {
+              "id": 145,
+              "name": "Historical"
+            },
+            {
+              "id": 146,
+              "name": "Everyday / Contemporary"
+            }
+          ]
+        },
+        {
+          "id": 99,
+          "name": "Aesthetic / Rendering",
+          "tags": [
+            {
+              "id": 100,
+              "name": "Photoreal"
+            },
+            {
+              "id": 102,
+              "name": "Cinematic"
+            },
+            {
+              "id": 103,
+              "name": "Painterly"
+            },
+            {
+              "id": 105,
+              "name": "Flat / Graphic"
+            },
+            {
+              "id": 106,
+              "name": "Minimal"
+            },
+            {
+              "id": 107,
+              "name": "Maximal"
+            },
+            {
+              "id": 108,
+              "name": "Low-poly"
+            },
+            {
+              "id": 111,
+              "name": "Stylized"
+            },
+            {
+              "id": 113,
+              "name": "Grainy / Film-grain"
+            },
+            {
+              "id": 114,
+              "name": "Glossy"
+            },
+            {
+              "id": 115,
+              "name": "Matte"
+            },
+            {
+              "id": 101,
+              "name": "Hyper-Detailed"
+            },
+            {
+              "id": 104,
+              "name": "Sketch / Line Art"
+            }
+          ]
+        },
+        {
+          "id": 116,
+          "name": "Cultural / Artistic",
+          "tags": [
+            {
+              "id": 117,
+              "name": "Anime / Manga"
+            },
+            {
+              "id": 119,
+              "name": "Comic / Cartoon"
+            },
+            {
+              "id": 120,
+              "name": "Pixel Art"
+            },
+            {
+              "id": 121,
+              "name": "Vaporwave / Retro"
+            },
+            {
+              "id": 123,
+              "name": "Classic Fine Art"
+            },
+            {
+              "id": 128,
+              "name": "Pop Art"
+            },
+            {
+              "id": 129,
+              "name": "Street Art / Graffiti"
+            },
+            {
+              "id": 130,
+              "name": "Folk / Traditional"
+            }
+          ]
+        },
+        {
+          "id": 265,
+          "name": "Mood / Tone",
+          "tags": [
+            {
+              "id": 272,
+              "name": "Warm / Cozy"
+            },
+            {
+              "id": 267,
+              "name": "Cold / Stark"
+            },
+            {
+              "id": 268,
+              "name": "Energetic / Intense"
+            },
+            {
+              "id": 269,
+              "name": "Calm / Peaceful"
+            },
+            {
+              "id": 270,
+              "name": "Dark / Moody"
+            },
+            {
+              "id": 271,
+              "name": "Playful / Whimsical"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Audio",
+      "subcategories": [
+        {
+          "id": 174,
+          "name": "Mood",
+          "tags": [
+            {
+              "id": 177,
+              "name": "Energetic / Driving"
+            },
+            {
+              "id": 178,
+              "name": "Aggressive / Tense"
+            },
+            {
+              "id": 180,
+              "name": "Epic / Cinematic"
+            },
+            {
+              "id": 181,
+              "name": "Calm / Peaceful"
+            },
+            {
+              "id": 183,
+              "name": "Nostalgic / Dreamy"
+            },
+            {
+              "id": 184,
+              "name": "Melancholic / Sad"
+            },
+            {
+              "id": 185,
+              "name": "Dark / Ominous"
+            },
+            {
+              "id": 348,
+              "name": "Ominous"
+            },
+            {
+              "id": 175,
+              "name": "Uplifting"
+            },
+            {
+              "id": 176,
+              "name": "Playful / Quirky"
+            }
+          ]
+        },
+        {
+          "id": 147,
+          "name": "Sonic Production",
+          "tags": [
+            {
+              "id": 148,
+              "name": "Minimal"
+            },
+            {
+              "id": 149,
+              "name": "Maximal"
+            },
+            {
+              "id": 151,
+              "name": "Raw / Distorted"
+            },
+            {
+              "id": 152,
+              "name": "Polished / Clean"
+            },
+            {
+              "id": 153,
+              "name": "Lo-fi"
+            },
+            {
+              "id": 154,
+              "name": "High-fidelity"
+            },
+            {
+              "id": 158,
+              "name": "Tight / Dry"
+            },
+            {
+              "id": 159,
+              "name": "Spacious / Reverb-Heavy"
+            },
+            {
+              "id": 243,
+              "name": "Textured"
+            }
+          ]
+        },
+        {
+          "id": 160,
+          "name": "Musical Style",
+          "tags": [
+            {
+              "id": 161,
+              "name": "Classical / Orchestral"
+            },
+            {
+              "id": 162,
+              "name": "Folk / Acoustic"
+            },
+            {
+              "id": 163,
+              "name": "Jazz"
+            },
+            {
+              "id": 164,
+              "name": "Ambient / Atmospheric"
+            },
+            {
+              "id": 165,
+              "name": "Electronic"
+            },
+            {
+              "id": 168,
+              "name": "Hip-Hop / Beats"
+            },
+            {
+              "id": 169,
+              "name": "Pop / Vocal"
+            },
+            {
+              "id": 170,
+              "name": "Rock"
+            },
+            {
+              "id": 171,
+              "name": "Soundtrack / Score"
+            },
+            {
+              "id": 173,
+              "name": "Experimental / Noise"
+            },
+            {
+              "id": 247,
+              "name": "Folk / Traditional"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 273,
+      "name": "Zip",
+      "subcategories": [
+        {
+          "id": 351,
+          "name": "Domain",
+          "tags": [
+            {
+              "id": 368,
+              "name": "Research & Education"
+            },
+            {
+              "id": 367,
+              "name": "Sales & Marketing"
+            },
+            {
+              "id": 366,
+              "name": "Customer Support"
+            },
+            {
+              "id": 365,
+              "name": "Business Operations"
+            },
+            {
+              "id": 364,
+              "name": "Content & Creative"
+            },
+            {
+              "id": 363,
+              "name": "AI / ML"
+            },
+            {
+              "id": 362,
+              "name": "Data & Analytics"
+            },
+            {
+              "id": 361,
+              "name": "Software Engineering"
+            },
+            {
+              "id": 370,
+              "name": "General Purpose"
+            },
+            {
+              "id": 369,
+              "name": "DevOps & Infrastructure"
+            }
+          ]
+        },
+        {
+          "id": 350,
+          "name": "Asset Type",
+          "tags": [
+            {
+              "id": 359,
+              "name": "UI Components"
+            },
+            {
+              "id": 358,
+              "name": "Model Weights / Fine-Tunes"
+            },
+            {
+              "id": 357,
+              "name": "Documentation"
+            },
+            {
+              "id": 356,
+              "name": "Structured Data"
+            },
+            {
+              "id": 355,
+              "name": "Prompt Templates"
+            },
+            {
+              "id": 354,
+              "name": "Workflow / Pipeline"
+            },
+            {
+              "id": 353,
+              "name": "Code / Scripts"
+            },
+            {
+              "id": 360,
+              "name": "Mixed Bundle"
+            }
+          ]
+        },
+        {
+          "id": 352,
+          "name": "Capability",
+          "tags": [
+            {
+              "id": 373,
+              "name": "Analyze / Reason"
+            },
+            {
+              "id": 374,
+              "name": "Transform / Convert"
+            },
+            {
+              "id": 375,
+              "name": "Reference / Look Up"
+            },
+            {
+              "id": 376,
+              "name": "Improve Quality / Reliability"
+            },
+            {
+              "id": 377,
+              "name": "Increase Speed / Efficiency"
+            },
+            {
+              "id": 378,
+              "name": "Connect / Integrate"
+            },
+            {
+              "id": 379,
+              "name": "Scaffold / Boilerplate"
+            },
+            {
+              "id": 372,
+              "name": "Generate / Create"
+            },
+            {
+              "id": 371,
+              "name": "Automate / Orchestrate"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

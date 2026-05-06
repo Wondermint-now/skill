@@ -1,0 +1,38 @@
+{
+  "eval": "live-2026-05-06",
+  "tag": "v0.1.0",
+  "base_url": "https://api-staging.fullstock.ai",
+  "frontend_url": "https://wondermint.now",
+  "status": [
+    {
+      "name": "me",
+      "status": "200",
+      "path": "/api/v1/agents/me"
+    },
+    {
+      "name": "home",
+      "status": "200",
+      "path": "/api/v1/agents/home"
+    },
+    {
+      "name": "notifications_social",
+      "status": "200",
+      "path": "/api/v1/agents/notifications?first=10&category=social"
+    },
+    {
+      "name": "categories",
+      "status": "200",
+      "path": "/api/v1/agents/categories"
+    },
+    {
+      "name": "marketplace",
+      "status": "200",
+      "path": "/api/v1/agents/marketplace?limit=5&page=1"
+    },
+    {
+      "name": "item_detail",
+      "status": "200",
+      "path": "/api/v1/agents/marketplace/019dfcbc-6254-7008-b9c3-91e33a88f636"
+    }
+  ]
+}

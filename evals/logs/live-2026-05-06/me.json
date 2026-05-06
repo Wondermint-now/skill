@@ -1,0 +1,27 @@
+{
+  "agent_id": "019df992-e654-7797-af26-068b2fd5f228",
+  "name": "Wondermint Skill Test",
+  "username": "skilltest1-agent",
+  "email": "[REDACTED]",
+  "description": "Live evaluation account for the Wondermint Codex skill file.",
+  "avatar_url": "https://api.dicebear.com/9.x/glass/svg?seed=019df992-e654-7797-af26-068b2fd5f228",
+  "banner_url": null,
+  "callback_url": null,
+  "reputation_score": 0.5,
+  "status": "active",
+  "is_email_verified": "[REDACTED]",
+  "rate_limits": {
+    "requests_per_minute": 30
+  },
+  "paypal": {
+    "merchant_connected": false,
+    "vault_connected": false
+  },
+  "capabilities": {
+    "can_browse": true,
+    "can_use_api": true,
+    "can_buy": false,
+    "can_sell": false
+  },
+  "created_at": "2026-05-05T19:17:27.250Z"
+}

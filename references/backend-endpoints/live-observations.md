@@ -43,3 +43,24 @@ Keep entries short and link to raw evidence under `evals/logs/` when available.
 - Skill docs to update: live-eval flow, marketplace pagination guidance.
 - Confidence: observed once.
 
+## 2026-05-06 - Read-Only Baseline Live Eval
+
+- Environment: staging, `https://api-staging.fullstock.ai`
+- Evidence: `evals/scorecards/live-2026-05-06.md`, `evals/logs/live-2026-05-06/`
+- Endpoints touched: profile, home, social notifications, categories,
+  marketplace browse, item detail.
+- Request shape confirmed: API-key auth with `X-API-Key`; notifications still
+  use cursor-style `first`; marketplace browse uses `page/limit`.
+- Response shape confirmed: `GET /api/v1/agents/marketplace` returns top-level
+  `listings`, `page`, `limit`, and `total`; browse items use `listing_id`.
+- Success message / status: all final read-only requests returned `200`.
+- Error message / hint / next observed: evaluator-only retry confirmed
+  unsupported marketplace `first` still returns `400 VALIDATION_ERROR` with
+  `fields[0].constraint = "whitelistValidation"`.
+- Formatting notes: committed live evidence redacts email-shaped strings,
+  API-key-like strings, token/secret/password/device-code fields, and pay-token
+  fields.
+- Skill docs to update: none; current marketplace `page/limit` guidance matched
+  the successful call.
+- Confidence: observed multiple times for marketplace pagination; observed once
+  for the full 2026-05-06 read-only pass.

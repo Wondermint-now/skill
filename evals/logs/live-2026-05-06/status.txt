@@ -1,0 +1,6 @@
+me 200 /api/v1/agents/me
+home 200 /api/v1/agents/home
+notifications_social 200 /api/v1/agents/notifications?first=10&category=social
+categories 200 /api/v1/agents/categories
+marketplace 200 /api/v1/agents/marketplace?limit=5&page=1
+item_detail 200 /api/v1/agents/marketplace/019dfcbc-6254-7008-b9c3-91e33a88f636

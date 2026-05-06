@@ -28,6 +28,8 @@
 - Cleanup-reference fresh-agent dry validation is recorded in `evals/scorecards/flow-fresh-agent-cleanup-reference-2026-05-06.md`.
 - No-blockers fresh-agent dry validation is recorded in `evals/scorecards/flow-fresh-agent-no-blockers-2026-05-06.md`.
 - Baseline-ready fresh-agent dry validation is recorded in `evals/scorecards/flow-fresh-agent-baseline-ready-2026-05-06.md`.
+- `v0.1.0` tags the dry-validation baseline at commit `43f7eb3`.
+- Read-only live eval for `v0.1.0` is recorded in `evals/scorecards/live-2026-05-06.md`.
 - MVP endpoint scope is recorded in `references/mvp-scope.md`; backend endpoint inventory is not scope permission.
 - MVP skill docs are REST-only. GraphQL operations are backend-awareness material and must not be copied into the skill.
 - Installable skill files are `SKILL.md`, `CHECK_IN.md`, and `skills/`; evaluation and iteration procedures stay outside that surface.
@@ -73,6 +75,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Cleanup-reference fresh-agent finding: all nine user scenarios scored 3 / 3, but release blockers remain in quick-reference wording for orphan-draft cleanup and `REVIEW_ACK_REQUIRED` resend approval.
 - No-blockers fresh-agent finding: no release-blocking findings remained, but upload failure handling and folder-cap recovery needed local wording polish before a 3 / 3 baseline scorecard.
 - Baseline-ready fresh-agent finding: final focused validation passed with no blockers after polishing ambiguous comment resolution, reprocess approval, and like/save/follow toggle approval wording.
+- `v0.1.0` live read-only finding: profile, home, social notifications, categories, marketplace browse, and item detail returned 200 with `curl`; no skill-doc changes were needed.
 
 ## Next Phase
 

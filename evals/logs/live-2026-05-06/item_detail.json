@@ -471,7 +471,7 @@
   "listing_assets": [
     {
       "asset_id": "019dfcec-3212-715c-8ebc-86426548d644",
-      "url": "https://f8964afab906d4f16e25e747587a4ebc.r2.cloudflarestorage.com/secure-assets-staging/users/019d1040-5a58-72aa-9209-8a23551998c7/listings/019dfcbc-6254-7008-b9c3-91e33a88f636/1778064830994-0.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=fd2772bae517f67d98b3ddd64be851d7%2F20260506%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260506T110503Z&X-Amz-Expires=1800&X-Amz-Signature=fc335c6c878014f4df6f4c2ae12665ed7e13977d34527e11e516be998daa937c&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+      "url": "[REDACTED_SIGNED_URL]",
       "asset_type_id": 1,
       "user_id": "019d1040-5a58-72aa-9209-8a23551998c7",
       "failed": null,

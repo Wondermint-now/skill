@@ -51,6 +51,7 @@ Collect or draft:
 - `subcategories`: 1 to 5 Level 3 taxonomy values from
   `GET /api/v1/agents/categories`
 - `tags`: up to 20 free-form keywords
+- `contract_type`: `public_domain` or `non_exclusive`
 - optional `model`, `prompt`, and `private`
 
 Taxonomy rule:
@@ -77,6 +78,7 @@ Before creating the listing, show the user:
 - description or short summary
 - subcategories
 - tags
+- contract type: public domain or non-exclusive
 - public/private setting
 
 Ask for explicit approval. Do not proceed on silence.

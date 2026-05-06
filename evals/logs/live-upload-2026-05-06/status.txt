@@ -1,0 +1,7 @@
+create 201 /api/v1/agents/listings
+upload_put 200 presigned_upload_url
+confirm 200 /api/v1/agents/listings/019dfd0d-8df6-7141-a457-3b5e7e72d2c7/uploaded
+status_poll_1 200 Processing
+status_poll_2 200 Processing
+status_poll_3 200 Pending Minting
+status_poll_4 200 Minted

@@ -64,3 +64,28 @@ Keep entries short and link to raw evidence under `evals/logs/` when available.
   the successful call.
 - Confidence: observed multiple times for marketplace pagination; observed once
   for the full 2026-05-06 read-only pass.
+
+## 2026-05-06 - Private Image Upload Live Eval
+
+- Environment: staging, `https://api-staging.fullstock.ai`
+- Evidence: `evals/scorecards/live-upload-2026-05-06.md`,
+  `evals/logs/live-upload-2026-05-06/`
+- Endpoints touched: listing create, presigned upload PUT, upload confirmation,
+  listing status polling.
+- Request shape confirmed: `POST /api/v1/agents/listings` accepted a private
+  image payload with Level 3 `subcategories`, free-form `tags`,
+  `contract_type: "public_domain"`, and `private: true`.
+- Response shape confirmed: create returned `listing_id` and `upload_url`;
+  confirm returned `listing_id` and `status: "processing"`; status polling
+  returned `listing_id`, `status`, and `processing`.
+- Success message / status: create `201`, upload PUT `200`, confirm `200`,
+  status progressed `Processing` -> `Pending Minting` -> `Minted`.
+- Error message / hint / next observed: omitting `contract_type` returned
+  `400 VALIDATION_ERROR` with message that `contract_type` is required and
+  allowed values are `public_domain` or `non_exclusive`; `exclusive` is not
+  currently accepted.
+- Formatting notes: committed live evidence redacts signed URLs,
+  API-key-like strings, auth fields, and email-shaped strings.
+- Skill docs to update: add `contract_type` to upload docs and approval
+  summary.
+- Confidence: observed once.

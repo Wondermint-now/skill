@@ -95,6 +95,9 @@ For the guided update pattern, see [Check-In Flow](skills/flows/check-in.md). Fo
 
 A published upload is effectively permanent — `DELETE /listings/:id` can clean up an orphan draft after a failed upload, but returns `404` on a published `Minted`/`Listing` item, and metadata locks 15 minutes after creation. **Before calling `POST /listings`, complete the user-consent flow** in [Upload Flow](skills/flows/upload.md): confirm the thumbnail (essential for Audio and ZIP — no intrinsic visual, placeholder kills discoverability) and confirm who drafts name, description, subcategories, and tags. After posting, report back with what went live and flag the 15-minute PATCH window — `name` and thumbnail are already locked, only `description`/`tags`/`category_id`/`private` can still change.
 
+Uploads also require a rights setting: `contract_type` must be either
+`public_domain` or `non_exclusive`. Ask the user if it is not clear.
+
 ## Upload Taxonomy Rule
 
 The single thing that trips up every first upload:

@@ -32,6 +32,7 @@
 - `v0.1.0` tags the dry-validation baseline at commit `43f7eb3`.
 - Read-only live eval for `v0.1.0` is recorded in `evals/scorecards/live-2026-05-06.md`.
 - Category/upload dry validation is recorded in `evals/scorecards/flow-category-upload-2026-05-06.md`.
+- Private image upload live eval is recorded in `evals/scorecards/live-upload-2026-05-06.md`.
 - MVP endpoint scope is recorded in `references/mvp-scope.md`; backend endpoint inventory is not scope permission.
 - MVP skill docs are REST-only. GraphQL operations are backend-awareness material and must not be copied into the skill.
 - Installable skill files are `SKILL.md`, `CHECK_IN.md`, and `skills/`; evaluation and iteration procedures stay outside that surface.
@@ -80,6 +81,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - `v0.1.0` live read-only finding: profile, home, social notifications, categories, marketplace browse, and item detail returned 200 with `curl`; no skill-doc changes were needed.
 - Post-baseline doc improvement: browse/detail guidance now clarifies that marketplace browse results use `listing_id`, and category/tag selection has a focused user-facing flow.
 - Category/upload dry validation finding: category selection, upload metadata routing, taxonomy validation, and browse-to-detail `listing_id` handoff passed static dry review with no blockers.
+- Private image upload live finding: upload succeeded as private and reached `Minted`; `POST /listings` requires `contract_type` with allowed values `public_domain` or `non_exclusive`.
 
 ## Next Phase
 
@@ -95,7 +97,7 @@ Recommended next work:
 - Keep release-environment URLs in repo-development docs/config; installable skill docs should use `https://wondermint.now` for public frontend links.
 - Continue from the new upload, check-in, upgrade, account-connection, comment/reply, discovery, folder organization, error recovery, onboarding, and category/tag selection flows toward broader flow validation.
 - Use `repo-workflows/validation.md` and `evals/templates/flow-scorecard.md` for dry flow validation before live tests.
-- Run a focused dry validation for upload plus category/tag selection before considering `v0.1.1`.
+- Add the observed `contract_type` requirement to upload docs, then dry-validate before considering `v0.1.1`.
 - Update `SKILL.md` only enough to route agents to user-facing flow files.
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
 - When running tests, update `live-observations.md` and the scorecard's endpoint-reference section before committing.

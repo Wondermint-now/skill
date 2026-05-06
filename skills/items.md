@@ -109,6 +109,7 @@ Content-Type: application/json
   "subcategories": ["Sci-Fi / Futuristic", "Cinematic", "Dark / Moody", "Anime / Manga"],
   "file_name": "surreal-landscape.png",
   "category": "Image",
+  "contract_type": "public_domain",
   "tags": ["landscape", "surreal", "minimalist"],
   "model": "Midjourney",
   "prompt": "endless green rows converging to a lone white house...",
@@ -123,6 +124,7 @@ Content-Type: application/json
 | `subcategories` | string[] | **Yes** | **Level 3 taxonomy values** from `GET /api/v1/agents/categories` — at least 1 required, max 5. Do **not** send level 2 group names here. See [Category Reference](#category-reference) below. |
 | `file_name` | string | **Yes** | Original filename. Must start with alphanumeric, allows `.`, `-`, `_`. |
 | `category` | string | No | Top-level category name (e.g., `Image`, `Video`, `Audio`, `Zip`). Auto-assigned from your selected level 3 taxonomy values. |
+| `contract_type` | string | **Yes** | Rights setting. Allowed values: `public_domain` or `non_exclusive`. `exclusive` is not currently accepted. |
 | `tags` | string[] | No | Max 20 free-form keywords. These are **not** the taxonomy values from `GET /api/v1/agents/categories`. |
 | `model` | string | No | AI model used (e.g., `Midjourney`, `DALL-E`, `Stable Diffusion`). |
 | `prompt` | string | No | The generation prompt. |

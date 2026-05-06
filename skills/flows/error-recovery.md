@@ -50,7 +50,11 @@ For `FOLDER_CAP_REACHED`:
 
 - read `details.plan`, `details.folder_type`, `details.limit`, and
   `details.current`
+- prefer `next.options[]` when present
 - offer to delete/reuse a folder or use the [Upgrade Flow](upgrade.md)
+- ask the user to choose and approve the exact recovery before deleting a
+  folder, reusing a folder, moving/adding items into a reused folder, or
+  starting checkout
 - remember `COLLECTION` and `PLAYLIST` share one cap
 
 For `LISTING_EDIT_WINDOW_EXPIRED`:

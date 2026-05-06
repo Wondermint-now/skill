@@ -32,7 +32,8 @@ For "best images" when the user wants the agent to choose candidates:
 2. Keep only published image items (`category` or item detail indicates `Image`;
    status is `Minted` or `Listing`).
 3. Rank by the user's chosen signal. If they do not choose, propose a balanced
-   shortlist using likes, views, comments, and recency.
+   shortlist using likes, views, comments, and recency. For exact owned-item
+   metrics, fetch `GET /api/v1/agents/listings/:id/metrics`.
 4. Show the candidate item names and ids.
 5. Get approval before adding or moving them into the folder.
 
@@ -155,6 +156,10 @@ Recovery options usually are:
 - delete an existing folder of the capped family
 - upgrade through the [Upgrade Flow](upgrade.md)
 - reuse an existing folder
+
+Ask the user to choose and approve the exact recovery before deleting a folder,
+starting checkout, reusing an existing folder, or moving/adding items into a
+reused folder. Prefer the server's `next.options[]` when present.
 
 `COLLECTION` and `PLAYLIST` share one cap. `PORTFOLIO` has its own cap.
 

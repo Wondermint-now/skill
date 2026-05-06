@@ -37,15 +37,15 @@ retracted.
 
 **Pause before the first API call.** A published upload is effectively permanent — `DELETE /listings/:id` can recover an orphan draft after a failed upload, but returns `404` on a published `Minted`/`Listing` item, and metadata (description, tags, privacy) locks 15 minutes after creation. Whatever you post is what lives on the item forever. Two decisions shape whether the upload lands well, and both should reflect the user's intent, not the agent's best guess:
 
-### 1. Thumbnail — essential for Audio and ZIP, useful elsewhere
+### 1. Thumbnail — essential for Audio, useful elsewhere
 
-Audio and ZIP listings have **no intrinsic visual**. Think of the thumbnail the way a song needs **album art** or a package needs a **banner image** — it is literally what people see in browse, trending, and portfolio/playlist/feed grids. Without a custom cover, Wondermint substitutes a generic platform placeholder (the same one used on every other unadorned audio/ZIP item), and those listings get scrolled past. This is the single biggest reason strong audio tracks and asset bundles get ignored in the feed.
+Audio listings have **no intrinsic visual**. Think of the thumbnail the way a song needs **album art** — it is literally what people see in browse, trending, and portfolio/playlist/feed grids. Without a custom cover, Wondermint substitutes a generic platform placeholder, and those listings get scrolled past. This is the single biggest reason strong audio tracks get ignored in the feed.
 
-**Never start an audio or ZIP upload without first asking the user about a cover.** Don't treat this as optional; it's as important as the source file itself.
+**Never start an audio upload without first asking the user about a cover.** Don't treat this as optional; it's as important as the source file itself.
 
-**Before creating an audio or ZIP listing, ask the user:**
+**Before creating an audio listing, ask the user:**
 
-> "Before I upload, do you have a custom cover image for this? Audio and ZIP items really need their own art — like album cover for a song, or a banner for a file package. Without one, Wondermint uses a generic placeholder that makes the piece much harder to discover. If you don't have one ready, I can generate one or help source it."
+> "Before I upload, do you have a custom cover image for this? Audio items really need their own art — like album cover for a song. Without one, Wondermint uses a generic placeholder that makes the piece much harder to discover. If you don't have one ready, I can generate one or help source it."
 
 Paths:
 
@@ -91,7 +91,7 @@ Creating an item is a multi-step process:
 
 1. **Create item** → returns `listing_id` + presigned `upload_url` (and optionally `thumbnail_upload_url`)
 2. **Upload source file** → PUT binary to the main presigned URL
-3. **Optional: upload thumbnail** → for audio/ZIP/custom cover flows, PUT the image to `thumbnail_upload_url` before confirm
+3. **Optional: upload thumbnail** → for audio/custom cover flows, PUT the image to `thumbnail_upload_url` before confirm
 4. **Confirm upload** → `POST /api/v1/agents/listings/:id/uploaded`
 5. **Wait for processing** → media processor generates thumbnails, watermarks, and variants
 6. **Item reaches `Minted`** once processing completes; listing/publication is a separate state
@@ -123,7 +123,7 @@ Content-Type: application/json
 | `description` | string | **Yes** | Max 5000 chars. |
 | `subcategories` | string[] | **Yes** | **Level 3 taxonomy values** from `GET /api/v1/agents/categories` — at least 1 required, max 5. Do **not** send level 2 group names here. See [Category Reference](#category-reference) below. |
 | `file_name` | string | **Yes** | Original filename. Must start with alphanumeric, allows `.`, `-`, `_`. |
-| `category` | string | No | Top-level category name (e.g., `Image`, `Video`, `Audio`, `Zip`). Auto-assigned from your selected level 3 taxonomy values. |
+| `category` | string | No | Top-level category name (e.g., `Image`, `Video`, `Audio`). Auto-assigned from your selected level 3 taxonomy values. |
 | `contract_type` | string | **Yes** | Rights setting. Allowed values: `public_domain` or `non_exclusive`. `exclusive` is not currently accepted. |
 | `tags` | string[] | No | Max 20 free-form keywords. These are **not** the taxonomy values from `GET /api/v1/agents/categories`. |
 | `model` | string | No | AI model used (e.g., `Midjourney`, `DALL-E`, `Stable Diffusion`). |
@@ -181,7 +181,7 @@ For a guided user-facing selection process, use
 
 `GET /api/v1/agents/categories` returns:
 
-- Level 1 `category` values such as `Image`, `Video`, `Audio`, `Zip`
+- Level 1 `category` values such as `Image`, `Video`, `Audio`
 - Level 2 **subcategory groups** such as `Mood`, `Sonic Production`, `Musical Style`
 - Level 3 **taxonomy values** nested under each Level 2 group
 
@@ -564,7 +564,7 @@ X-API-Key: mk_live_...
 
 ## Category Reference
 
-For the full list of all Level 3 taxonomy values organized by content type (Image, Video, Audio, Zip), read [references/categories.md](references/categories.md).
+For the full list of all Level 3 taxonomy values organized by current MVP content type (Image, Video, Audio), read [references/categories.md](references/categories.md).
 
 You can also fetch the live list: `GET /api/v1/agents/categories`
 

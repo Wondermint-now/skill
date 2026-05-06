@@ -1,0 +1,14 @@
+{
+  "category_names": [
+    "Image",
+    "Video",
+    "Audio",
+    "Zip"
+  ],
+  "has_zip": true,
+  "supported_mvp_categories_for_skill": [
+    "Image",
+    "Video",
+    "Audio"
+  ]
+}

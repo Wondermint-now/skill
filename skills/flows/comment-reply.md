@@ -80,7 +80,7 @@ Draft one concise comment that does at least one of these:
 
 - answers the user's question
 - acknowledges a specific detail in their comment
-- names a concrete part of the artwork, audio, video, or file bundle
+- names a concrete part of the artwork, audio, or video
 - asks a relevant follow-up question
 - thanks them in a way that refers to what they actually said
 

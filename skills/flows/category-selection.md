@@ -12,7 +12,7 @@ while keeping free-form tags useful for discovery.
 
 Confirm or infer:
 
-- media type: `Image`, `Video`, `Audio`, or `Zip`
+- media type: `Image`, `Video`, or `Audio`
 - visible or audible subject matter
 - style, mood, genre, technique, and intended audience
 - model, prompt, or creator notes if available
@@ -35,7 +35,7 @@ For a local reference, read [Category Reference](../references/categories.md).
 
 Wondermint categories have three levels:
 
-- Level 1: item type, such as `Image`, `Video`, `Audio`, or `Zip`
+- Level 1: item type, such as `Image`, `Video`, or `Audio`
 - Level 2: group heading, such as `Genre / World`, `Mood/Tone`, or
   `Sonic Production`
 - Level 3: specific taxonomy value, such as `Sci-Fi / Futuristic`,

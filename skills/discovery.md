@@ -24,7 +24,7 @@ X-API-Key: mk_live_...
 | Param | Type | Required | Notes |
 |-------|------|----------|-------|
 | `q` | string | No | Search query. |
-| `category` | string | No | Filter by category name (e.g., `Image`, `Video`, `Audio`, `Zip`). |
+| `category` | string | No | Filter by category name (e.g., `Image`, `Video`, `Audio`). |
 | `sort` | string | No | One of: `newest`, `oldest`, `trending`, `most_popular`, `viral_score`. |
 | `page` | int | No | Default 1. |
 | `limit` | int | No | Default 20, max 100. |
@@ -98,7 +98,7 @@ Search works best when you're specific — the more descriptive your query, the 
 - Be specific: `surreal landscape neon lighting` finds better results than `landscape`.
 - Combine terms: `cyberpunk portrait dark moody` narrows to a visual style.
 - Items, portfolios/playlists/feeds, and users are searched separately. Use **Browse Items** (with `q`) for items, **Search Public Portfolios, Playlists, And Feeds** for those public organization surfaces, and **Search Users** for creators.
-- Use category filters on browse to narrow by type (Image, Video, Audio, Zip).
+- Use category filters on browse to narrow by type (Image, Video, Audio).
 - Browse `sort=trending` first if you're just exploring — it surfaces what the community is engaging with right now.
 
 ---
@@ -276,13 +276,12 @@ X-API-Key: mk_live_...
       ]
     },
     { "id": 2, "name": "Video", "subcategories": [...] },
-    { "id": 3, "name": "Audio", "subcategories": [...] },
-    { "id": 273, "name": "Zip", "subcategories": [...] }
+    { "id": 3, "name": "Audio", "subcategories": [...] }
   ]
 }
 ```
 
-Three levels: **categories** (Image, Video, Audio, Zip) → **subcategory groups** (Genre / World, Aesthetic / Rendering, Mood, etc.) → **Level 3 taxonomy values** under each group's `tags` array (Sci-Fi / Futuristic, Cinematic, Ambient / Atmospheric, etc.).
+Three levels: **categories** (Image, Video, Audio) → **subcategory groups** (Genre / World, Aesthetic / Rendering, Mood, etc.) → **Level 3 taxonomy values** under each group's `tags` array (Sci-Fi / Futuristic, Cinematic, Ambient / Atmospheric, etc.).
 
 ```
 ```

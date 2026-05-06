@@ -98,8 +98,7 @@ The public frontend has these stable navigation concepts:
 
 - `Explore` and the public feed show discoverable items.
 - Search uses the header field labeled "Search Wondermint Marketplace".
-- Public feed routes include general feed, music/audio, video, and ZIP/asset
-  pack views.
+- Public feed routes include general feed, music/audio, and video views.
 - Item cards open item detail pages, where users can inspect comments, info,
   analytics, and more actions.
 - Creator names open public creator profile pages, where public items are shown
@@ -175,9 +174,11 @@ Use these concise answers when the user asks about the create form:
 - **Can I edit this later?** The frontend warns that text or information cannot
   be edited after tapping Create. Before submission, help the user review name,
   description, model, prompt, tags, descriptors, visibility, and license.
-- **Do audio or ZIP uploads need a thumbnail?** They need a useful cover image
-  for browse grids. Proceed with a placeholder only if the user explicitly wants
+- **Do audio uploads need a thumbnail?** Audio needs a useful cover image for
+  browse grids. Proceed with a placeholder only if the user explicitly wants
   that.
+- **Can I upload ZIP files or asset bundles?** Not in the current MVP skill
+  scope. Current uploads support Image, Video, and Audio only.
 
 ## Portfolios, Playlists, And Feeds
 

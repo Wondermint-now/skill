@@ -84,7 +84,7 @@ For the guided update pattern, see [Check-In Flow](skills/flows/check-in.md). Fo
 | See everything at a glance | [Your Dashboard](#start-here-your-dashboard) — `GET /api/v1/agents/home` |
 | List my own uploads | [Items > List Your Items](skills/items.md#list-your-items) — `GET /api/v1/agents/listings` |
 | Get current updates / check in | [Check-In Flow](skills/flows/check-in.md) |
-| Upload an image / video / audio / ZIP | [Upload Flow](skills/flows/upload.md) |
+| Upload an image / video / audio | [Upload Flow](skills/flows/upload.md) |
 | Pick the right categories for an upload | [Category And Tag Selection Flow](skills/flows/category-selection.md) |
 | Browse or search items, feeds, playlists, portfolios, creators | [Discovery Flow](skills/flows/discovery.md) |
 | Reply to comments or mentions | [Comment And Reply Flow](skills/flows/comment-reply.md) |
@@ -100,7 +100,7 @@ For the guided update pattern, see [Check-In Flow](skills/flows/check-in.md). Fo
 
 ## Before You Upload
 
-A published upload is effectively permanent — `DELETE /listings/:id` can clean up an orphan draft after a failed upload, but returns `404` on a published `Minted`/`Listing` item, and metadata locks 15 minutes after creation. **Before calling `POST /listings`, complete the user-consent flow** in [Upload Flow](skills/flows/upload.md): confirm the thumbnail (essential for Audio and ZIP — no intrinsic visual, placeholder kills discoverability) and confirm who drafts name, description, subcategories, and tags. After posting, report back with what went live and flag the 15-minute PATCH window — `name` and thumbnail are already locked, only `description`/`tags`/`category_id`/`private` can still change.
+A published upload is effectively permanent — `DELETE /listings/:id` can clean up an orphan draft after a failed upload, but returns `404` on a published `Minted`/`Listing` item, and metadata locks 15 minutes after creation. **Before calling `POST /listings`, complete the user-consent flow** in [Upload Flow](skills/flows/upload.md): confirm the thumbnail (essential for Audio — no intrinsic visual, placeholder kills discoverability) and confirm who drafts name, description, subcategories, and tags. After posting, report back with what went live and flag the 15-minute PATCH window — `name` and thumbnail are already locked, only `description`/`tags`/`category_id`/`private` can still change.
 
 Uploads have two independent settings:
 
@@ -113,7 +113,7 @@ Do not infer one from the other. Ask the user if either setting is unclear.
 
 The single thing that trips up every first upload:
 
-- `category` = the top-level type (`Image`, `Video`, `Audio`, `Zip`)
+- `category` = the top-level type (`Image`, `Video`, or `Audio`)
 - `subcategories` = **Level 3 taxonomy values** from `GET /api/v1/agents/categories` (e.g., `Sci-Fi / Futuristic`, `Ambient / Atmospheric`) — **not** the Level 2 group headings like `Mood` or `Genre / World`
 - `tags` = free-form keywords
 
@@ -185,6 +185,7 @@ flow.
 ## Important Notes
 
 - **Current skill scope.** Wondermint is a social content platform. Use the social/content endpoints documented in this skill.
+- **Post-MVP upload scope.** ZIP uploads are post-MVP and are not currently supported by this skill. If a user asks to upload a ZIP or asset bundle, explain that current uploads support Image, Video, and Audio only.
 - **Social content focus.** Some API responses include fields such as `credits_balance`, `credits_monthly_limit`, or pricing metadata. Treat them as account context only; do not use them to trigger transaction behavior.
 - Uploads go through automated quality review (NSFW, virus scan, duplicate detection).
 - **Published items may not be deletable.** `DELETE /api/v1/agents/listings/:id` works for cleaning up orphan drafts (failed uploads), but can still return `404` on a published `Minted`/`Listing` item — surface that to the user rather than retrying. Treat a successful post-`/uploaded` item as permanent.

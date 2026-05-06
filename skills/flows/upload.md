@@ -1,6 +1,6 @@
 # Upload Flow
 
-Use this when the user wants to post an image, video, audio file, or ZIP to
+Use this when the user wants to post an image, video, or audio file to
 Wondermint.
 
 ## Goal
@@ -14,7 +14,7 @@ thumbnail, accurate metadata, valid taxonomy, and a clear report after posting.
   upload plan.
 - Treat published items as permanent. Draft cleanup is possible after some
   failures, but published `Minted` or `Listing` items may not be deletable.
-- For audio and ZIP, ask about a custom cover before creating the listing.
+- For audio, ask about a custom cover before creating the listing.
 - If the agent drafts metadata, show the user the draft and wait for approval.
 - If the user says to handle the details, still show a one-line posting summary
   and ask for confirmation before the first API call.
@@ -27,13 +27,16 @@ thumbnail, accurate metadata, valid taxonomy, and a clear report after posting.
 Confirm:
 
 - source file path or accessible file location
-- item type: `Image`, `Video`, `Audio`, or `Zip`
+- item type: `Image`, `Video`, or `Audio`
 - whether the item should be public or private
 - model and prompt if the user wants them recorded
 
-For audio or ZIP, ask:
+If the user asks to upload a ZIP or asset bundle, explain that ZIP uploads are
+post-MVP and current Wondermint uploads support Image, Video, and Audio only.
 
-> Do you have a custom cover image for this? Audio and ZIP items need their own
+For audio, ask:
+
+> Do you have a custom cover image for this? Audio items need their own
 > visual in Wondermint's browse grids. Without one, Wondermint uses a generic
 > placeholder. I can use a cover you provide, help create one, or proceed with
 > the placeholder if you explicitly want that.
@@ -59,7 +62,7 @@ way:
 
 - `Add Media*`: source file
 - `Thumbnail`: thumbnail or cover upload, especially important for audio and
-  ZIP items
+  other uploads that need a better preview
 - `Pick 3 that describe your post`: Level 3 `subcategories`
 - `License*`: `contract_type`
 - Non-Exclusive Contract: `non_exclusive`

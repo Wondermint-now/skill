@@ -34,6 +34,7 @@ reviewed intentionally.
 | "Collection + Playlist cap" | "Feed + Playlist cap" | Plan tables, upgrade explanations, billing copy. |
 | "Search Public Folders" | "Search Public Portfolios, Playlists, And Feeds" | Discovery docs and any frontend/API labels exposed to users. |
 | "Folder engagement" | "Portfolio/playlist/feed engagement" | Social docs and any user-facing endpoint descriptions. |
+| `Zip` category and `category=Zip` browse support | remove from MVP user-facing surfaces, or clearly hide/gate as post-MVP | Live read-only validation on 2026-05-06 confirmed the backend still exposes `Zip` in `GET /api/v1/agents/categories` and accepts `GET /api/v1/agents/marketplace?category=Zip`. The MVP skill now treats ZIP/asset bundles as out of scope, but the backend/frontend should be double-checked before launch. |
 
 ## Review Notes
 

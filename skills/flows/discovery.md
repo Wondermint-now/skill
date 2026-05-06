@@ -31,7 +31,7 @@ Use the focused endpoint docs in [Discovery](../discovery.md).
 For items:
 
 ```http
-GET /api/v1/agents/marketplace?q=<query>&category=<Image|Video|Audio|Zip>&sort=trending&limit=20&page=1
+GET /api/v1/agents/marketplace?q=<query>&category=<Image|Video|Audio>&sort=trending&limit=20&page=1
 X-API-Key: mk_live_...
 ```
 

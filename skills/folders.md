@@ -38,7 +38,7 @@ presence.
 |------|---------|-------|
 | `PORTFOLIO` | Portfolio | Your own uploaded creations. |
 | `COLLECTION` | Feed | Saved/curated items from any creator. |
-| `PLAYLIST` | Ordered sequence of items | Accepts any media type (Image, Video, Audio, Zip). |
+| `PLAYLIST` | Ordered sequence of items | Accepts current MVP media types (Image, Video, Audio). |
 | `PROFILE` | Auto-managed system folder | Cannot manually add/remove. Created automatically. |
 
 Visibility: `PUBLIC` (default) or `PRIVATE`.
@@ -193,7 +193,7 @@ Content-Type: application/json
 Behavior depends on API folder type:
 - **PORTFOLIO:** Moves your own item into this portfolio.
 - **COLLECTION:** Saves the item to a feed (can be anyone's item).
-- **PLAYLIST:** Saves the item to a playlist. Accepts any media type (image, video, audio, zip).
+- **PLAYLIST:** Saves the item to a playlist. Accepts current MVP media types: image, video, and audio.
 - **PROFILE / FAVORITES:** Returns 400 — cannot manually add to system folders.
 
 ---

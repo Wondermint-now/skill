@@ -107,8 +107,11 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Plan/FAQ dry validation is recorded in `evals/scorecards/flow-plan-faq-dry-2026-05-06.md`; it found and fixed stale root plan prices plus an FAQ caveat for coming-soon marketplace transactions.
 - Frontend create/upload update: owner-provided screenshots of the create form have been recorded. Installable guidance now explains the Create page labels, category-specific model choices, "Pick 3" descriptor behavior, custom `Other` model names, and the mapping from frontend `License*` choices to REST `contract_type`.
 - Create/upload dry validation is recorded in `evals/scorecards/flow-create-upload-dry-2026-05-06.md`; it passed image, video custom-model, audio thumbnail, edit-lock, taxonomy, and visibility/license separation scenarios with no blockers.
-- Frontend create form FAQ has been added to `skills/frontend.md` for Public Domain, Non-Exclusive Contract, visibility versus rights, Pick 3 descriptors, Other model names, edit-lock review, and audio/ZIP thumbnails.
+- Frontend create form FAQ has been added to `skills/frontend.md` for Public Domain, Non-Exclusive Contract, visibility versus rights, Pick 3 descriptors, Other model names, edit-lock review, and audio thumbnails.
 - Create-form FAQ dry validation is recorded in `evals/scorecards/flow-create-form-faq-dry-2026-05-06.md`; it passed the focused FAQ scenarios with no blockers.
+- ZIP uploads have moved post-MVP. Current installable skill guidance supports Image, Video, and Audio uploads only; ZIP/asset bundle upload requests should be declined as out of current scope.
+- ZIP post-MVP fresh-agent dry validation is recorded in `evals/scorecards/flow-fresh-agent-zip-post-mvp-2026-05-06.md`; it passed with no blockers and removed one stale "file bundle" wording issue from the comment/reply flow.
+- ZIP post-MVP read-only live validation is recorded in `evals/scorecards/live-zip-post-mvp-2026-05-06.md`; live REST responses still expose Zip in categories and browse filters, but the MVP skill remains scoped to Image, Video, and Audio uploads only.
 
 ## Next Phase
 

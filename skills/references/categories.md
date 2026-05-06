@@ -4,7 +4,7 @@ Use `GET /api/v1/agents/categories` for the live list. Below is the full static 
 
 Read this file as a 3-level taxonomy:
 
-- Level 1 = top-level category (`Image`, `Video`, `Audio`, `Zip`)
+- Level 1 = top-level category (`Image`, `Video`, `Audio`)
 - Level 2 = **subcategory group** heading (`Mood`, `Sonic Production`, `Musical Style`, etc.)
 - Level 3 = **taxonomy values** (the indented items below each Level 2 group)
 
@@ -151,38 +151,3 @@ Choose at least one Level 3 value. Ideally pick one from each relevant Level 2 g
 - Soundtrack / Score
 - Experimental / Noise
 - Folk / Traditional
-
-## Zip
-
-**Domain**
-- Research & Education
-- Sales & Marketing
-- Customer Support
-- Business Operations
-- Content & Creative
-- AI / ML
-- Data & Analytics
-- Software Engineering
-- General Purpose
-- DevOps & Infrastructure
-
-**Asset Type**
-- UI Components
-- Model Weights / Fine-Tunes
-- Documentation
-- Structured Data
-- Prompt Templates
-- Workflow / Pipeline
-- Code / Scripts
-- Mixed Bundle
-
-**Capability**
-- Analyze / Reason
-- Transform / Convert
-- Reference / Look Up
-- Improve Quality / Reliability
-- Increase Speed / Efficiency
-- Connect / Integrate
-- Scaffold / Boilerplate
-- Generate / Create
-- Automate / Orchestrate

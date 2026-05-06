@@ -122,3 +122,25 @@ Keep entries short and link to raw evidence under `evals/logs/` when available.
 - Skill docs to update: clarify display names versus checkout plan codes in
   account billing docs.
 - Confidence: observed once.
+
+## 2026-05-06 - ZIP Post-MVP Scope Live Read-Only Eval
+
+- Environment: staging, `https://api-staging.fullstock.ai`
+- Evidence: `evals/scorecards/live-zip-post-mvp-2026-05-06.md`,
+  `evals/logs/live-zip-post-mvp-2026-05-06/`
+- Endpoints touched: profile, home dashboard, categories, marketplace browse
+  with `category=Video`, `category=Audio`, and `category=Zip`.
+- Request shape confirmed: API-key auth with `X-API-Key`; marketplace category
+  filter still uses `page/limit`.
+- Response shape confirmed: `GET /api/v1/agents/categories` still returns
+  `Image`, `Video`, `Audio`, and `Zip`; `GET /api/v1/agents/marketplace` with
+  `category=Video`, `category=Audio`, and `category=Zip` returned category-
+  matching listings.
+- Success message / status: all read-only requests returned `200`.
+- Error message / hint / next observed: none in this pass.
+- Formatting notes: committed evidence stores sanitized summaries only for
+  response bodies. Raw account/category/marketplace JSON bodies were removed.
+- Skill docs to update: none from live behavior. Product scope remains the
+  source of truth: ZIP exists in backend read responses but is post-MVP and not
+  supported by the installable skill's current upload guidance.
+- Confidence: observed once.

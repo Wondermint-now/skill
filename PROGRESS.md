@@ -33,6 +33,7 @@
 - Read-only live eval for `v0.1.0` is recorded in `evals/scorecards/live-2026-05-06.md`.
 - Category/upload dry validation is recorded in `evals/scorecards/flow-category-upload-2026-05-06.md`.
 - Private image upload live eval is recorded in `evals/scorecards/live-upload-2026-05-06.md`.
+- Upload visibility/rights dry validation is recorded in `evals/scorecards/flow-upload-visibility-rights-2026-05-06.md`.
 - MVP endpoint scope is recorded in `references/mvp-scope.md`; backend endpoint inventory is not scope permission.
 - MVP skill docs are REST-only. GraphQL operations are backend-awareness material and must not be copied into the skill.
 - Installable skill files are `SKILL.md`, `CHECK_IN.md`, and `skills/`; evaluation and iteration procedures stay outside that surface.
@@ -82,6 +83,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Post-baseline doc improvement: browse/detail guidance now clarifies that marketplace browse results use `listing_id`, and category/tag selection has a focused user-facing flow.
 - Category/upload dry validation finding: category selection, upload metadata routing, taxonomy validation, and browse-to-detail `listing_id` handoff passed static dry review with no blockers.
 - Private image upload live finding: upload succeeded as private and reached `Minted`; `POST /listings` requires `contract_type` with allowed values `public_domain` or `non_exclusive`.
+- Upload visibility/rights dry validation finding: `private` visibility and `contract_type` rights are documented as independent choices; focused fresh-agent rerun passed 3 / 3 with no blockers.
 
 ## Next Phase
 

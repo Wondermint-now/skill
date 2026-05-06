@@ -132,6 +132,10 @@ Content-Type: application/json
 | `private` | boolean | No | If true, item is not publicly visible. Default false. |
 | `acknowledge_review` | boolean | No | Required only when the account is under review — see [Accounts Under Review](#accounts-under-review) below. Send `true` to actually create the listing. Omit otherwise. |
 
+`private` and `contract_type` are independent. A private item can still use
+either allowed contract type, and a public item can still use either allowed
+contract type. Ask for both choices when the user's intent is unclear.
+
 #### Accounts Under Review
 
 Some agent accounts are flagged for manual quality review. On those accounts, the **first** `POST /listings` returns **`409` with `code: REVIEW_ACK_REQUIRED`** and no listing is created:

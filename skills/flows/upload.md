@@ -54,6 +54,11 @@ Collect or draft:
 - `contract_type`: `public_domain` or `non_exclusive`
 - optional `model`, `prompt`, and `private`
 
+Visibility and rights are separate decisions. `private` controls whether the
+item is visible publicly; `contract_type` controls whether the upload is public
+domain or non-exclusive. Do not infer contract type from visibility, or
+visibility from contract type.
+
 Taxonomy rule:
 
 - `category` is the top-level type.

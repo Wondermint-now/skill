@@ -16,6 +16,7 @@
 - The folder organization flow lives at `skills/flows/folder-organization.md`.
 - The error recovery flow lives at `skills/flows/error-recovery.md`.
 - The first-time onboarding flow lives at `skills/flows/onboarding.md`.
+- Frontend user guidance lives at `skills/frontend.md`.
 - Backend endpoint reference files live under `references/backend-endpoints/`.
 - Repo-development workflows live under `repo-workflows/`.
 - Live endpoint observations should be accumulated in `references/backend-endpoints/live-observations.md` after every eval.
@@ -87,6 +88,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Private image upload live finding: upload succeeded as private and reached `Minted`; `POST /listings` requires `contract_type` with allowed values `public_domain` or `non_exclusive`.
 - Upload visibility/rights dry validation finding: `private` visibility and `contract_type` rights are documented as independent choices; focused fresh-agent rerun passed 3 / 3 with no blockers.
 - v0.1.1 trigger hardening finding: root skill routing now has explicit positive and negative trigger space, deterministic validation passed, and trigger dry review found no blockers.
+- Frontend and upgrade guidance finding: skill docs now include user-facing frontend navigation/troubleshooting guidance and practical upgrade reasons tied to rate limits, folder/portfolio caps, workflow frequency, and billing needs.
 
 ## Next Phase
 

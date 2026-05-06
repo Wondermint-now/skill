@@ -108,6 +108,8 @@ Add guided flow files inside the larger skill structure for common Wondermint us
 - discovery and engagement
 - folder organization
 - error recovery
+- upgrade decision support
+- frontend website guidance and troubleshooting
 
 Each flow should include when to use it, what to ask the user, which API calls matter, success criteria, and what to report back.
 
@@ -120,6 +122,8 @@ Current Phase 4 coverage started during Phase 3:
 - `skills/flows/discovery.md`
 - `skills/flows/folder-organization.md`
 - `skills/flows/error-recovery.md`
+- `skills/flows/upgrade.md`
+- `skills/frontend.md`
 
 ## Phase 5: Future Evaluation Loop
 

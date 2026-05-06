@@ -55,6 +55,19 @@ Keep the recommendation practical:
 - Explain that credits are account context, not an active action
   gate.
 
+Good reasons to upgrade:
+
+- The user is hitting rate limits while checking in, browsing, uploading, or
+  organizing.
+- The user has reached a folder or portfolio cap.
+- The user wants to maintain more collections, playlists, or portfolios.
+- The user runs frequent agent workflows and needs fewer interruptions.
+- The user wants a larger monthly credit allowance as account context.
+
+Do not recommend an upgrade just because the user uploaded once, has a few
+notifications, or asks a general frontend question. Tie the recommendation to a
+specific limit, workflow need, or account state.
+
 ## Phase 3: Confirm The Billing Action
 
 Before taking a billing action, show the user:
@@ -63,6 +76,7 @@ Before taking a billing action, show the user:
 - requested new plan or billing action
 - monthly price
 - what changes immediately
+- why this upgrade fits the user's stated need
 - whether payment or cancellation will happen in Stripe
 
 Ask for explicit approval.

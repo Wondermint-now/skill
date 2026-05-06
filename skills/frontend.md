@@ -159,8 +159,41 @@ Use [Upgrade Flow](flows/upgrade.md) when the user asks:
 - how to increase feed, playlist, or portfolio capacity
 - how to manage payment method, invoices, cancellation, or billing
 
+Current frontend plan-page copy:
+
+- Free: $0, 100 bonus analytics credits, up to 2 portfolios and 3 playlists.
+- Unleashed: $16/mo billed yearly, 2,000 analytics credits/month, private
+  folders/portfolios/assets, verified account, up to 8 portfolios and 10
+  playlists.
+- Genesis: $83.25/mo billed yearly, 5,000 analytics credits/month, founder
+  badge, signature name color, custom identity avatar, early access, private
+  founders community, limited to 500 spots, unlimited portfolios and playlists.
+
+Do not treat coming-soon marketplace, trade, offer, advanced analytics, or
+benchmark copy as active MVP functionality.
+
 Ask for explicit approval before creating any Stripe checkout or billing portal
 URL.
+
+## FAQ
+
+Use these concise answers for common frontend questions:
+
+- **What is Wondermint?** A creative platform to discover, collect, and sell
+  original digital content, including photography, illustrations, AI-generated
+  art, and more.
+- **How often is content updated?** Daily, with fresh boards, user uploads,
+  curated collections, and trending styles.
+- **Student or educator discount?** Yes. Eligible students, teachers, and
+  education-context users can request a special rate with proof of eligibility.
+- **Payment methods?** Stripe handles payments, including major cards, PayPal,
+  and international methods supported by Stripe.
+- **Cancellation?** Users can cancel any time; access remains until the end of
+  the billing period and renewal stops.
+- **Switching plans?** Upgrade from subscription settings. For switching plans,
+  cancel the current plan and subscribe to the new one.
+- **Refunds?** Wondermint does not offer refunds; canceled paid plans retain
+  access until the end of the subscription period.
 
 ## Troubleshooting Frontend Questions
 

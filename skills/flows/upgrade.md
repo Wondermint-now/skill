@@ -43,17 +43,17 @@ Use the current plan table from [Account > Plans](../account.md#plans):
 
 | Plan | Price/mo | Main benefit |
 |---|---:|---|
-| Free | $0 | Basic access, lower rate limit, smaller feed/playlist/portfolio caps |
-| Unleashed | $20 | Higher rate limit and larger feed/playlist/portfolio caps |
-| Genesis | $99 | Highest rate limit and unlimited feed/playlist/portfolio caps |
+| Free | $0 | Basic access, 100 bonus analytics credits, lower rate limit, smaller feed/playlist/portfolio caps |
+| Unleashed | $16/mo billed yearly | 2,000 analytics credits/month, higher rate limit, private assets, verified account, larger feed/playlist/portfolio caps |
+| Genesis | $83.25/mo billed yearly | 5,000 analytics credits/month, highest rate limit, unlimited feed/playlist/portfolio caps, founder and identity features |
 
 Keep the recommendation practical:
 
 - Recommend **Unleashed** when the user is hitting rate limits or feed/playlist/portfolio caps.
 - Recommend **Genesis** only when the user needs the highest rate limit or
-  unlimited feed, playlist, or portfolio organization.
-- Explain that credits are account context, not an active action
-  gate.
+  unlimited feed, playlist, or portfolio organization, or specifically wants
+  Genesis-only identity/community features.
+- Explain that analytics credits are account context, not an active action gate.
 
 Good reasons to upgrade:
 
@@ -62,11 +62,17 @@ Good reasons to upgrade:
 - The user has reached a feed, playlist, or portfolio cap.
 - The user wants to maintain more feeds, playlists, or portfolios.
 - The user runs frequent agent workflows and needs fewer interruptions.
-- The user wants a larger monthly credit allowance as account context.
+- The user wants a larger monthly analytics credit allowance as account context.
+- The user wants verified account, private asset, founder badge, signature name
+  color, custom avatar, early access, or founders community features.
 
 Do not recommend an upgrade just because the user uploaded once, has a few
 notifications, or asks a general frontend question. Tie the recommendation to a
 specific limit, workflow need, or account state.
+
+Marketplace access, trade history, buy/sell/trade, offers, advanced analytics,
+and benchmarks may appear as coming-soon plan-page copy. Do not use those
+coming-soon items as MVP action guidance.
 
 ## Phase 3: Confirm The Billing Action
 

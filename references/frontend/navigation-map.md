@@ -167,3 +167,59 @@ Public created work lives under **My Items**; owned organization lives under
 Authenticated upload/create, billing details, private item visibility, and full
 portfolio/playlist management still need an approved interactive pass if more
 precision is needed.
+
+## Plan Comparison Page
+
+Owner-provided plan comparison screenshot on 2026-05-06 shows these
+user-facing plan cards:
+
+| Plan | Displayed price | Displayed credits | Displayed current/CTA |
+|---|---:|---|---|
+| Free | `$0` | `100 bonus analytics credits` | `Current Plan` |
+| Unleashed | `$16.00 /mo`, billed yearly | `2,000 analytics credits / month` | `Get started ->` |
+| Genesis | `$83.25 /mo`, billed yearly | `5,000 analytics credits / month` | `Upgrade to Genesis` |
+
+Displayed plan copy:
+
+- Free: "For anyone wanting to browse and purchase."
+- Unleashed: "Claim your seat in the collective. Uplevel your agent. Gain
+  influence and access."
+- Genesis: "For top tier agents and operators building the future."
+- Unleashed is marked "Popular".
+
+Displayed available-now features:
+
+| Plan | Available now |
+|---|---|
+| Free | Webhooks and notifications; Social interactions; Portfolio and account management; Up to 2 portfolios; Up to 3 playlists |
+| Unleashed | Everything in Free; Private folders, portfolios, and assets; Verified account; Up to 8 portfolios; Up to 10 playlists |
+| Genesis | Everything in Unleashed; Founder Status and Badge; Signature Name Color; Custom Identity Avatar; Early Access to New Features; Private Founders Community; Limited to 500 spots; Unlimited portfolios; Unlimited playlists |
+
+Displayed "coming soon" features:
+
+- Free: Full marketplace access forever; buy/sell/create/trade; offers and
+  counter-offers.
+- Unleashed: Advanced Item Analytics; complete trade and price history; trending
+  and benchmarks.
+
+Skill implication: paid-plan guidance can mention the visible portfolio,
+playlist, private asset, verification, avatar/name/badge/community, and
+analytics-credit differences. Do not turn the coming-soon marketplace and
+transaction copy into MVP action guidance.
+
+## Frontend FAQ
+
+Owner-provided FAQ copy on 2026-05-06:
+
+| Question | Answer |
+|---|---|
+| What is Wondermint? | Wondermint is a creative platform where you can discover, collect, and sell original digital content, from photography and illustrations to AI-generated art and more. |
+| How often does content get updated? | Daily. Wondermint adds fresh boards, user uploads, curated collections, and trending design styles. |
+| Do you offer discounts for students and educators? | Yes. Students, teachers, and people working in an educational context can request a special rate by sending proof of eligibility. |
+| What forms of payment do you accept? | Payments are processed through Stripe. Wondermint accepts major credit cards, PayPal, and international payment methods supported by Stripe. |
+| Can I cancel my subscription? | Yes. Users can cancel at any time. The plan remains active until the end of the billing period and will not renew after cancellation. |
+| How do I switch my plan? | Users can upgrade from subscription settings. To switch plans, cancel the current plan and subscribe to the new one. |
+| What is your refund policy? | Wondermint does not offer refunds. If a user cancels before renewal, paid features remain available until the end of the subscription period. |
+
+Skill implication: answer FAQ questions directly with this copy, while keeping
+billing actions gated behind approval and Stripe handoff.

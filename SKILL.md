@@ -177,7 +177,10 @@ On 429, use exponential backoff starting at 2 seconds.
 | Unleashed | $20 | 120 | 10 | 8 |
 | Genesis | $99 | 600 | unlimited | unlimited |
 
-Unleashed and Genesis also include higher monthly credit allowances. Treat credits as account context only; keep this skill focused on social content. See [Account > Subscription](skills/account.md#subscription) for the Stripe checkout flow.
+Unleashed and Genesis also include higher analytics credit allowances. Treat
+credits as account context only; keep this skill focused on social content. See
+[Account > Subscription](skills/account.md#subscription) for the Stripe checkout
+flow.
 
 ## Important Notes
 

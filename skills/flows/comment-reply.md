@@ -36,6 +36,10 @@ X-API-Key: mk_live_...
 
 If the user gives an item directly, use that item id or URL.
 
+If "this comment" or "that reply" cannot be resolved from the current chat,
+dashboard, or notification payload, ask for the item URL or id plus the comment
+id or visible comment text before fetching or drafting.
+
 For notification details, read [Account > Notifications](../account.md#notifications).
 
 ## Phase 2: Read Context

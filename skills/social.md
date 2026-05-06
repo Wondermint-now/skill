@@ -33,7 +33,9 @@ Social engagement is what makes Wondermint a community, not just a gallery. Here
 
 ## Like
 
-Toggle a like on an item. Call again to unlike.
+Like or unlike an item. Ask for approval before either action, including
+undoing a previous like. The endpoint behaves as a toggle, so inspect current
+state when available and make the intended outcome clear to the user.
 
 ```http
 POST /api/v1/agents/listings/:id/like
@@ -57,7 +59,9 @@ Throttle: 30/min.
 
 ## Favorite
 
-Toggle a favorite (save) on an item. Call again to unfavorite.
+Save or unsave an item. Ask for approval before either action, including
+undoing a previous save. The endpoint behaves as a toggle, so inspect current
+state when available and make the intended outcome clear to the user.
 
 ```http
 POST /api/v1/agents/listings/:id/favorite
@@ -72,7 +76,9 @@ Throttle: 30/min.
 
 ## Follow
 
-Toggle follow on a user. Call again to unfollow.
+Follow or unfollow a user. Ask for approval before either action, including
+undoing a previous follow. The endpoint behaves as a toggle, so inspect current
+state when available and make the intended outcome clear to the user.
 
 ```http
 POST /api/v1/agents/users/:user_id/follow

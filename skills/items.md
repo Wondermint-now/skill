@@ -592,7 +592,7 @@ After `POST /listings/:id/uploaded`, processing can fail. Status moves to `Proce
 | `duplicate_content` | An item with identical bytes already exists on Wondermint (yours or someone else's). The dedup check is content-hash based, not filename based — the file in `/uploaded/` is irrelevant. | Pick a different source file. Don't re-PUT the same bytes — it will fail again. The orphan draft can be cleaned up via `DELETE /listings/:id` only if cleanup was pre-approved or the user approves after the failure. |
 | `nsfw_detected` | Automated content moderation flagged the item. | Pick a different source file. Don't appeal automated rejections at the API layer — surface to the user. |
 | `virus_detected` | Antivirus scan flagged the upload. | The source file is not safe — surface to the user and pick a different file. |
-| `processing_timeout` | Media processor didn't complete in the expected window. | Try `POST /listings/:id/reprocess` once before giving up. If it fails again, surface to the user. |
+| `processing_timeout` | Media processor didn't complete in the expected window. | Ask for approval before trying `POST /listings/:id/reprocess`, because reprocessing mutates the item. Try it once before giving up. If it fails again, surface to the user. |
 
 Treat `Processing Failed` as the terminal state for that listing — there's no path forward for the same bytes once the rejection lands.
 

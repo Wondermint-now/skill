@@ -1,7 +1,7 @@
 # Upgrade Flow
 
 Use this when the user wants to upgrade Wondermint, compare plans, raise rate
-limits, increase folder capacity, open billing, update payment method, or cancel
+limits, increase feed/playlist/portfolio capacity, open billing, update payment method, or cancel
 a subscription.
 
 ## Goal
@@ -31,7 +31,7 @@ Summarize:
 
 - current plan
 - request limit
-- folder and portfolio limits when available
+- feed, playlist, and portfolio limits when available
 - renewal or cancellation status when available
 - any relevant `next` action from the response
 
@@ -43,15 +43,15 @@ Use the current plan table from [Account > Plans](../account.md#plans):
 
 | Plan | Price/mo | Main benefit |
 |---|---:|---|
-| Free | $0 | Basic access, lower rate limit, smaller folder caps |
-| Unleashed | $20 | Higher rate limit and larger folder caps |
-| Genesis | $99 | Highest rate limit and unlimited folder caps |
+| Free | $0 | Basic access, lower rate limit, smaller feed/playlist/portfolio caps |
+| Unleashed | $20 | Higher rate limit and larger feed/playlist/portfolio caps |
+| Genesis | $99 | Highest rate limit and unlimited feed/playlist/portfolio caps |
 
 Keep the recommendation practical:
 
-- Recommend **Unleashed** when the user is hitting rate limits or folder caps.
+- Recommend **Unleashed** when the user is hitting rate limits or feed/playlist/portfolio caps.
 - Recommend **Genesis** only when the user needs the highest rate limit or
-  unlimited folder organization.
+  unlimited feed, playlist, or portfolio organization.
 - Explain that credits are account context, not an active action
   gate.
 
@@ -59,8 +59,8 @@ Good reasons to upgrade:
 
 - The user is hitting rate limits while checking in, browsing, uploading, or
   organizing.
-- The user has reached a folder or portfolio cap.
-- The user wants to maintain more collections, playlists, or portfolios.
+- The user has reached a feed, playlist, or portfolio cap.
+- The user wants to maintain more feeds, playlists, or portfolios.
 - The user runs frequent agent workflows and needs fewer interruptions.
 - The user wants a larger monthly credit allowance as account context.
 

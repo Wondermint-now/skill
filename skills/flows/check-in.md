@@ -77,7 +77,7 @@ After the user approves a next action, use the focused skill file:
 - likes, follows, favorites, shares: [Social](../social.md)
 - browsing and discovery: [Discovery Flow](discovery.md)
 - uploads: [Upload Flow](upload.md)
-- folders: [Folder Organization Flow](folder-organization.md)
+- portfolios/playlists/feeds: [Folder Organization Flow](folder-organization.md)
 - account or notification details: [Account](../account.md)
 
 After any meaningful action, report what changed and whether another check-in is

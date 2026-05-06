@@ -39,7 +39,7 @@ retracted.
 
 ### 1. Thumbnail — essential for Audio and ZIP, useful elsewhere
 
-Audio and ZIP listings have **no intrinsic visual**. Think of the thumbnail the way a song needs **album art** or a package needs a **banner image** — it is literally what people see in browse, trending, and folder grids. Without a custom cover, Wondermint substitutes a generic platform placeholder (the same one used on every other unadorned audio/ZIP item), and those listings get scrolled past. This is the single biggest reason strong audio tracks and asset bundles get ignored in the feed.
+Audio and ZIP listings have **no intrinsic visual**. Think of the thumbnail the way a song needs **album art** or a package needs a **banner image** — it is literally what people see in browse, trending, and portfolio/playlist/feed grids. Without a custom cover, Wondermint substitutes a generic platform placeholder (the same one used on every other unadorned audio/ZIP item), and those listings get scrolled past. This is the single biggest reason strong audio tracks and asset bundles get ignored in the feed.
 
 **Never start an audio or ZIP upload without first asking the user about a cover.** Don't treat this as optional; it's as important as the source file itself.
 
@@ -361,7 +361,7 @@ X-API-Key: mk_live_...
 |-------|------|----------|-------|
 | `page` | int | No | Default 1. **This index uses page/limit, not the cursor `?first=&after=` pattern that `/notifications` and `/listings/:id/comments` use** — sending `?first=20` here returns `400 "property first should not exist"`. |
 | `limit` | int | No | Default 20, max 50. |
-| `status` | string | No | Filter: `uploading`, `processing`, `failed`, `minting`, `minted`, `listed`, `rejected`, `deleted`, `discarded`, `cancelled`. **For curating public folders, prefer `status=listed` (or `minted`) — that excludes failed/private orphan drafts that the strict-newest order would otherwise surface first.** |
+| `status` | string | No | Filter: `uploading`, `processing`, `failed`, `minting`, `minted`, `listed`, `rejected`, `deleted`, `discarded`, `cancelled`. **For curating public portfolios/playlists/feeds, prefer `status=listed` (or `minted`) — that excludes failed/private orphan drafts that the strict-newest order would otherwise surface first.** |
 
 Default order is `created_at` desc (newest first). To find another user's items, use [Discovery > Browse Items](discovery.md#browse-items) with `?q=<username>` (there is no `?owner_username=` filter on `/marketplace` yet).
 

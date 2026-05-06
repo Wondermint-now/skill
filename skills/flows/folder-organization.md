@@ -1,20 +1,24 @@
-# Folder Organization Flow
+# Portfolio, Playlist, And Feed Organization Flow
 
 Use this when the user wants to organize Wondermint items into portfolios,
-collections, or playlists.
+playlists, or feeds.
 
 ## Goal
 
-Help the user make a clear folder structure, place the right items in it, and
+Help the user make a clear organization structure, place the right items in it, and
 avoid plan-limit surprises.
 
-## Phase 1: Clarify The Folder Job
+## Phase 1: Clarify The Organization Job
 
-Ask what the folder is for:
+Ask what the destination is for:
 
 - showcasing the user's own work: use `PORTFOLIO`
-- curating any creator's work: use `COLLECTION`
+- curating any creator's work as a feed: use `COLLECTION`
 - building an ordered sequence: use `PLAYLIST`
+
+Use frontend terms in conversation: portfolio, playlist, and feed. Do not say
+"folder" or "collection" to the user unless quoting an API path, enum, or
+server response.
 
 Also clarify visibility:
 
@@ -22,7 +26,7 @@ Also clarify visibility:
 - `PRIVATE` if it is for personal organization
 
 If the user asks for their "best" items, ask what "best" means before changing
-folders. Good defaults to offer are user-selected picks, highest likes, highest
+portfolios, playlists, or feeds. Good defaults to offer are user-selected picks, highest likes, highest
 views, highest comments, or most recent finished uploads. Show the proposed
 item list and get approval before adding, moving, removing, or reordering items.
 
@@ -35,14 +39,14 @@ For "best images" when the user wants the agent to choose candidates:
    shortlist using likes, views, comments, and recency. For exact owned-item
    metrics, fetch `GET /api/v1/agents/listings/:id/metrics`.
 4. Show the candidate item names and ids.
-5. Get approval before adding or moving them into the folder.
+5. Get approval before adding or moving them into the destination.
 
 Do not use `PROFILE` or `FAVORITES` for manual organization. They are
 system-managed folders.
 
-## Phase 2: Inspect Existing Folders
+## Phase 2: Inspect Existing Destinations
 
-List folders before creating or changing anything:
+List existing portfolios, playlists, and feeds before creating or changing anything:
 
 ```http
 GET /api/v1/agents/folders
@@ -56,14 +60,15 @@ GET /api/v1/agents/folders?type=PORTFOLIO
 X-API-Key: mk_live_...
 ```
 
-Folder responses may use camelCase response keys even when request bodies use
+Folder API responses may use camelCase response keys even when request bodies use
 snake_case.
 
-Prefer reusing an existing folder when it clearly matches the user's intent.
+Prefer reusing an existing portfolio, playlist, or feed when it clearly matches
+the user's intent.
 
-## Phase 3: Create Or Update The Folder
+## Phase 3: Create Or Update The Destination
 
-For a new folder:
+For a new portfolio, playlist, or feed:
 
 ```http
 POST /api/v1/agents/folders
@@ -90,8 +95,8 @@ Content-Type: application/json
 }
 ```
 
-Ask before creating, renaming, deleting, or changing visibility. Public folders
-affect the user's Wondermint presence.
+Ask before creating, renaming, deleting, or changing visibility. Public
+portfolios, playlists, and feeds affect the user's Wondermint presence.
 
 ## Phase 4: Add, Remove, Move, Or Reorder Items
 
@@ -147,28 +152,30 @@ Include `limit`; omitting it can fail.
 
 ## Phase 5: Handle Folder Limits
 
-Free, Unleashed, and Genesis have different folder caps. If creation returns
+Free, Unleashed, and Genesis have different portfolio/feed/playlist caps. If creation returns
 `FOLDER_CAP_REACHED`, read `details.plan`, `details.folder_type`,
 `details.limit`, `details.current`, and `next.options[]`.
 
 Recovery options usually are:
 
-- delete an existing folder of the capped family
+- delete an existing portfolio, feed, or playlist of the capped family
 - upgrade through the [Upgrade Flow](upgrade.md)
-- reuse an existing folder
+- reuse an existing portfolio, feed, or playlist
 
-Ask the user to choose and approve the exact recovery before deleting a folder,
-starting checkout, reusing an existing folder, or moving/adding items into a
-reused folder. Prefer the server's `next.options[]` when present.
+Ask the user to choose and approve the exact recovery before deleting a
+portfolio, feed, or playlist, starting checkout, reusing an existing
+destination, or moving/adding items into a reused destination. Prefer the
+server's `next.options[]` when present.
 
-`COLLECTION` and `PLAYLIST` share one cap. `PORTFOLIO` has its own cap.
+Feeds (`COLLECTION`) and playlists share one cap. Portfolios (`PORTFOLIO`) have
+their own cap.
 
 ## Final Report
 
 Tell the user:
 
-- which folder was used or created
+- which portfolio, playlist, or feed was used or created
 - whether it is public or private
 - which items were added, removed, moved, or reordered
 - any cap or visibility caveat
-- what they can do next, such as sharing the folder or adding more items
+- what they can do next, such as sharing it or adding more items

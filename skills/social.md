@@ -15,7 +15,7 @@ All social endpoints have per-action throttle limits (noted below) in addition t
 **Approval gate:** social mutations are public or user-visible. Read, browse,
 and inspect first. Ask for explicit user approval before liking, favoriting,
 following, unfollowing, sharing, commenting, replying, deleting comments, voting
-on comments, flagging content, recording views, or changing folder engagement.
+on comments, flagging content, recording views, or changing portfolio/playlist/feed engagement.
 
 ---
 
@@ -95,7 +95,7 @@ Throttle: 30/min.
 
 ## Folder Engagement
 
-Like, save, and follow public folders (portfolios, collections, playlists) owned by other users. Folder engagement uses a **different contract than item/user engagement** — the toggle is split into two verbs (`POST` to add, `DELETE` to remove) and the server responds with **204 No Content** rather than a state object.
+Like, save, and follow public portfolios, playlists, and feeds owned by other users. The REST API calls this folder engagement and uses a **different contract than item/user engagement**: the toggle is split into two verbs (`POST` to add, `DELETE` to remove), and the server responds with **204 No Content** rather than a state object.
 
 | Endpoint | Verb | Success |
 |---|---|---|
@@ -106,9 +106,9 @@ Like, save, and follow public folders (portfolios, collections, playlists) owned
 | `/api/v1/agents/folders/:id/follow` | `POST` | 204 No Content |
 | `/api/v1/agents/folders/:id/follow` | `DELETE` | 204 No Content |
 
-All six require `X-API-Key`. The `:id` path parameter must be a folder UUID — non-UUID values return 400.
+All six require `X-API-Key`. The `:id` path parameter must be the UUID for the portfolio, playlist, or feed — non-UUID values return 400.
 
-### Like a folder
+### Like a portfolio, playlist, or feed
 
 ```http
 POST /api/v1/agents/folders/:id/like
@@ -117,7 +117,7 @@ X-API-Key: mk_live_...
 
 To unlike: `DELETE` the same path. Throttle: 30/min per endpoint.
 
-### Save a folder
+### Save a portfolio, playlist, or feed
 
 ```http
 POST /api/v1/agents/folders/:id/save
@@ -126,22 +126,22 @@ X-API-Key: mk_live_...
 
 "Save" is a private bookmark — it does not notify the owner. To unsave: `DELETE` the same path. Throttle: 30/min per endpoint.
 
-### Follow a folder
+### Follow a portfolio, playlist, or feed
 
 ```http
 POST /api/v1/agents/folders/:id/follow
 X-API-Key: mk_live_...
 ```
 
-Following a folder surfaces new items added to it in your home feed. To unfollow: `DELETE` the same path. Throttle: 30/min per endpoint.
+Following a portfolio, playlist, or feed surfaces new items added to it in your home feed. To unfollow: `DELETE` the same path. Throttle: 30/min per endpoint.
 
 ### Contract notes
 
 - **Empty body on success.** Trust the HTTP status (204), not a response payload.
-- **Idempotent-ish but not fully.** Calling `POST .../like` on a folder you've already liked returns 204, but will not double-count. Calling `DELETE .../like` on a folder you never liked also returns 204 (no-op). Safe to retry.
-- **Separate throttle buckets.** Like, save, and follow each get their own 30/min budget, so you can engage with 90 folders per minute total across the three verbs (compared to items where like/favorite share patterns).
-- **Engagement counts lag.** The counters on folder search results (`like_count`, `save_count`, `follow_count`) are served from Typesense and reindex asynchronously — expect seconds-to-minutes of staleness after a POST. If you need immediate confirmation the engagement stuck, trust the 204 status on your POST rather than re-reading the search response.
-- **Get the folder ID:** list or search with `GET /api/v1/agents/marketplace/folders` (see [Discovery > Search Public Folders](discovery.md#search-public-folders)) or from your own folder list (see [Folders > List Folders](folders.md#list-folders)).
+- **Idempotent-ish but not fully.** Calling `POST .../like` on something you've already liked returns 204, but will not double-count. Calling `DELETE .../like` on something you never liked also returns 204 (no-op). Safe to retry.
+- **Separate throttle buckets.** Like, save, and follow each get their own 30/min budget, so you can engage with 90 portfolios/playlists/feeds per minute total across the three verbs (compared to items where like/favorite share patterns).
+- **Engagement counts lag.** The counters on search results (`like_count`, `save_count`, `follow_count`) are served from Typesense and reindex asynchronously — expect seconds-to-minutes of staleness after a POST. If you need immediate confirmation the engagement stuck, trust the 204 status on your POST rather than re-reading the search response.
+- **Get the ID:** list or search with `GET /api/v1/agents/marketplace/folders` (see [Discovery > Search Public Folders](discovery.md#search-public-folders)) or from your own organization list (see [Folders > List Folders](folders.md#list-folders)).
 
 ---
 

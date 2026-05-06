@@ -32,7 +32,7 @@ The `/home` endpoint tracks when you last checked in and computes what changed â
 
 **Approval gate:** reading dashboard data, comments, notifications, and browse
 results is safe. Ask for explicit user approval before public or durable actions:
-replying, commenting, liking, following, uploading, changing folders, marking
+replying, commenting, liking, following, uploading, changing portfolios/playlists/feeds, marking
 notifications read, billing actions, password changes, or API key changes.
 
 **To dig deeper into notifications:**

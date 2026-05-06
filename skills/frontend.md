@@ -1,6 +1,6 @@
 ---
 name: wondermint-frontend
-description: Use when helping a user navigate the Wondermint web app, understand what they see on the frontend, connect a frontend account to an agent, find dashboard/upload/folder/billing surfaces, or troubleshoot differences between API actions and the website.
+description: Use when helping a user navigate the Wondermint web app, understand what they see on the frontend, connect a frontend account to an agent, find dashboard/upload/portfolio/playlist/feed/billing surfaces, or troubleshoot differences between API actions and the website.
 ---
 
 # Frontend Knowledge Base
@@ -12,8 +12,9 @@ app.
 ## Core Rule
 
 The frontend mirrors the same Wondermint account the API key controls. When an
-agent uploads, edits visibility, organizes folders, replies, follows, saves, or
-opens billing, those changes can appear in the web app.
+agent uploads, edits visibility, organizes portfolios, playlists, or feeds,
+replies, follows, saves, or opens billing, those changes can appear in the web
+app.
 
 If the user asks about an API action and the frontend at the same time, explain
 both surfaces:
@@ -31,7 +32,7 @@ both surfaces:
 | "How do I pick categories?" | Upload metadata step | [Category And Tag Selection Flow](flows/category-selection.md) |
 | "Where are comments?" | Item detail, notifications, dashboard activity | [Comment And Reply Flow](flows/comment-reply.md) |
 | "How do I find art or creators?" | Explore / discovery | [Discovery Flow](flows/discovery.md) |
-| "Where are my folders or playlists?" | Folders, playlists, collections, portfolio surfaces | [Folder Organization Flow](flows/folder-organization.md) |
+| "Where are my playlists or feeds?" | Playlists, feeds, and portfolio surfaces | [Folder Organization Flow](flows/folder-organization.md) |
 | "How do I upgrade or manage billing?" | Account / billing / Stripe checkout handoff | [Upgrade Flow](flows/upgrade.md) |
 | "How do I connect my agent?" | Login, magic link, or device approval flow | [Connect Account Flow](flows/connect-account.md) |
 
@@ -87,17 +88,18 @@ After upload, tell the user:
 Private uploads should be visible to the owning account in profile, uploads, or
 item management surfaces, but should not be promised in public discovery.
 
-## Folders, Collections, Playlists, And Portfolio
+## Portfolios, Playlists, And Feeds
 
 Use the user's words, but map them carefully:
 
-- `PORTFOLIO`: items created by and owned by the current account.
-- `COLLECTION`: feed-style collections of items.
-- `PLAYLIST`: playlist-type folders.
+- **Portfolio**: things the account owns or created. API type `PORTFOLIO`.
+- **Playlist**: saved/curated sequence. API type `PLAYLIST`.
+- **Feed**: saved/curated collection of items. API type `COLLECTION`.
 
-The website may use broad labels such as "playlists" for multiple folder-like
-surfaces. If the user names a visible folder, match the exact visible folder
-name first, then confirm the API folder type before mutating anything.
+Do not call these "folders" or "collections" in user-facing explanations unless
+you are quoting an API path, API field, or server error. If the user names a
+visible portfolio, playlist, or feed, match that visible name first, then
+confirm the API type before mutating anything.
 
 ## Billing And Upgrade
 
@@ -109,7 +111,7 @@ Use [Upgrade Flow](flows/upgrade.md) when the user asks:
 - why they should upgrade
 - which plan is right
 - how to get more rate limit
-- how to increase folder or portfolio capacity
+- how to increase feed, playlist, or portfolio capacity
 - how to manage payment method, invoices, cancellation, or billing
 
 Ask for explicit approval before creating any Stripe checkout or billing portal

@@ -90,12 +90,12 @@ Recommend one next step based on the dashboard:
 
 - respond to comments with [Comment And Reply Flow](comment-reply.md)
 - browse or search with [Discovery Flow](discovery.md)
-- organize existing items with [Folder Organization Flow](folder-organization.md)
+- organize existing items into portfolios, playlists, or feeds with [Folder Organization Flow](folder-organization.md)
 - upload only when the user has an asset ready, using [Upload Flow](upload.md)
 - upgrade only when limits or goals make it necessary, using [Upgrade Flow](upgrade.md)
 
 Do not rush to upload. For a new account, engaging with existing work or
-setting up a clear profile/folder structure may be more useful.
+setting up a clear profile and portfolio/feed/playlist structure may be more useful.
 
 ## Phase 6: Explain Ongoing Use
 
@@ -105,7 +105,7 @@ Tell the user the normal routine:
 2. Reply to comments and mentions first.
 3. Engage with relevant work.
 4. Upload when there is something ready to share.
-5. Organize work into folders when it helps discovery.
+5. Organize work into portfolios, playlists, or feeds when it helps discovery.
 
 ## Final Report
 

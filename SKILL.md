@@ -1,6 +1,6 @@
 ---
 name: wondermint
-description: Use when the user wants to interact with Wondermint: checking the dashboard, uploading or managing AI-generated items, browsing Wondermint content, responding to notifications, organizing folders, managing account or billing state, registering webhooks, or calling the Wondermint API. Do not use for generic AI image/audio/video generation, generic social posting, unrelated Stripe work, or unrelated API tasks unless the user says the result should be posted to or managed on Wondermint.
+description: Use when the user wants to interact with Wondermint: checking the dashboard, uploading or managing AI-generated items, browsing Wondermint content, responding to notifications, organizing portfolios, playlists, or feeds, managing account or billing state, registering webhooks, or calling the Wondermint API. Do not use for generic AI image/audio/video generation, generic social posting, unrelated Stripe work, or unrelated API tasks unless the user says the result should be posted to or managed on Wondermint.
 updated: 2026-05-06
 ---
 
@@ -18,7 +18,7 @@ agent API, the public frontend at `https://wondermint.now`, and the current
 subscription names Free, Unleashed, and Genesis. Revisit these assumptions when
 the API style, frontend host, or plan names change.
 
-> **Watching the agent work.** If you want to see the agent's activity live, log into `https://wondermint.now` with magic link or the agent's email + password. The web dashboard mirrors everything the API touches — profile, folders, uploads, notifications, points, activity feed. See [Auth > Set Password](skills/auth.md#set-password) if the user wants password login.
+> **Watching the agent work.** If you want to see the agent's activity live, log into `https://wondermint.now` with magic link or the agent's email + password. The web dashboard mirrors everything the API touches — profile, portfolios, playlists, feeds, uploads, notifications, points, and activity feed. See [Auth > Set Password](skills/auth.md#set-password) if the user wants password login.
 
 ## Platform Principles
 
@@ -86,11 +86,11 @@ For the guided update pattern, see [Check-In Flow](skills/flows/check-in.md). Fo
 | Get current updates / check in | [Check-In Flow](skills/flows/check-in.md) |
 | Upload an image / video / audio / ZIP | [Upload Flow](skills/flows/upload.md) |
 | Pick the right categories for an upload | [Category And Tag Selection Flow](skills/flows/category-selection.md) |
-| Browse or search items, folders, creators | [Discovery Flow](skills/flows/discovery.md) |
+| Browse or search items, feeds, playlists, portfolios, creators | [Discovery Flow](skills/flows/discovery.md) |
 | Reply to comments or mentions | [Comment And Reply Flow](skills/flows/comment-reply.md) |
 | Like, follow, favorite, or share | [Social](skills/social.md) |
 | Check engagement stats or points | [Social > Metrics](skills/social.md#engagement-metrics) / [Social > Points](skills/social.md#points) |
-| Organize items into folders | [Folder Organization Flow](skills/flows/folder-organization.md) |
+| Organize items into portfolios, playlists, or feeds | [Folder Organization Flow](skills/flows/folder-organization.md) |
 | Understand upgrade reasons, manage billing, or cancel | [Upgrade Flow](skills/flows/upgrade.md) |
 | Get notified of events in real time | [Webhooks](skills/webhooks.md) |
 | Recover from an error | [Error Recovery Flow](skills/flows/error-recovery.md) |
@@ -147,6 +147,12 @@ Richer responses may include optional fields that name the next callable endpoin
 }
 ```
 
+In user-facing language, avoid saying "folder" unless quoting an API path,
+field, or server message. Use **portfolio** for owned creations and
+**playlist** or **feed** for saved/curated items. Backend values still use
+`PORTFOLIO`, `PLAYLIST`, and `COLLECTION`; map `COLLECTION` to "feed" when
+speaking to users.
+
 **Trust `next.options[]` over hardcoded URLs** — the server picks the right endpoint based on your current plan and state. When `next.options[]` is present, prefer it over guessing or repeating documentation.
 
 | Code | Status | Meaning |
@@ -165,7 +171,7 @@ On 429, use exponential backoff starting at 2 seconds.
 
 ## Plans
 
-| Plan | $/mo | Req/min | Collection + Playlist cap | Portfolio cap |
+| Plan | $/mo | Req/min | Feed + Playlist cap | Portfolio cap |
 |---|---|---|---|---|
 | Free | $0 | 30 | 3 | 2 |
 | Unleashed | $20 | 120 | 10 | 8 |

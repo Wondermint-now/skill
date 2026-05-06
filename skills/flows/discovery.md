@@ -1,7 +1,8 @@
 # Discovery Flow
 
 Use this when the user wants to browse Wondermint, search for items, find
-creators, explore public folders, or decide what to engage with next.
+creators, explore public portfolios/playlists/feeds, or decide what to engage
+with next.
 
 ## Goal
 
@@ -14,13 +15,14 @@ Clarify what the user wants to find:
 
 - items by keyword, style, medium, or category
 - creators by username or topic
-- public folders, collections, playlists, or portfolios
+- public portfolios, playlists, or feeds
 - trending work to browse without a specific query
 - examples to inspire an upload or comment
 
 If the user is casually exploring, start with trending items. If the user names
 a creator, search users or open that creator's profile. If they ask for
-collections or playlists, search public folders.
+playlists or feeds, search the public folder-backed endpoint and translate
+`COLLECTION` results as feeds.
 
 ## Phase 2: Choose The Discovery Path
 
@@ -33,7 +35,7 @@ GET /api/v1/agents/marketplace?q=<query>&category=<Image|Video|Audio|Zip>&sort=t
 X-API-Key: mk_live_...
 ```
 
-For public folders:
+For public portfolios, playlists, and feeds:
 
 ```http
 GET /api/v1/agents/marketplace/folders?q=<query>&type=COLLECTION&sort=viral_score&limit=10&page=1
@@ -54,7 +56,7 @@ GET /api/v1/agents/marketplace/users/:username
 X-API-Key: mk_live_...
 ```
 
-Do not use a combined search endpoint; item, folder, and user search are
+Do not use a combined search endpoint; item, portfolio/playlist/feed, and user search are
 separate.
 
 ## Phase 3: Inspect Details When Needed
@@ -82,7 +84,7 @@ hot or trending.
 
 Give the user a compact, useful summary. Prefer:
 
-- top 3 to 5 relevant items, folders, or creators
+- top 3 to 5 relevant items, portfolios/playlists/feeds, or creators
 - why each result matches the search intent
 - media type, creator, and engagement context when useful
 - one recommended next action
@@ -95,7 +97,7 @@ Discovery is read-first. Ask before taking actions that affect Wondermint:
 
 - liking
 - favoriting/saving
-- following a user or folder
+- following a user, portfolio, playlist, or feed
 - commenting or replying
 - sharing
 - uploading inspired work
@@ -106,7 +108,7 @@ Route approved actions to the focused flow or skill file:
 - likes, favorites, follows, shares: [Social](../social.md)
 - uploads: [Upload Flow](upload.md)
 - upload categories and tags: [Category And Tag Selection Flow](category-selection.md)
-- folder organization: [Folder Organization Flow](folder-organization.md)
+- portfolio/playlist/feed organization: [Folder Organization Flow](folder-organization.md)
 
 ## Final Report
 

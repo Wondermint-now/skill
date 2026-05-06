@@ -51,9 +51,9 @@ For `FOLDER_CAP_REACHED`:
 - read `details.plan`, `details.folder_type`, `details.limit`, and
   `details.current`
 - prefer `next.options[]` when present
-- offer to delete/reuse a folder or use the [Upgrade Flow](upgrade.md)
+- offer to delete/reuse a portfolio, playlist, or feed, or use the [Upgrade Flow](upgrade.md)
 - ask the user to choose and approve the exact recovery before deleting a
-  folder, reusing a folder, moving/adding items into a reused folder, or
+  portfolio/playlist/feed, reusing one, moving/adding items into a reused destination, or
   starting checkout
 - remember `COLLECTION` and `PLAYLIST` share one cap
 
@@ -92,7 +92,7 @@ Only retry automatically when the action is read-only or clearly transient:
 - not-found caused by a stale username or id after re-resolving
 
 Ask before retrying mutating actions such as uploads, comments, follows,
-folder changes, billing actions, password changes, or API key regeneration.
+portfolio/playlist/feed changes, billing actions, password changes, or API key regeneration.
 
 Use idempotency keys for listing creation attempts when available.
 

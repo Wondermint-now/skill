@@ -1,27 +1,34 @@
 ---
 name: wondermint-folders
-description: Organize Wondermint items into portfolios (your creations), collections (curated from anyone), and playlists (video/audio sequences). Create, list, update, delete folders, add/remove items, reorder, and move between folders. Use when organizing content, creating playlists, or curating collections.
+description: Organize Wondermint items into portfolios (owned creations), feeds (saved/curated items), and playlists. Create, list, update, delete API folders, add/remove items, reorder, and move between portfolios. Use when organizing content, creating playlists, or curating feeds.
 ---
 
-# Folders & Collections
+# Portfolios, Playlists, And Feeds
 
-Organize items into portfolios, collections, and playlists.
+Organize items into portfolios, feeds, and playlists.
 
 **Base URL:** use the configured Wondermint API base URL.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 **Route prefix:** `/api/v1/agents/folders`
 **Throttle:** 30 req/min on all folder endpoints.
 
+**Frontend terminology:** say **portfolio** for items the user owns,
+**playlist** for playlist surfaces, and **feed** for saved/curated item
+collections. The REST API still uses `/folders` paths and the enum
+`COLLECTION`; use those backend terms only in endpoint examples,
+request/response fields, or quoted server errors.
+
 > **Casing exception — folder responses are camelCase.** Most agent responses are snake_case, but folder endpoints (`GET /agents/folders`, `GET /agents/folders/:id`, related browse-list responses) return **camelCase** keys: `createdAt`, `updatedAt`, `ownerId`, `thumbnailUrl`, `listingCount`, `viralScore`, `likeCount`, `followCount`, `saveCount`, `hasMore`. Request bodies still use snake_case (`listing_id`, `after_id`, `before_id`, `target_folder_id`). Treat folder responses as camelCase.
 
-**Approval gate:** listing folders and folder contents is safe. Ask for explicit
-user approval before creating, renaming, deleting, changing visibility, adding
-items, removing items, moving items, or reordering items. Public folders affect
-the user's Wondermint presence.
+**Approval gate:** listing portfolios, playlists, feeds, and their contents is
+safe. Ask for explicit user approval before creating, renaming, deleting,
+changing visibility, adding items, removing items, moving items, or reordering
+items. Public portfolios, playlists, and feeds affect the user's Wondermint
+presence.
 
 > **Related endpoints:**
-> - Browse/search public folders → [Discovery > Search Public Folders](discovery.md#search-public-folders)
-> - Like, save, or follow another user's folder → [Social > Folder Engagement](social.md#folder-engagement)
+> - Browse/search public portfolios, playlists, and feeds → [Discovery > Search Public Folders](discovery.md#search-public-folders)
+> - Like, save, or follow another user's portfolio, playlist, or feed → [Social > Folder Engagement](social.md#folder-engagement)
 
 ---
 
@@ -29,8 +36,8 @@ the user's Wondermint presence.
 
 | Type | Purpose | Notes |
 |------|---------|-------|
-| `PORTFOLIO` | Your own creations, organized | Items you uploaded. |
-| `COLLECTION` | Curated items from any creator | Save others' items. |
+| `PORTFOLIO` | Portfolio | Your own uploaded creations. |
+| `COLLECTION` | Feed | Saved/curated items from any creator. |
 | `PLAYLIST` | Ordered sequence of items | Accepts any media type (Image, Video, Audio, Zip). |
 | `PROFILE` | Auto-managed system folder | Cannot manually add/remove. Created automatically. |
 
@@ -38,15 +45,15 @@ Visibility: `PUBLIC` (default) or `PRIVATE`.
 
 ### Plan limits
 
-Folder caps are split by type-family — `COLLECTION` and `PLAYLIST` share one cap, `PORTFOLIO` has its own. `PROFILE` and `FAVORITES` are system folders and don't count.
+Caps are split by type-family: feeds (`COLLECTION`) and playlists share one cap, while portfolios (`PORTFOLIO`) have their own. `PROFILE` and `FAVORITES` are system folders and don't count.
 
-| Plan | Folders (Collection + Playlist) | Portfolios |
+| Plan | Feeds + Playlists | Portfolios |
 |------|----------------------------------|------------|
 | Free | 3 | 2 |
 | Unleashed | 10 | 8 |
 | Genesis | unlimited | unlimited |
 
-Hitting the cap returns `403` with `code: FOLDER_CAP_REACHED`. The response's `details` field carries `{plan, folder_type, limit, current}` so you can decide whether to delete an existing folder or upgrade. See [Account > Subscribe to Unleashed](account.md#subscribe-to-unleashed) and the [Errors & Recovery](#folder-caps) section below.
+Hitting the cap returns `403` with `code: FOLDER_CAP_REACHED`. The response's `details` field carries `{plan, folder_type, limit, current}` so you can decide whether to delete an existing portfolio/feed/playlist or upgrade. See [Account > Subscribe to Unleashed](account.md#subscribe-to-unleashed) and the [Errors & Recovery](#folder-caps) section below.
 
 ---
 
@@ -183,10 +190,10 @@ Content-Type: application/json
 { "listing_id": "019d8799-..." }
 ```
 
-Behavior depends on folder type:
+Behavior depends on API folder type:
 - **PORTFOLIO:** Moves your own item into this portfolio.
-- **COLLECTION:** Saves the item to the folder (can be anyone's item).
-- **PLAYLIST:** Saves the item. Accepts any media type (image, video, audio, zip).
+- **COLLECTION:** Saves the item to a feed (can be anyone's item).
+- **PLAYLIST:** Saves the item to a playlist. Accepts any media type (image, video, audio, zip).
 - **PROFILE / FAVORITES:** Returns 400 — cannot manually add to system folders.
 
 ---
@@ -236,7 +243,7 @@ Content-Type: application/json
 { "target_folder_id": "019d878d-..." }
 ```
 
-Moves an item between portfolio folders. The target must be a `PORTFOLIO` folder — moving to a collection or playlist returns 400.
+Moves an item between portfolios. The target must be a `PORTFOLIO` API folder — moving to a feed (`COLLECTION`) or playlist returns 400.
 
 ---
 
@@ -246,18 +253,18 @@ Folder endpoints use the standard envelope. Agent-facing fine-grained codes:
 
 ### Folder caps
 
-**403 `FOLDER_CAP_REACHED`** — You've hit the cap for this folder type on your plan.
+**403 `FOLDER_CAP_REACHED`** — You've hit the cap for this portfolio/feed/playlist type on your plan.
 - `details.plan` / `details.folder_type` / `details.limit` / `details.current` tell you exactly where you are.
 - Prefer the server's `next.options[]` when present.
-- Recovery is usually deleting a folder of this type (`DELETE /api/v1/agents/folders/:id`) or upgrading (`POST /api/v1/agents/subscription/checkout` with `{"plan": "unleashed"}` — see [Account > Subscribe to Unleashed](account.md#subscribe-to-unleashed)).
-- Ask for explicit approval before deleting a folder or starting checkout.
-- **Shared cap caveat.** `COLLECTION` and `PLAYLIST` share one cap. The error's `details.folder_type` will name *one* of them, but deleting a folder of *either* type frees a slot for either. `PORTFOLIO` has its own separate cap.
+- Recovery is usually deleting a portfolio/feed/playlist of this type (`DELETE /api/v1/agents/folders/:id`) or upgrading (`POST /api/v1/agents/subscription/checkout` with `{"plan": "unleashed"}` — see [Account > Subscribe to Unleashed](account.md#subscribe-to-unleashed)).
+- Ask for explicit approval before deleting a portfolio/feed/playlist or starting checkout.
+- **Shared cap caveat.** Feeds (`COLLECTION`) and playlists share one cap. The error's `details.folder_type` will name *one* of them, but deleting either type frees a slot for either. Portfolios (`PORTFOLIO`) have their own separate cap.
 - The `details.folder_type` value is the uppercase enum (`COLLECTION`, `PLAYLIST`, `PORTFOLIO`) — same shape you sent in the create payload.
 
 ### System folders
 
-**400** — System folders (`PROFILE`, `FAVORITES`) reject manual updates, deletes, and direct `listings` adds. These folders are created and maintained automatically. If you want a folder you can manage, create a `PORTFOLIO`, `COLLECTION`, or `PLAYLIST` instead.
+**400** — System folders (`PROFILE`, `FAVORITES`) reject manual updates, deletes, and direct `listings` adds. These folders are created and maintained automatically. If you want a user-manageable destination, create a portfolio (`PORTFOLIO`), feed (`COLLECTION`), or playlist (`PLAYLIST`) instead.
 
 ### Reorder
 
-**400 INVALID_REORDER_REFERENCE** — `after_id` or `before_id` referenced a listing that isn't in this folder (possibly because the folder was reordered or items moved since you fetched). Re-fetch the folder's listings via `GET /api/v1/agents/folders/:id/listings` and rebuild the reorder payload.
+**400 INVALID_REORDER_REFERENCE** — `after_id` or `before_id` referenced a listing that isn't in this portfolio/playlist/feed (possibly because it was reordered or items moved since you fetched). Re-fetch its listings via `GET /api/v1/agents/folders/:id/listings` and rebuild the reorder payload.

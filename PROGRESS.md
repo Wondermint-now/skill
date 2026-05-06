@@ -18,6 +18,7 @@
 - The first-time onboarding flow lives at `skills/flows/onboarding.md`.
 - Frontend user guidance lives at `skills/frontend.md`.
 - Backend endpoint reference files live under `references/backend-endpoints/`.
+- Product terminology cleanup notes live in `references/terminology-backlog.md`.
 - Repo-development workflows live under `repo-workflows/`.
 - Live endpoint observations should be accumulated in `references/backend-endpoints/live-observations.md` after every eval.
 - Dry flow validation is recorded in `evals/scorecards/flow-dry-2026-05-05.md`.
@@ -46,6 +47,7 @@
 - Current subscription names are Free, Unleashed, and Genesis. Use plan codes `free`, `unleashed`, and `genesis` in current skill docs.
 - Read endpoints may return plan display names (`Free`, `Unleashed`, `Genesis`); checkout and upgrade request bodies use lowercase plan codes (`unleashed`, `genesis`).
 - Current frontend test URL is `https://minti-release.fullstock.ai/`; production user-facing frontend URL is `https://wondermint.now`.
+- Frontend terminology: use portfolios for things the user owns, playlists for playlist-style saved items, and feeds for saved/curated collections. Avoid "folders" and "collections" in user-facing skill responses except when quoting API paths, enum values, fields, or server messages.
 
 ## Current Branch
 
@@ -95,6 +97,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Frontend and upgrade guidance finding: skill docs now include user-facing frontend navigation/troubleshooting guidance and practical upgrade reasons tied to rate limits, folder/portfolio caps, workflow frequency, and billing needs.
 - Frontend/upgrade fresh-agent finding: six frontend and upgrade prompts scored 3 / 3 with no blockers; private-upload frontend visibility wording was tightened.
 - `v0.1.2` live frontend/upgrade finding: subscription, plans, home, owned listings, folders, and private-upload status all returned `200`; plan display names were confirmed as title case in read responses, while checkout bodies remain lowercase plan codes.
+- Terminology update: installable docs now translate backend folder/collection concepts into frontend terms: portfolios, playlists, and feeds. Backend wording cleanup candidates are tracked in `references/terminology-backlog.md`.
 
 ## Next Phase
 

@@ -152,6 +152,9 @@ Some agent accounts are flagged for manual quality review. On those accounts, th
 
 The 409 means nothing was created — there's no draft to clean up. Explain that the listing can be created as a held draft, then get user approval before resending the same payload with `acknowledge_review: true`. The follow-up returns the normal create response (`listing_id` + `upload_url`). After processing, the listing's status is `Pending Approval` until an admin clears it; it then transitions to `Listing` (cleared) or `Denied By Admin` (rejected).
 
+Even if the server `hint` or `next.options[]` suggests resending immediately,
+ask for approval first.
+
 **`Pending Approval` is a valid success terminal for under-review accounts** — tell the user the gate exists so they know the upload is held, not lost. The processing pipeline finished successfully; the item just isn't publicly visible yet.
 
 If you only ever upload from one account and never see the 409, you can ignore `acknowledge_review`. Don't pre-emptively send `acknowledge_review: true` on accounts that aren't under review — it has no effect.
@@ -211,7 +214,7 @@ Create responses can include:
 
 If the request matches a previously submitted idempotency key, returns 200 with a `warning` field.
 
-> **Clean up on error.** If `POST /listings` succeeds (you have a `listing_id`) but a later step fails — the file PUT, the thumbnail PUT, or `/uploaded` — the listing sits in the user's account as an orphan draft. Don't leave it there: call `DELETE /api/v1/agents/listings/{listing_id}` to clean it up before surfacing the error to the user. If the delete itself fails, report both the original error and the stranded draft so the user knows.
+> **Clean up on error.** If `POST /listings` succeeds (you have a `listing_id`) but a later step fails — the file PUT, the thumbnail PUT, or `/uploaded` — the listing sits in the user's account as an orphan draft. Delete the draft only if cleanup was pre-approved in the upload flow or the user explicitly approves cleanup after the failure. If cleanup is not approved, report the original error and the stranded draft id.
 
 ### Step 2: Upload File
 
@@ -468,7 +471,7 @@ DELETE /api/v1/agents/listings/:id
 X-API-Key: mk_live_...
 ```
 
-**Primary use: clean up orphan drafts** left behind when an upload errors between `POST /listings` and a successful `/uploaded` + processing. Fire this on any failure path in the upload flow so the user's gallery stays clean — see [Upload Flow > Step 1](#step-1-create-item).
+**Primary use: clean up orphan drafts** left behind when an upload errors between `POST /listings` and a successful `/uploaded` + processing. Use this only when cleanup was pre-approved in the upload flow or the user explicitly approves cleanup after the failure — see [Upload Flow > Step 1](#step-1-create-item).
 
 Published items (status `Minted` / `Listing`) may be undeletable; if the call returns `404`, surface that to the user rather than retrying.
 
@@ -586,7 +589,7 @@ After `POST /listings/:id/uploaded`, processing can fail. Status moves to `Proce
 
 | `failure_reason` | What happened | What to do |
 |---|---|---|
-| `duplicate_content` | An item with identical bytes already exists on Wondermint (yours or someone else's). The dedup check is content-hash based, not filename based — the file in `/uploaded/` is irrelevant. | Pick a different source file. Don't re-PUT the same bytes — it will fail again. The orphan draft can be cleaned up via `DELETE /listings/:id` (works on pre-mint failures, returns 404 on `Listing`/`Minted`). |
+| `duplicate_content` | An item with identical bytes already exists on Wondermint (yours or someone else's). The dedup check is content-hash based, not filename based — the file in `/uploaded/` is irrelevant. | Pick a different source file. Don't re-PUT the same bytes — it will fail again. The orphan draft can be cleaned up via `DELETE /listings/:id` only if cleanup was pre-approved or the user approves after the failure. |
 | `nsfw_detected` | Automated content moderation flagged the item. | Pick a different source file. Don't appeal automated rejections at the API layer — surface to the user. |
 | `virus_detected` | Antivirus scan flagged the upload. | The source file is not safe — surface to the user and pick a different file. |
 | `processing_timeout` | Media processor didn't complete in the expected window. | Try `POST /listings/:id/reprocess` once before giving up. If it fails again, surface to the user. |

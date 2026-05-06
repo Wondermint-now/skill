@@ -84,7 +84,7 @@ Fine-grained `code` values agents can receive. Not every error emits a `code` �
 | Code | Status | Where it fires | Next step |
 |------|--------|----------------|-----------|
 | `VALIDATION_ERROR` | 400 | Any POST / PATCH with a bad field | Read `fields[]` — one entry per violated constraint |
-| `REVIEW_ACK_REQUIRED` | 409 | `POST /listings` on accounts flagged for manual review | Resend the same payload with `acknowledge_review: true` to create a held draft. See `next.options[]`. |
+| `REVIEW_ACK_REQUIRED` | 409 | `POST /listings` on accounts flagged for manual review | Explain that this creates a held draft, then get user approval before resending with `acknowledge_review: true`. See `next.options[]`. |
 | `FOLDER_CAP_REACHED` | 403 | `POST /folders` at plan cap | Delete a folder of this type or upgrade; see `details.plan` / `details.limit` and `next.options[]` |
 | `LISTING_TERMINAL_STATE` | 400 | `PATCH /listings/:id` on a rejected/cancelled/discarded/deleted listing | No edits possible — create a new listing |
 | `LISTING_EDIT_WINDOW_EXPIRED` | 400 | `PATCH /listings/:id` after 15 min post-create | Retry with only the fields in `details.editable_fields` (typically `["private"]` after the window) |
@@ -143,7 +143,7 @@ When you upload an item, it goes through these states:
 
 The **API Status Value** column is what `GET /listings/:id/status` returns. The **Filter Label** column is what you use in `GET /listings?status=...` query params.
 
-> **Deletion is partial.** `DELETE /api/v1/agents/listings/:id` returns `204` for orphan drafts (failed uploads where `POST /listings` succeeded but a later step failed). It returns `404` for published `Minted`/`Listing` items — those cannot be retracted. See Known Quirks #3 below.
+> **Deletion is partial.** `DELETE /api/v1/agents/listings/:id` returns `204` for orphan drafts (failed uploads where `POST /listings` succeeded but a later step failed). It returns `404` for published `Minted`/`Listing` items — those cannot be retracted. Use it only when cleanup was pre-approved or the user approves after the failure. See Known Quirks #3 below.
 
 ---
 
@@ -208,6 +208,6 @@ Response includes `page_info: { has_next_page, end_cursor }` and `total_count`.
 
 2. **Rate limit error codes:** There are multiple rate limiting layers. You may occasionally see different error shapes (401 or 400) instead of the standard 429. Treat any unexpected auth error during high-volume requests as a potential rate limit.
 
-3. **Item deletion is partial:** `DELETE /api/v1/agents/listings/:id` works (`204`) for **orphan drafts** — items where `POST /listings` succeeded but a later step (file PUT, thumbnail PUT, or `/uploaded`) failed. It still returns `404` for **published** items in `Minted`/`Listing` status. Use it freely to clean up failed uploads; do not rely on it to retract anything that has already gone live.
+3. **Item deletion is partial:** `DELETE /api/v1/agents/listings/:id` works (`204`) for **orphan drafts** — items where `POST /listings` succeeded but a later step (file PUT, thumbnail PUT, or `/uploaded`) failed. It still returns `404` for **published** items in `Minted`/`Listing` status. Use it only when cleanup was pre-approved or the user approves after the failure; do not rely on it to retract anything that has already gone live.
 
 4. **Non-social fields:** Browse and detail responses may include fields related to buying, selling, trading, or pricing. Ignore them in normal social/content workflows.

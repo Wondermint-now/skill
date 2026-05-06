@@ -112,6 +112,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - ZIP uploads have moved post-MVP. Current installable skill guidance supports Image, Video, and Audio uploads only; ZIP/asset bundle upload requests should be declined as out of current scope.
 - ZIP post-MVP fresh-agent dry validation is recorded in `evals/scorecards/flow-fresh-agent-zip-post-mvp-2026-05-06.md`; it passed with no blockers and removed one stale "file bundle" wording issue from the comment/reply flow.
 - ZIP post-MVP read-only live validation is recorded in `evals/scorecards/live-zip-post-mvp-2026-05-06.md`; live REST responses still expose Zip in categories and browse filters, but the MVP skill remains scoped to Image, Video, and Audio uploads only.
+- Root token-efficiency dry validation is recorded in `evals/scorecards/flow-root-token-efficiency-dry-2026-05-06.md`; root `SKILL.md` was reduced from 203 lines / 1,768 words to 144 lines / 1,152 words while preserving core routing and approval gates.
 
 ## Next Phase
 
@@ -120,6 +121,7 @@ Phase 3: progressive-disclosure restructure.
 Phase 2 G stack analysis has been recorded in `research/gstack-analysis.md`.
 Faces skill analysis has been recorded in `research/faces-skill-analysis.md`.
 Skill builder video analysis has been recorded in `research/skill-builder-video-analysis.md`.
+Current skill comparison against Phase 2 research has been recorded in `research/phase-2-current-skill-comparison.md`.
 
 Recommended next work:
 
@@ -147,6 +149,8 @@ Recommended next work:
 - Faces skill analysis found useful guided-flow patterns: posture, auth triage, reuse before creation, artifact-first workflows, and executable protocol diagrams for complex flows.
 - Wondermint should borrow Faces flow design but not its multi-command topology yet. Keep one concise `SKILL.md` that routes into focused files.
 - Skill builder video analysis reinforces the current progressive-disclosure shape, MCP-plus-skill division of labor, explicit positive/negative trigger evals, with-skill versus without-skill comparisons, deterministic checks before LLM-as-judge, and treating production skills like maintained code/docs.
+- Current skill comparison found that the main Phase 2 patterns are already adopted. This pass added root operating modes, reduced duplicate root plan details, aligned root frontmatter with Codex-first `name`/`description` guidance, and added description-length validation.
+- Token-efficiency pass confirmed the same direction: keep root `SKILL.md` as the trigger, safety, and routing layer; move examples, JSON envelopes, frontend observation details, and detailed workflow mechanics into focused installable files.
 
 ## Open Questions
 

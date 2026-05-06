@@ -69,7 +69,7 @@ def check_frontmatter(errors: list[str]) -> None:
             key, value = line.split(":", 1)
             fields[key.strip()] = value.strip()
 
-    for required in ("name", "description", "updated"):
+    for required in ("name", "description"):
         if not fields.get(required):
             errors.append(f"SKILL.md frontmatter missing `{required}`")
 
@@ -78,6 +78,8 @@ def check_frontmatter(errors: list[str]) -> None:
         errors.append("SKILL.md description must start with `Use when `")
     if "Do not use" not in description:
         errors.append("SKILL.md description must include negative trigger space")
+    if len(description) > 1024:
+        errors.append("SKILL.md description must be 1024 characters or fewer")
 
 
 def check_repo_only_links(errors: list[str]) -> None:

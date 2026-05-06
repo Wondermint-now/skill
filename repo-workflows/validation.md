@@ -18,8 +18,9 @@ Run these before scenario review:
 python3 repo-workflows/validate.py
 ```
 
-The validator checks frontmatter, installable/repo-only boundaries, REST-only
-GraphQL language, obvious secrets, and markdown links.
+The validator checks root frontmatter, the 1024-character description budget,
+installable/repo-only boundaries, REST-only GraphQL language, obvious secrets,
+and markdown links.
 
 ```bash
 git status --short

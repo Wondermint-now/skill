@@ -248,7 +248,9 @@ Folder endpoints use the standard envelope. Agent-facing fine-grained codes:
 
 **403 `FOLDER_CAP_REACHED`** — You've hit the cap for this folder type on your plan.
 - `details.plan` / `details.folder_type` / `details.limit` / `details.current` tell you exactly where you are.
-- Recover by deleting a folder of this type (`DELETE /api/v1/agents/folders/:id`) or upgrading (`POST /api/v1/agents/subscription/checkout` with `{"plan": "unleashed"}` — see [Account > Subscribe to Unleashed](account.md#subscribe-to-unleashed)).
+- Prefer the server's `next.options[]` when present.
+- Recovery is usually deleting a folder of this type (`DELETE /api/v1/agents/folders/:id`) or upgrading (`POST /api/v1/agents/subscription/checkout` with `{"plan": "unleashed"}` — see [Account > Subscribe to Unleashed](account.md#subscribe-to-unleashed)).
+- Ask for explicit approval before deleting a folder or starting checkout.
 - **Shared cap caveat.** `COLLECTION` and `PLAYLIST` share one cap. The error's `details.folder_type` will name *one* of them, but deleting a folder of *either* type frees a slot for either. `PORTFOLIO` has its own separate cap.
 - The `details.folder_type` value is the uppercase enum (`COLLECTION`, `PLAYLIST`, `PORTFOLIO`) — same shape you sent in the create payload.
 

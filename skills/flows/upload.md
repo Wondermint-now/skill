@@ -111,21 +111,23 @@ Ask for explicit approval. Do not proceed on silence.
 
 Success statuses include `Minted`, `Listing`, and `Pending Approval` for
 accounts under manual review. If the account requires review acknowledgment,
-follow the `REVIEW_ACK_REQUIRED` recovery path in
+explain that the listing can be created as a held draft, then get user approval
+before resending with `acknowledge_review: true`. See
 [Items > Accounts Under Review](../items.md#accounts-under-review).
 
 ## Failure Handling
 
 If `POST /listings` succeeded and a later file upload or confirmation step
-fails, clean up the orphan draft:
+fails, delete the orphan draft only if cleanup was pre-approved in Phase 3 or
+the user explicitly approves cleanup after the failure:
 
 ```http
 DELETE /api/v1/agents/listings/:id
 X-API-Key: mk_live_...
 ```
 
-If cleanup fails, report both the original failure and the stranded draft id to
-the user.
+If cleanup is not approved or cleanup fails, report both the original failure
+and the stranded draft id to the user.
 
 If the item is already published, do not assume deletion will work. Surface the
 state and available edit window instead.

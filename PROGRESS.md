@@ -36,6 +36,7 @@
 - Private image upload live eval is recorded in `evals/scorecards/live-upload-2026-05-06.md`.
 - Upload visibility/rights dry validation is recorded in `evals/scorecards/flow-upload-visibility-rights-2026-05-06.md`.
 - v0.1.1 trigger hardening dry validation is recorded in `evals/scorecards/flow-trigger-hardening-2026-05-06.md`.
+- Frontend/upgrade fresh-agent dry validation is recorded in `evals/scorecards/flow-frontend-upgrade-fresh-agent-2026-05-06.md`.
 - Deterministic repo validation lives at `repo-workflows/validate.py`.
 - MVP endpoint scope is recorded in `references/mvp-scope.md`; backend endpoint inventory is not scope permission.
 - MVP skill docs are REST-only. GraphQL operations are backend-awareness material and must not be copied into the skill.
@@ -89,6 +90,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Upload visibility/rights dry validation finding: `private` visibility and `contract_type` rights are documented as independent choices; focused fresh-agent rerun passed 3 / 3 with no blockers.
 - v0.1.1 trigger hardening finding: root skill routing now has explicit positive and negative trigger space, deterministic validation passed, and trigger dry review found no blockers.
 - Frontend and upgrade guidance finding: skill docs now include user-facing frontend navigation/troubleshooting guidance and practical upgrade reasons tied to rate limits, folder/portfolio caps, workflow frequency, and billing needs.
+- Frontend/upgrade fresh-agent finding: six frontend and upgrade prompts scored 3 / 3 with no blockers; private-upload frontend visibility wording was tightened.
 
 ## Next Phase
 

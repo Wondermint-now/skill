@@ -84,6 +84,9 @@ After upload, tell the user:
 - what is locked
 - where they can look in the frontend
 
+Private uploads should be visible to the owning account in profile, uploads, or
+item management surfaces, but should not be promised in public discovery.
+
 ## Folders, Collections, Playlists, And Portfolio
 
 Use the user's words, but map them carefully:

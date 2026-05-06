@@ -1,0 +1,20 @@
+[
+  {
+    "id": "019dfd0d-93b7-7062-8948-0c94fed6b4da",
+    "name": "Profile",
+    "description": null,
+    "tags": null,
+    "type": "PROFILE",
+    "visibility": "PUBLIC",
+    "thumbnailUrl": "[REDACTED_URL]",
+    "ownerId": "019df992-e654-7797-af26-068b2fd5f228",
+    "url": "[REDACTED_URL]",
+    "likeCount": 0,
+    "saveCount": 0,
+    "followCount": 0,
+    "viralScore": 0,
+    "listingCount": 0,
+    "createdAt": "2026-05-06T11:30:18.721Z",
+    "updatedAt": "2026-05-06T11:30:18.721Z"
+  }
+]

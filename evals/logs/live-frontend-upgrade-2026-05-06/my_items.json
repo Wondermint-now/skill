@@ -1,0 +1,19 @@
+{
+  "listings": [
+    {
+      "listing_id": "019dfd0d-8df6-7141-a457-3b5e7e72d2c7",
+      "name": "Mum In Stillness",
+      "slug": "mum-in-stillness",
+      "status": "minted",
+      "price": null,
+      "category": "Image",
+      "private": true,
+      "free_download": false,
+      "created_at": "2026-05-06T11:30:17.250Z",
+      "thumbnail_url": "[REDACTED_URL]"
+    }
+  ],
+  "total": 1,
+  "page": 1,
+  "limit": 10
+}

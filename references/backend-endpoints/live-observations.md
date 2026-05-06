@@ -89,3 +89,36 @@ Keep entries short and link to raw evidence under `evals/logs/` when available.
 - Skill docs to update: add `contract_type` to upload docs and approval
   summary.
 - Confidence: observed once.
+
+## 2026-05-06 - Frontend And Upgrade Read-Only Live Eval
+
+- Environment: staging, `https://api-staging.fullstock.ai`
+- Evidence: `evals/scorecards/live-frontend-upgrade-2026-05-06.md`,
+  `evals/logs/live-frontend-upgrade-2026-05-06/`
+- Endpoints touched: subscription, plans, home dashboard, owned listings,
+  folders, item status.
+- Request shape confirmed: API-key auth with `X-API-Key`.
+- Response shape confirmed:
+  - `GET /api/v1/agents/subscription` returns `plan`, `status`,
+    `credits_balance`, `credits_monthly_limit`, and `current_period_end`.
+  - `GET /api/v1/agents/plans` returns `plans[]` with `name`,
+    `price_monthly_cents`, `price_yearly_cents`, `currency`,
+    `rate_limit_per_minute`, `credits_monthly_limit`, `features`, and
+    `folder_caps`.
+  - `GET /api/v1/agents/home` returns `your_account`,
+    `activity_on_your_items`, `trending_items`, `network`, `what_to_do_next`,
+    and `quick_links`.
+  - `GET /api/v1/agents/listings?page=1&limit=10` returns `listings`,
+    `total`, `page`, and `limit`; the prior private upload appeared with
+    `private: true`.
+  - `GET /api/v1/agents/folders` returns an array of folder objects.
+  - `GET /api/v1/agents/listings/{listing_id}/status` returns `listing_id`,
+    `status`, and `processing`.
+- Success message / status: all requests returned `200`.
+- Error message / hint / next observed: none in this pass.
+- Formatting notes: read endpoints returned plan display names (`Free`,
+  `Unleashed`, `Genesis`); checkout request bodies still use lowercase plan
+  codes (`unleashed`, `genesis`).
+- Skill docs to update: clarify display names versus checkout plan codes in
+  account billing docs.
+- Confidence: observed once.

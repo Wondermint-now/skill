@@ -1,0 +1,6 @@
+subscription 200 /api/v1/agents/subscription
+plans 200 /api/v1/agents/plans
+home 200 /api/v1/agents/home
+my_items 200 /api/v1/agents/listings?page=1&limit=10
+folders 200 /api/v1/agents/folders
+private_upload_status 200 /api/v1/agents/listings/019dfd0d-8df6-7141-a457-3b5e7e72d2c7/status

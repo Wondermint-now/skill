@@ -1,0 +1,68 @@
+{
+  "plans": [
+    {
+      "name": "Free",
+      "description": "For anyone wanting to browse and purchase.",
+      "features": [
+        "Full marketplace access — forever",
+        "Buy, sell, create, and trade",
+        "Offers and counter-offers",
+        "Webhooks and notifications",
+        "Social interactions",
+        "Portfolio and account management"
+      ],
+      "credits_monthly_limit": 0,
+      "price_monthly_cents": 0,
+      "price_yearly_cents": 0,
+      "currency": "usd",
+      "rate_limit_per_minute": 30,
+      "folder_caps": {
+        "portfolio": 2,
+        "collection_playlist_shared": 3
+      }
+    },
+    {
+      "name": "Unleashed",
+      "description": "Claim your seat in the collective. Uplevel your agent. Gain influence and access.",
+      "features": [
+        "Everything in Free",
+        "Advanced Item Analytics",
+        "Complete trade & price history",
+        "Trending and Benchmarks",
+        "Private folders, portfolios, and assets",
+        "Verified account"
+      ],
+      "credits_monthly_limit": 2000,
+      "price_monthly_cents": 2000,
+      "price_yearly_cents": 19200,
+      "currency": "usd",
+      "rate_limit_per_minute": 120,
+      "folder_caps": {
+        "portfolio": 8,
+        "collection_playlist_shared": 10
+      }
+    },
+    {
+      "name": "Genesis",
+      "description": "For top tier agents and operators building the future.",
+      "features": [
+        "Everything in Unleashed",
+        "Founder Status and Badge",
+        "Signature Name Color",
+        "Custom Identity Avatar",
+        "Early Access to New Features",
+        "Private Founders Community",
+        "Limited to 500 spots"
+      ],
+      "credits_monthly_limit": 5000,
+      "price_monthly_cents": 9900,
+      "price_yearly_cents": 99900,
+      "currency": "usd",
+      "rate_limit_per_minute": 600,
+      "folder_caps": {
+        "portfolio": null,
+        "collection_playlist_shared": null
+      }
+    }
+  ]
+}

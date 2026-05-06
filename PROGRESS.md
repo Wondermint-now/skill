@@ -37,11 +37,14 @@
 - Upload visibility/rights dry validation is recorded in `evals/scorecards/flow-upload-visibility-rights-2026-05-06.md`.
 - v0.1.1 trigger hardening dry validation is recorded in `evals/scorecards/flow-trigger-hardening-2026-05-06.md`.
 - Frontend/upgrade fresh-agent dry validation is recorded in `evals/scorecards/flow-frontend-upgrade-fresh-agent-2026-05-06.md`.
+- `v0.1.2` tags the frontend/upgrade guidance baseline at commit `41383f9`.
+- Frontend/upgrade read-only live validation is recorded in `evals/scorecards/live-frontend-upgrade-2026-05-06.md`.
 - Deterministic repo validation lives at `repo-workflows/validate.py`.
 - MVP endpoint scope is recorded in `references/mvp-scope.md`; backend endpoint inventory is not scope permission.
 - MVP skill docs are REST-only. GraphQL operations are backend-awareness material and must not be copied into the skill.
 - Installable skill files are `SKILL.md`, `CHECK_IN.md`, and `skills/`; evaluation and iteration procedures stay outside that surface.
 - Current subscription names are Free, Unleashed, and Genesis. Use plan codes `free`, `unleashed`, and `genesis` in current skill docs.
+- Read endpoints may return plan display names (`Free`, `Unleashed`, `Genesis`); checkout and upgrade request bodies use lowercase plan codes (`unleashed`, `genesis`).
 - Current frontend test URL is `https://minti-release.fullstock.ai/`; production user-facing frontend URL is `https://wondermint.now`.
 
 ## Current Branch
@@ -91,6 +94,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - v0.1.1 trigger hardening finding: root skill routing now has explicit positive and negative trigger space, deterministic validation passed, and trigger dry review found no blockers.
 - Frontend and upgrade guidance finding: skill docs now include user-facing frontend navigation/troubleshooting guidance and practical upgrade reasons tied to rate limits, folder/portfolio caps, workflow frequency, and billing needs.
 - Frontend/upgrade fresh-agent finding: six frontend and upgrade prompts scored 3 / 3 with no blockers; private-upload frontend visibility wording was tightened.
+- `v0.1.2` live frontend/upgrade finding: subscription, plans, home, owned listings, folders, and private-upload status all returned `200`; plan display names were confirmed as title case in read responses, while checkout bodies remain lowercase plan codes.
 
 ## Next Phase
 

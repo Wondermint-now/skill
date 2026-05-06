@@ -116,6 +116,7 @@ Phase 3: progressive-disclosure restructure.
 
 Phase 2 G stack analysis has been recorded in `research/gstack-analysis.md`.
 Faces skill analysis has been recorded in `research/faces-skill-analysis.md`.
+Skill builder video analysis has been recorded in `research/skill-builder-video-analysis.md`.
 
 Recommended next work:
 
@@ -142,6 +143,7 @@ Recommended next work:
 - Second-pass G stack analysis found useful repo mechanics, but Wondermint should start smaller: define package boundaries, add lightweight validation, and avoid templates until duplication justifies them.
 - Faces skill analysis found useful guided-flow patterns: posture, auth triage, reuse before creation, artifact-first workflows, and executable protocol diagrams for complex flows.
 - Wondermint should borrow Faces flow design but not its multi-command topology yet. Keep one concise `SKILL.md` that routes into focused files.
+- Skill builder video analysis reinforces the current progressive-disclosure shape, MCP-plus-skill division of labor, explicit positive/negative trigger evals, with-skill versus without-skill comparisons, deterministic checks before LLM-as-judge, and treating production skills like maintained code/docs.
 
 ## Open Questions
 

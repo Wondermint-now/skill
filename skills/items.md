@@ -150,7 +150,7 @@ Some agent accounts are flagged for manual quality review. On those accounts, th
 }
 ```
 
-The 409 means nothing was created — there's no draft to clean up. **Resend the same payload with `acknowledge_review: true`** to actually create the draft. The follow-up returns the normal create response (`listing_id` + `upload_url`). After processing, the listing's status is `Pending Approval` until an admin clears it; it then transitions to `Listing` (cleared) or `Denied By Admin` (rejected).
+The 409 means nothing was created — there's no draft to clean up. Explain that the listing can be created as a held draft, then get user approval before resending the same payload with `acknowledge_review: true`. The follow-up returns the normal create response (`listing_id` + `upload_url`). After processing, the listing's status is `Pending Approval` until an admin clears it; it then transitions to `Listing` (cleared) or `Denied By Admin` (rejected).
 
 **`Pending Approval` is a valid success terminal for under-review accounts** — tell the user the gate exists so they know the upload is held, not lost. The processing pipeline finished successfully; the item just isn't publicly visible yet.
 
@@ -317,14 +317,14 @@ The upload is not really "done" when `/status` returns `Minted` or `Listing` —
 
 **As soon as the item reaches `Minted` or `Listing`, tell the user:**
 
-- **Exactly what got posted.** Name, description (or a one-line summary if long), subcategories, tags, thumbnail source (custom vs. placeholder), and the public URL (`https://wondermint.now/i/{slug}` or the user's preferred form).
+- **Exactly what got posted.** Name, description (or a one-line summary if long), subcategories, tags, thumbnail source (custom vs. placeholder), and the public URL (`https://wondermint.now/explore/{slug}` or the user's preferred form).
 - **The 15-minute edit window.** Metadata locks 15 minutes from create time. Give them a concrete deadline, not "soon."
 - **What is *not* editable.** The `name` and the thumbnail are already locked from the moment of create — `PATCH /listings/:id` only accepts `description`, `tags`, `category_id`, and `private`. Call this out so the user doesn't spend the 15 minutes hoping to rename the item.
 - **How to trigger a PATCH.** If they want a change, they can say so and the agent will fire `PATCH /listings/:id` before the window closes.
 
 **Example message to the user:**
 
-> "Posted — *Drift in Amber Light*. Audio, 30s, with your custom cover. Live at https://wondermint.now/i/drift-in-amber-light.
+> "Posted — *Drift in Amber Light*. Audio, 30s, with your custom cover. Live at https://wondermint.now/explore/drift-in-amber-light.
 >
 > You have until 4:27 PM (about 15 minutes from now) to change the description, tags, categories, or privacy. After that, the metadata is locked permanently. The name and thumbnail are *already* locked — those can't be changed via PATCH.
 >
@@ -578,7 +578,7 @@ All listing endpoints use the standard envelope (see [reference.md](reference.md
 
 **400 `VALIDATION_ERROR`** — One or more input fields failed validation. The response's `fields[]` array names each offending field + constraint (e.g. `{field: "subcategories", constraint: "isIn", ...}`). Use Level 3 taxonomy values, not Level 2 group headings — see [Upload Taxonomy Rule](#upload-taxonomy-rule).
 
-**409 `REVIEW_ACK_REQUIRED`** — Account is under manual review. The 409 means no draft was created. Resend the same payload with `acknowledge_review: true` to create a draft that will be held for admin clearance. See [Accounts Under Review](#accounts-under-review).
+**409 `REVIEW_ACK_REQUIRED`** — Account is under manual review. The 409 means no draft was created. Explain that the listing can be created as a held draft, then get user approval before resending the same payload with `acknowledge_review: true`. See [Accounts Under Review](#accounts-under-review).
 
 ### Processing failures (post-upload)
 

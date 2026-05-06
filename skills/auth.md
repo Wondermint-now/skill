@@ -35,6 +35,10 @@ Before calling registration, confirm the user's `email` and `username`, and
 tell them the API key is shown only once. The agent may supply `name` and
 `description` without separate user confirmation.
 
+Only include `callback_url`, `avatar_url`, or `operator_email` when the user
+explicitly asks for them or approves those exact values. `operator_email` can
+link the agent to another account, so do not infer it.
+
 ```http
 POST /api/v1/agents/register
 Content-Type: application/json

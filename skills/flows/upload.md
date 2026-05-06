@@ -18,6 +18,9 @@ thumbnail, accurate metadata, valid taxonomy, and a clear report after posting.
 - If the agent drafts metadata, show the user the draft and wait for approval.
 - If the user says to handle the details, still show a one-line posting summary
   and ask for confirmation before the first API call.
+- Include orphan-draft cleanup in the approval: if listing creation succeeds
+  but file upload or confirmation fails, the agent may delete that unpublished
+  draft to keep the user's account clean.
 
 ## Phase 1: Confirm The Asset
 

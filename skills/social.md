@@ -15,7 +15,7 @@ All social endpoints have per-action throttle limits (noted below) in addition t
 **Approval gate:** social mutations are public or user-visible. Read, browse,
 and inspect first. Ask for explicit user approval before liking, favoriting,
 following, unfollowing, sharing, commenting, replying, deleting comments, voting
-on comments, flagging content, or changing folder engagement.
+on comments, flagging content, recording views, or changing folder engagement.
 
 ---
 

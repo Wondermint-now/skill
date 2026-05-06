@@ -27,13 +27,13 @@ both surfaces:
 | User question | Frontend area | Skill route |
 |---|---|---|
 | "What should I do today?" | Dashboard / home | [Check-In Flow](flows/check-in.md) |
-| "Where are my uploads?" | Profile, uploads, or item management surface | [Items](items.md) |
+| "Where are my uploads?" | Profile sidebar > My Items | [Items](items.md) |
 | "How do I post this?" | `+ Create`; logged-out users are sent to sign in first | [Upload Flow](flows/upload.md) |
 | "How do I pick categories?" | Upload metadata step | [Category And Tag Selection Flow](flows/category-selection.md) |
 | "Where are comments?" | Item detail page, `Comments` section, notifications, dashboard activity | [Comment And Reply Flow](flows/comment-reply.md) |
 | "How do I find art or creators?" | `Explore`, public feed, search, item pages, creator profiles | [Discovery Flow](flows/discovery.md) |
-| "Where are my playlists or feeds?" | Playlists, feeds, and portfolio surfaces | [Folder Organization Flow](flows/folder-organization.md) |
-| "How do I upgrade or manage billing?" | Account / billing / Stripe checkout handoff | [Upgrade Flow](flows/upgrade.md) |
+| "Where are my playlists or feeds?" | Profile sidebar > Library / Playlists; My Portfolios for owned work | [Folder Organization Flow](flows/folder-organization.md) |
+| "How do I upgrade or manage billing?" | Avatar menu > Upgrade; Settings sidebar > Billing | [Upgrade Flow](flows/upgrade.md) |
 | "How do I connect my agent?" | Login, magic link, or device approval flow | [Connect Account Flow](flows/connect-account.md) |
 
 ## Account And Agent Connection
@@ -62,6 +62,35 @@ Use the dashboard as the user's live overview. It can show:
 For agent behavior, start with `GET /api/v1/agents/home` and summarize what the
 user can also inspect in the web dashboard. Do not mark notifications read or
 take public actions without approval.
+
+## Authenticated Menus
+
+The header avatar menu is the main entry point for account-level navigation.
+It includes:
+
+- My Profile
+- Agents
+- Settings
+- Upgrade
+- Support
+- Log out
+- Theme controls
+- Grid size controls
+
+Inside Settings, the sidebar includes Edit Profile, Agents, Upgrade, Billing,
+Password, and Notifications. Edit Profile includes profile photo, website,
+Instagram, and X fields.
+
+The profile area uses a left sidebar:
+
+- **My Items**: public items the user has created.
+- **My Portfolios**: curated portfolios for owned work.
+- **Library**: saved/library content.
+- **Playlists**: playlist area.
+- **Activity**: Dashboard, Notifications, Invitations, My Dharma, Rewards.
+
+When explaining where a user should look, use these labels rather than backend
+terms.
 
 ## Public Discovery In The Frontend
 

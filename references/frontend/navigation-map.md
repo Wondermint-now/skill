@@ -89,6 +89,81 @@ work, route them to the public account/profile page and the "Items" area.
 | `/auth/sign-in` | email input, password input, "Log In", "Continue with Google" |
 | `/auth/sign-in?redirect_to=/create` | same login controls, used when logged-out users press `+ Create` |
 
-Authenticated dashboard, upload/create, billing, private item visibility, and
-owned portfolio/feed/playlist management still need an approved authenticated
-research pass.
+## Authenticated Header And Account Menu
+
+Owner-provided screenshots on 2026-05-06 show these authenticated header
+elements:
+
+- Wondermint logo
+- Search field: "Search Wondermint Marketplace"
+- Points / balance pill, e.g. `105.1k` or `3.8k`
+- `Create` button
+- notification bell
+- avatar/profile menu button
+
+The avatar menu shows:
+
+| Menu label | Meaning |
+|---|---|
+| user card | avatar, username, and account email |
+| My Profile | Opens the user's profile area. |
+| Agents | Opens agent management. |
+| Settings | Opens settings. |
+| Upgrade | Opens upgrade flow. |
+| Support | Opens support/help. |
+| Log out | Ends the frontend session. |
+| Theme | Switches light / bright / dark visual theme. |
+| Grid size | Switches item grid density, shown as I / II / III. |
+
+## Authenticated Settings
+
+Owner-provided settings screenshot shows a left settings sidebar:
+
+| Sidebar item | Observed purpose |
+|---|---|
+| Edit Profile | Edit profile information. |
+| Agents | Manage connected agents. |
+| Upgrade | Review upgrade options. |
+| Billing | Manage billing. |
+| Password | Change password. |
+| Notifications | Notification settings. |
+
+The Edit Profile screen includes:
+
+- "Your Photo" with edit control
+- Website field
+- Instagram field
+- X field
+
+## Authenticated Profile Area
+
+Owner-provided profile screenshot shows:
+
+- User header with avatar/banner image, username, follower/following counts,
+  points, `Create`, notification bell, and avatar menu.
+- A "Dharma Score" area marked "Coming soon".
+- "Share" button.
+- "Invitations" button with a count.
+
+The left profile sidebar is grouped as:
+
+| Group | Items |
+|---|---|
+| My Items | My Items; My Portfolios |
+| Library | Library; Playlists |
+| Activity | Dashboard; Notifications; Invitations; My Dharma; Rewards |
+
+The main profile content observed on "My Items":
+
+- Heading: "My Items"
+- Help text: "All of the public items that you have created. Create a curated
+  Portfolio to share with others."
+- Item grid with the user's public created items.
+
+Skill implication: when explaining the frontend, use these user-facing labels.
+Public created work lives under **My Items**; owned organization lives under
+**My Portfolios**; saved content lives under **Library** and **Playlists**.
+
+Authenticated upload/create, billing details, private item visibility, and full
+portfolio/playlist management still need an approved interactive pass if more
+precision is needed.

@@ -20,6 +20,7 @@
 - Backend endpoint reference files live under `references/backend-endpoints/`.
 - Product terminology cleanup notes live in `references/terminology-backlog.md`.
 - Frontend navigation research lives in `references/frontend/navigation-map.md`.
+- Frontend create/upload form research lives in `references/frontend/create-upload.md`.
 - Repo-development workflows live under `repo-workflows/`.
 - Live endpoint observations should be accumulated in `references/backend-endpoints/live-observations.md` after every eval.
 - Dry flow validation is recorded in `evals/scorecards/flow-dry-2026-05-05.md`.
@@ -104,6 +105,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Frontend navigation Q&A finding: current guidance answers common frontend location questions using visible labels such as My Items, My Portfolios, Library, Playlists, Settings, Billing, Password, Notifications, and `+ Create`; no blocking wording gaps found.
 - Frontend plan/FAQ update: owner-provided plan comparison and FAQ copy has been recorded; installable guidance now includes visible yearly plan pricing, analytics-credit amounts, active portfolio/playlist/private/identity features, FAQ answers, and the rule not to treat coming-soon marketplace/trade/analytics copy as MVP action guidance.
 - Plan/FAQ dry validation is recorded in `evals/scorecards/flow-plan-faq-dry-2026-05-06.md`; it found and fixed stale root plan prices plus an FAQ caveat for coming-soon marketplace transactions.
+- Frontend create/upload update: owner-provided screenshots of the create form have been recorded. Installable guidance now explains the Create page labels, category-specific model choices, "Pick 3" descriptor behavior, custom `Other` model names, and the mapping from frontend `License*` choices to REST `contract_type`.
 
 ## Next Phase
 

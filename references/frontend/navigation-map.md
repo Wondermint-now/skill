@@ -168,6 +168,18 @@ Authenticated upload/create, billing details, private item visibility, and full
 portfolio/playlist management still need an approved interactive pass if more
 precision is needed.
 
+## Authenticated Create Form
+
+Owner-provided create-form screenshots on 2026-05-06 show the upload page
+structure, field labels, license choices, and category-specific model and
+descriptor choices. Detailed extracted labels live in
+[Frontend Create And Upload Reference](create-upload.md).
+
+Skill implication: the website asks users to pick exactly 3 descriptors for the
+post, and those descriptors map to API Level 3 `subcategories` when uploading
+through REST. The frontend `License*` field maps to API `contract_type`; it is
+separate from private/public visibility.
+
 ## Plan Comparison Page
 
 Owner-provided plan comparison screenshot on 2026-05-06 shows these

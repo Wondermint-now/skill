@@ -54,6 +54,26 @@ Collect or draft:
 - `contract_type`: `public_domain` or `non_exclusive`
 - optional `model`, `prompt`, and `private`
 
+If the user is comparing this to the website, map the frontend form labels this
+way:
+
+- `Add Media*`: source file
+- `Thumbnail`: thumbnail or cover upload, especially important for audio and
+  ZIP items
+- `Pick 3 that describe your post`: Level 3 `subcategories`
+- `License*`: `contract_type`
+- Non-Exclusive Contract: `non_exclusive`
+- Public Domain: `public_domain`
+- `Other` model: capture the custom model name
+
+The website asks users to pick exactly 3 descriptors. The REST upload accepts
+approved Level 3 `subcategories`; follow the user's frontend picks when they
+are provided and valid.
+
+The website currently warns: "Text or information cannot be edited after you tap
+create." When guiding a frontend user, do not promise they can edit text after
+submitting the form.
+
 Visibility and rights are separate decisions. `private` controls whether the
 item is visible publicly; `contract_type` controls whether the upload is public
 domain or non-exclusive. Do not infer contract type from visibility, or
@@ -81,6 +101,7 @@ Before creating the listing, show the user:
 - custom cover choice, if any
 - title
 - description or short summary
+- model or custom model, if provided
 - subcategories
 - tags
 - contract type: public domain or non-exclusive

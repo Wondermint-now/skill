@@ -110,17 +110,39 @@ these tasks. Use this only to explain where the user can look in the website.
 
 ## Uploads In The Frontend
 
+The frontend upload page is labeled "Create Your Item". Users reach it from the
+`Create` or `+ Create` button; logged-out users are sent to sign in first.
+
+The visible create form includes:
+
+- Upload Files: `Add Media*` and `Thumbnail`
+- About Your Item: `Name*`, `Description*`, `Prompt`, `Tags`, `Releases`, and
+  `Additional Documents`
+- category-specific `Model*` choices, including `Other` for a custom model name
+- "Pick 3 that describe your post" descriptors
+- `License*`: Non-Exclusive Contract or Public Domain
+- `Cancel` and `Create`
+
+The frontend warns: "Text or information cannot be edited after you tap create."
+Do not promise frontend editability after submission.
+
 The frontend upload experience maps to the same decisions the API needs:
 
-- media file
+- media file, with optional thumbnail/cover
 - title and description
 - category and Level 3 `subcategories`
+- model and prompt when the user wants them recorded
 - free-form tags
 - visibility: public or private
 - rights: `public_domain` or `non_exclusive`
 
 Visibility and rights are independent. Private/public controls who can see the
 item; contract type controls rights. Do not infer one from the other.
+
+Frontend license labels map to API values this way:
+
+- Non-Exclusive Contract: `non_exclusive`
+- Public Domain: `public_domain`
 
 After upload, tell the user:
 

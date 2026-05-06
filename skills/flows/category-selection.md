@@ -53,6 +53,10 @@ Pick 1 to 5 Level 3 values. Prefer:
 
 Do not force five values. Fewer accurate values are better than broad guesses.
 
+In the frontend create form, this appears as "Pick 3 that describe your post".
+When the user provides those website selections, use them as upload
+`subcategories` if they match valid Level 3 taxonomy values.
+
 ## Phase 4: Choose Free-Form `tags`
 
 Tags are not taxonomy values. They are free-form keywords for search and

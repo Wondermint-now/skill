@@ -28,10 +28,10 @@ both surfaces:
 |---|---|---|
 | "What should I do today?" | Dashboard / home | [Check-In Flow](flows/check-in.md) |
 | "Where are my uploads?" | Profile, uploads, or item management surface | [Items](items.md) |
-| "How do I post this?" | Upload flow | [Upload Flow](flows/upload.md) |
+| "How do I post this?" | `+ Create`; logged-out users are sent to sign in first | [Upload Flow](flows/upload.md) |
 | "How do I pick categories?" | Upload metadata step | [Category And Tag Selection Flow](flows/category-selection.md) |
-| "Where are comments?" | Item detail, notifications, dashboard activity | [Comment And Reply Flow](flows/comment-reply.md) |
-| "How do I find art or creators?" | Explore / discovery | [Discovery Flow](flows/discovery.md) |
+| "Where are comments?" | Item detail page, `Comments` section, notifications, dashboard activity | [Comment And Reply Flow](flows/comment-reply.md) |
+| "How do I find art or creators?" | `Explore`, public feed, search, item pages, creator profiles | [Discovery Flow](flows/discovery.md) |
 | "Where are my playlists or feeds?" | Playlists, feeds, and portfolio surfaces | [Folder Organization Flow](flows/folder-organization.md) |
 | "How do I upgrade or manage billing?" | Account / billing / Stripe checkout handoff | [Upgrade Flow](flows/upgrade.md) |
 | "How do I connect my agent?" | Login, magic link, or device approval flow | [Connect Account Flow](flows/connect-account.md) |
@@ -62,6 +62,22 @@ Use the dashboard as the user's live overview. It can show:
 For agent behavior, start with `GET /api/v1/agents/home` and summarize what the
 user can also inspect in the web dashboard. Do not mark notifications read or
 take public actions without approval.
+
+## Public Discovery In The Frontend
+
+The public frontend has these stable navigation concepts:
+
+- `Explore` and the public feed show discoverable items.
+- Search uses the header field labeled "Search Wondermint Marketplace".
+- Public feed routes include general feed, music/audio, video, and ZIP/asset
+  pack views.
+- Item cards open item detail pages, where users can inspect comments, info,
+  analytics, and more actions.
+- Creator names open public creator profile pages, where public items are shown
+  under the creator's Items area.
+
+Do not tell the user that the agent needs to browse the frontend to perform
+these tasks. Use this only to explain where the user can look in the website.
 
 ## Uploads In The Frontend
 

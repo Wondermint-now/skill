@@ -171,11 +171,11 @@ On 429, use exponential backoff starting at 2 seconds.
 
 ## Plans
 
-| Plan | $/mo | Req/min | Feed + Playlist cap | Portfolio cap |
+| Plan | Visible frontend price | Req/min | Feed + Playlist cap | Portfolio cap |
 |---|---|---|---|---|
 | Free | $0 | 30 | 3 | 2 |
-| Unleashed | $20 | 120 | 10 | 8 |
-| Genesis | $99 | 600 | unlimited | unlimited |
+| Unleashed | $16/mo billed yearly | 120 | 10 | 8 |
+| Genesis | $83.25/mo billed yearly | 600 | unlimited | unlimited |
 
 Unleashed and Genesis also include higher analytics credit allowances. Treat
 credits as account context only; keep this skill focused on social content. See

@@ -181,7 +181,8 @@ Use these concise answers for common frontend questions:
 
 - **What is Wondermint?** A creative platform to discover, collect, and sell
   original digital content, including photography, illustrations, AI-generated
-  art, and more.
+  art, and more. For current MVP agent guidance, do not present marketplace
+  buying, selling, trading, or offers as active functionality.
 - **How often is content updated?** Daily, with fresh boards, user uploads,
   curated collections, and trending styles.
 - **Student or educator discount?** Yes. Eligible students, teachers, and

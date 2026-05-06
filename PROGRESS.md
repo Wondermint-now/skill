@@ -103,6 +103,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Frontend research update: public release frontend navigation was mapped for home, onboarding, invitation, feed category routes, item detail, creator profile, and login/create redirects. Authenticated dashboard/upload/billing/private-item surfaces still need an approved logged-in pass.
 - Frontend navigation Q&A finding: current guidance answers common frontend location questions using visible labels such as My Items, My Portfolios, Library, Playlists, Settings, Billing, Password, Notifications, and `+ Create`; no blocking wording gaps found.
 - Frontend plan/FAQ update: owner-provided plan comparison and FAQ copy has been recorded; installable guidance now includes visible yearly plan pricing, analytics-credit amounts, active portfolio/playlist/private/identity features, FAQ answers, and the rule not to treat coming-soon marketplace/trade/analytics copy as MVP action guidance.
+- Plan/FAQ dry validation is recorded in `evals/scorecards/flow-plan-faq-dry-2026-05-06.md`; it found and fixed stale root plan prices plus an FAQ caveat for coming-soon marketplace transactions.
 
 ## Next Phase
 

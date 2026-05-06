@@ -87,6 +87,8 @@ Development workflows belong in `repo-workflows/`:
 - `repo-workflows/iteration.md` for changing skill files from feedback,
   research, backend observations, and eval results.
 - `repo-workflows/validation.md` for dry checks before live testing.
+- `repo-workflows/package-readiness.md` for checking and syncing the
+  installable skill package.
 
 ## Backend Source Reference
 

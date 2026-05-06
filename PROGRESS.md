@@ -115,6 +115,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Root token-efficiency dry validation is recorded in `evals/scorecards/flow-root-token-efficiency-dry-2026-05-06.md`; root `SKILL.md` was reduced from 203 lines / 1,768 words to 144 lines / 1,152 words while preserving core routing and approval gates.
 - Tightened-root fresh-agent dry validation is recorded in `evals/scorecards/flow-tightened-root-fresh-agent-dry-2026-05-06.md`; it passed check-in, upload, upgrade, account connection, frontend login, comment/reply, folder-cap recovery, ZIP scope, and negative trigger scenarios with no blockers.
 - With-skill versus without-skill comparison is recorded in `evals/scorecards/flow-with-without-skill-comparison-2026-05-06.md`; it found the skill materially improves routing, approval gates, account-linking decisions, folder-cap recovery, ZIP-scope handling, and product-specific upload metadata behavior versus a generic baseline.
+- Package readiness review is recorded in `evals/scorecards/package-readiness-2026-05-06.md`; the repo package surface is clean, but the local installed skill under `$HOME/.codex/skills/wondermint` is stale and should be synced only after explicit owner approval.
 
 ## Next Phase
 
@@ -139,6 +140,8 @@ Recommended next work:
 - Do not add marketplace transaction or marketplace analytics endpoints to the MVP skill unless the owner explicitly asks.
 - Do not add GraphQL operations, queries, mutations, schemas, or `/graphql` examples to skill docs.
 - Do not add live-eval, scorecard, release, or iteration procedures to installable skill files.
+- Use `repo-workflows/package-readiness.md` before syncing the local installed
+  skill package.
 
 ## Phase 2 Findings
 

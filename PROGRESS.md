@@ -41,6 +41,7 @@
 - Frontend/upgrade fresh-agent dry validation is recorded in `evals/scorecards/flow-frontend-upgrade-fresh-agent-2026-05-06.md`.
 - `v0.1.2` tags the frontend/upgrade guidance baseline at commit `41383f9`.
 - Frontend/upgrade read-only live validation is recorded in `evals/scorecards/live-frontend-upgrade-2026-05-06.md`.
+- Frontend navigation Q&A dry validation is recorded in `evals/scorecards/flow-frontend-navigation-qa-2026-05-06.md`.
 - Deterministic repo validation lives at `repo-workflows/validate.py`.
 - MVP endpoint scope is recorded in `references/mvp-scope.md`; backend endpoint inventory is not scope permission.
 - MVP skill docs are REST-only. GraphQL operations are backend-awareness material and must not be copied into the skill.
@@ -100,6 +101,7 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - `v0.1.2` live frontend/upgrade finding: subscription, plans, home, owned listings, folders, and private-upload status all returned `200`; plan display names were confirmed as title case in read responses, while checkout bodies remain lowercase plan codes.
 - Terminology update: installable docs now translate backend folder/collection concepts into frontend terms: portfolios, playlists, and feeds. Backend wording cleanup candidates are tracked in `references/terminology-backlog.md`.
 - Frontend research update: public release frontend navigation was mapped for home, onboarding, invitation, feed category routes, item detail, creator profile, and login/create redirects. Authenticated dashboard/upload/billing/private-item surfaces still need an approved logged-in pass.
+- Frontend navigation Q&A finding: current guidance answers common frontend location questions using visible labels such as My Items, My Portfolios, Library, Playlists, Settings, Billing, Password, Notifications, and `+ Create`; no blocking wording gaps found.
 
 ## Next Phase
 

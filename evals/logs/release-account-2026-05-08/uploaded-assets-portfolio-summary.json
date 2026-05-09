@@ -1,0 +1,96 @@
+{
+  "portfolio": {
+    "id": "[REDACTED]",
+    "name": "Uploaded Assets",
+    "type": "PORTFOLIO",
+    "visibility": "PUBLIC",
+    "url": "[REDACTED]",
+    "create_status": "201",
+    "verified_listing_count": 13
+  },
+  "add_results": [
+    {
+      "index": 1,
+      "name": "Black Cat In Blue Flowers",
+      "http_status": "201"
+    },
+    {
+      "index": 2,
+      "name": "Coastal Footpath",
+      "http_status": "201"
+    },
+    {
+      "index": 3,
+      "name": "Peonies On Black",
+      "http_status": "201"
+    },
+    {
+      "index": 4,
+      "name": "Fresh Oven Pizza",
+      "http_status": "201"
+    },
+    {
+      "index": 5,
+      "name": "Palm Beach Valet",
+      "http_status": "201"
+    },
+    {
+      "index": 6,
+      "name": "Field Of White Anemones",
+      "http_status": "201"
+    },
+    {
+      "index": 7,
+      "name": "Serene Sunset Landscape",
+      "http_status": "201"
+    },
+    {
+      "index": 8,
+      "name": "Saharan Distance",
+      "http_status": "201"
+    },
+    {
+      "index": 9,
+      "name": "White Beetle On The Street",
+      "http_status": "201"
+    },
+    {
+      "index": 10,
+      "name": "Blue Sentinel Owl",
+      "http_status": "201"
+    },
+    {
+      "index": 11,
+      "name": "White Cosmos In Shadow",
+      "http_status": "201"
+    },
+    {
+      "index": 12,
+      "name": "Kittens At Golden Hour",
+      "http_status": "201"
+    },
+    {
+      "index": 13,
+      "name": "Lily Pond Passage",
+      "http_status": "201"
+    }
+  ],
+  "contents_status": "200",
+  "content_count": 13,
+  "has_more": false,
+  "items": [
+    "Black Cat In Blue Flowers",
+    "Coastal Footpath",
+    "Peonies On Black",
+    "Fresh Oven Pizza",
+    "Palm Beach Valet",
+    "Field Of White Anemones",
+    "Serene Sunset Landscape",
+    "Saharan Distance",
+    "White Beetle On The Street",
+    "Blue Sentinel Owl",
+    "White Cosmos In Shadow",
+    "Kittens At Golden Hour",
+    "Lily Pond Passage"
+  ]
+}

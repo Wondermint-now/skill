@@ -1,0 +1,30 @@
+{
+  "endpoint": "GET /api/v1/agents/marketplace?page=1&limit=3",
+  "http_status": 200,
+  "top_level_keys": [
+    "listings",
+    "page",
+    "limit",
+    "total"
+  ],
+  "page": 1,
+  "limit": 3,
+  "listing_count": 3,
+  "redaction_note": "Full listing bodies removed; original redacted evidence was oversized and not needed for scorecard review.",
+  "sample_listing_fields_observed": [
+    "listing_id",
+    "name",
+    "slug",
+    "category",
+    "contract_type",
+    "listing_assets",
+    "tags",
+    "user",
+    "like_count",
+    "save_count",
+    "view_count",
+    "comment_count",
+    "share_count",
+    "is_private"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Lily Pond Passage",
+  "category": "Image",
+  "visibility": "PUBLIC",
+  "contract_type": "public_domain",
+  "subcategories": [
+    "Surreal / Dreamlike",
+    "Painterly",
+    "Calm / Peaceful",
+    "Comic / Cartoon"
+  ],
+  "tags": [
+    "lily pond",
+    "boat",
+    "lotus leaves",
+    "red fish",
+    "aerial view",
+    "water garden",
+    "illustration",
+    "peaceful",
+    "nature",
+    "storybook"
+  ],
+  "create_status": "201",
+  "put_status": "200",
+  "confirm_status": "200",
+  "final_status": "Minted",
+  "listing_id": "[REDACTED]",
+  "local_moved_to": "[LOCAL_PATH_REDACTED]",
+  "notes": "Upload reached Minted; source file moved to uploaded folder."
+}

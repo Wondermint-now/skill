@@ -1,0 +1,28 @@
+{
+  "name": "Coastal Footpath",
+  "category": "Image",
+  "visibility": "PUBLIC",
+  "contract_type": "public_domain",
+  "subcategories": [
+    "Surreal / Dreamlike",
+    "Cinematic",
+    "Calm / Peaceful",
+    "Classic Fine Art"
+  ],
+  "tags": [
+    "coastal path",
+    "white dress",
+    "landscape",
+    "sea",
+    "architecture",
+    "cinematic",
+    "rust color",
+    "dreamlike"
+  ],
+  "create_status": "201",
+  "put_status": "200",
+  "confirm_status": "200",
+  "final_status": "Minted",
+  "listing_id": "[REDACTED]",
+  "moved_to": "[LOCAL_PATH_REDACTED]"
+}

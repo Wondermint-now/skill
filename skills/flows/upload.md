@@ -22,6 +22,8 @@ thumbnail, accurate metadata, valid taxonomy, and a clear report after posting.
   but file upload or confirmation fails, the agent may delete that unpublished
   draft to keep the user's account clean.
 
+For confirmation details, use [Confirmation Gates](confirmation-gates.md).
+
 ## Phase 1: Confirm The Asset
 
 Confirm:
@@ -114,6 +116,11 @@ Ask for explicit approval. Do not proceed on silence.
 
 ## Phase 4: Create And Upload
 
+Before starting, check whether the workflow needs rate-limit budgeting. For
+bulk uploads or Free-plan users, read [Reference > Rate Limits](../reference.md#rate-limits)
+and avoid creating replacement listings while earlier created listings are
+still unresolved.
+
 1. Create the listing:
 
    ```http
@@ -148,6 +155,10 @@ before resending with `acknowledge_review: true`. See
 [Items > Accounts Under Review](../items.md#accounts-under-review).
 
 ## Failure Handling
+
+On `429 RATE_LIMITED`, honor `Retry-After` when present, re-check unresolved
+listings after the reset window, and do not create replacement uploads until
+the prior listings reach terminal statuses or the user approves a new attempt.
 
 If `POST /listings` succeeded and a later file upload or confirmation step
 fails, delete the orphan draft only if cleanup was pre-approved in Phase 3 or

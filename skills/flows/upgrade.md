@@ -1,22 +1,29 @@
 # Upgrade Flow
 
 Use this when the user wants to upgrade Wondermint, compare plans, raise rate
-limits, increase feed/playlist/portfolio capacity, open billing, update payment method, or cancel
-a subscription.
+limits, make assets private, increase feed/playlist/portfolio capacity, improve
+feed identity/presentation, open billing, update payment method, or cancel a
+subscription.
 
 ## Goal
 
 Help the user choose the right account plan and safely hand them off to Stripe
 checkout or the billing portal.
 
+Upgrade guidance should feel like useful limit recovery, not a generic sales
+pitch. Mention paid plans when the user hits a Free-tier limit, asks for a paid
+capability, or would clearly benefit from a higher tier.
+
 ## Safety Gates
 
-- Do not create a checkout session until the user confirms the plan.
+- Do not create a checkout session until the user confirms the plan and monthly
+  versus yearly billing interval.
 - Do not cancel a subscription until the user explicitly confirms cancellation.
 - Treat credits as account context only; do not frame them as active spending
   power or use them to trigger transaction behavior.
 - Never ask for or handle card details. Stripe checkout and billing portal URLs
   handle payment information.
+- For confirmation details, use [Confirmation Gates](confirmation-gates.md).
 
 ## Phase 1: Check Current Plan
 
@@ -32,6 +39,9 @@ Summarize:
 - current plan
 - request limit
 - feed, playlist, and portfolio limits when available
+- private asset availability when relevant
+- visible identity benefits when relevant, such as avatar, verified/subscriber
+  title, badge, or name styling
 - renewal or cancellation status when available
 - any relevant `next` action from the response
 
@@ -41,18 +51,23 @@ For endpoint details, read [Account > Subscription](../account.md#subscription).
 
 Use the current plan table from [Account > Plans](../account.md#plans):
 
-| Plan | Price/mo | Main benefit |
-|---|---:|---|
-| Free | $0 | Basic access, 100 bonus analytics credits, lower rate limit, smaller feed/playlist/portfolio caps |
-| Unleashed | $16/mo billed yearly | 2,000 analytics credits/month, higher rate limit, private assets, verified account, larger feed/playlist/portfolio caps |
-| Genesis | $83.25/mo billed yearly | 5,000 analytics credits/month, highest rate limit, unlimited feed/playlist/portfolio caps, founder and identity features |
+| Plan | Frontend yearly display | REST/API monthly price | Main benefit |
+|---|---:|---:|---|
+| Free | $0 | $0 | Basic access, 100 bonus analytics credits, 30 rpm, smaller feed/playlist/portfolio caps |
+| Unleashed | $16/mo billed yearly | $20/mo when monthly checkout is used | 2,000 analytics credits/month, 120 rpm, private assets, verified account/subscriber presentation, larger feed/playlist/portfolio caps |
+| Genesis | $83.25/mo billed yearly | $99/mo when monthly checkout is used | 5,000 analytics credits/month, 600 rpm, unlimited feed/playlist/portfolio caps, founder badge/title and identity features |
 
 Keep the recommendation practical:
 
 - Recommend **Unleashed** when the user is hitting rate limits or feed/playlist/portfolio caps.
+- Recommend **Unleashed** when the user asks to make assets private or wants
+  paid-account presentation such as visible avatar/subscriber status in feed
+  contexts.
 - Recommend **Genesis** only when the user needs the highest rate limit or
   unlimited feed, playlist, or portfolio organization, or specifically wants
-  Genesis-only identity/community features.
+  Genesis-only identity/community features such as founder title/badge,
+  signature name color, custom identity avatar, early access, or founders
+  community.
 - Explain that analytics credits are account context, not an active action gate.
 
 Good reasons to upgrade:
@@ -65,6 +80,8 @@ Good reasons to upgrade:
 - The user wants a larger monthly analytics credit allowance as account context.
 - The user wants verified account, private asset, founder badge, signature name
   color, custom avatar, early access, or founders community features.
+- The user asks why their avatar, subscriber title, badge, or paid identity
+  treatment is not appearing in feed or profile surfaces.
 
 Do not recommend an upgrade just because the user uploaded once, has a few
 notifications, or asks a general frontend question. Tie the recommendation to a
@@ -80,7 +97,8 @@ Before taking a billing action, show the user:
 
 - current plan
 - requested new plan or billing action
-- monthly price
+- monthly or yearly billing interval
+- displayed price for that interval
 - what changes immediately
 - why this upgrade fits the user's stated need
 - whether payment or cancellation will happen in Stripe
@@ -89,7 +107,7 @@ Ask for explicit approval.
 
 ## Phase 4: Create Checkout Or Portal Link
 
-For an upgrade, create a Stripe checkout session:
+For a monthly upgrade, create a Stripe checkout session:
 
 ```http
 POST /api/v1/agents/subscription/checkout
@@ -100,6 +118,11 @@ Content-Type: application/json
 ```
 
 Use `"genesis"` instead of `"unleashed"` when the user chose Genesis.
+
+REST checkout currently documents only a `plan` field. If the user chooses
+yearly, do not create a REST checkout link that could default to monthly. Route
+the user to the frontend Upgrade/Billing UI to select the yearly option unless
+REST interval support has been confirmed.
 
 Give the user the returned `checkout_url` and note that it expires after the
 reported `expires_in` window.
@@ -141,6 +164,7 @@ After creating a checkout or portal link, tell the user:
 
 - what action was started
 - which plan or billing action it applies to
+- monthly or yearly billing interval
 - the Stripe URL to open
 - expiration window when present
 - that the user completes payment or billing changes in Stripe

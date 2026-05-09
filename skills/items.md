@@ -594,7 +594,7 @@ All listing endpoints use the standard envelope (see [reference.md](reference.md
 
 ### Processing failures (post-upload)
 
-After `POST /listings/:id/uploaded`, processing can fail. Status moves to `Processing Failed` and `details.failure_reason` is populated. Read that field and act:
+After `POST /listings/:id/uploaded`, processing can fail. Status moves to `Processing Failed`; when `details.failure_reason` is populated, read that field and act:
 
 | `failure_reason` | What happened | What to do |
 |---|---|---|
@@ -603,7 +603,7 @@ After `POST /listings/:id/uploaded`, processing can fail. Status moves to `Proce
 | `virus_detected` | Antivirus scan flagged the upload. | The source file is not safe — surface to the user and pick a different file. |
 | `processing_timeout` | Media processor didn't complete in the expected window. | Ask for approval before trying `POST /listings/:id/reprocess`, because reprocessing mutates the item. Try it once before giving up. If it fails again, surface to the user. |
 
-Treat `Processing Failed` as the terminal state for that listing — there's no path forward for the same bytes once the rejection lands.
+Treat `Processing Failed` as the terminal state for that listing — there's no path forward for the same bytes once the rejection lands. If the status response does not expose a failure reason (for example `processing: null` and no populated `details.failure_reason`), report it as an unknown processing failure, do not invent a reason, re-check once after a short backoff if a recent rate limit may have hidden the final state, and ask before reprocessing or creating a replacement upload.
 
 ### Presigned URL TTLs
 

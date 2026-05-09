@@ -1,0 +1,64 @@
+{
+  "search_status": "200",
+  "endpoint": "POST /api/v1/agents/feed-queue",
+  "request_shape": {
+    "target_type": "FOLDER",
+    "target_id": "[REDACTED]"
+  },
+  "added_count": 4,
+  "results": [
+    {
+      "name": "Collection 1",
+      "type": "COLLECTION",
+      "owner": "ashokatest",
+      "listing_count": 19,
+      "http_status": "201",
+      "queue_entry_id": "[REDACTED]",
+      "target_id": "[REDACTED]",
+      "target_type": "FOLDER",
+      "rank": "a0",
+      "response_target_name": "Collection 1",
+      "response_target_listing_count": 19
+    },
+    {
+      "name": "Cats Platform Collection 20260424",
+      "type": "COLLECTION",
+      "owner": "iamashoka",
+      "listing_count": 18,
+      "http_status": "201",
+      "queue_entry_id": "[REDACTED]",
+      "target_id": "[REDACTED]",
+      "target_type": "FOLDER",
+      "rank": "Zz",
+      "response_target_name": "Cats Platform Collection 20260424",
+      "response_target_listing_count": 18
+    },
+    {
+      "name": "collection 3",
+      "type": "COLLECTION",
+      "owner": "ashokatest",
+      "listing_count": 15,
+      "http_status": "201",
+      "queue_entry_id": "[REDACTED]",
+      "target_id": "[REDACTED]",
+      "target_type": "FOLDER",
+      "rank": "Zy",
+      "response_target_name": "collection 3",
+      "response_target_listing_count": 15
+    },
+    {
+      "name": "collection 2",
+      "type": "COLLECTION",
+      "owner": "ashokatest",
+      "listing_count": 15,
+      "http_status": "201",
+      "queue_entry_id": "[REDACTED]",
+      "target_id": "[REDACTED]",
+      "target_type": "FOLDER",
+      "rank": "Zx",
+      "response_target_name": "collection 2",
+      "response_target_listing_count": 15
+    }
+  ],
+  "finding": "Agent REST feed-queue enqueue exists and returned 201 with entry.target_type, target_id, rank, created_at, and hydrated folder target. No agent REST queue read endpoint was found in backend endpoint reference."
+}

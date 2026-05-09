@@ -1,0 +1,68 @@
+{
+  "requested_success_count": 5,
+  "actual_success_count": 6,
+  "successes": [
+    {
+      "name": "Kittens At Golden Hour",
+      "final_status": "Minted",
+      "moved_to": "[LOCAL_PATH_REDACTED]"
+    },
+    {
+      "name": "White Cosmos In Shadow",
+      "final_status": "Minted",
+      "moved_to": "[LOCAL_PATH_REDACTED]"
+    },
+    {
+      "name": "Blue Sentinel Owl",
+      "final_status": "Minted",
+      "moved_to": "[LOCAL_PATH_REDACTED]"
+    },
+    {
+      "name": "White Beetle On The Street",
+      "final_status": "Minted",
+      "moved_to": "[LOCAL_PATH_REDACTED]"
+    },
+    {
+      "name": "Saharan Distance",
+      "final_status": "Minted",
+      "moved_to": "[LOCAL_PATH_REDACTED]"
+    },
+    {
+      "name": "Serene Sunset Landscape",
+      "final_status": "Minted",
+      "moved_to": "[LOCAL_PATH_REDACTED]"
+    }
+  ],
+  "failures_or_retries": [
+    {
+      "name": "Bronco Study",
+      "result": "status_unresolved",
+      "detail": "Processing Failed"
+    },
+    {
+      "name": "Luminous Night Butterfly",
+      "result": "create_failed",
+      "detail": "429"
+    },
+    {
+      "name": "Luminous Night Butterfly",
+      "result": "status_unresolved",
+      "detail": "Processing Failed"
+    },
+    {
+      "name": "White Horses In Motion",
+      "result": "status_unresolved",
+      "detail": "Processing Failed"
+    },
+    {
+      "name": "Blue Whale Tail Mosaic",
+      "result": "status_unresolved",
+      "detail": "Processing Failed"
+    }
+  ],
+  "notes": [
+    "One upload initially had an unresolved status because a status check was rate-limited, but a later check showed it reached Minted.",
+    "Only files with successful terminal status were moved to the uploaded folder.",
+    "Failed processing attempts were not moved."
+  ]
+}

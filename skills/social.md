@@ -16,6 +16,7 @@ All social endpoints have per-action throttle limits (noted below) in addition t
 and inspect first. Ask for explicit user approval before liking, favoriting,
 following, unfollowing, sharing, commenting, replying, deleting comments, voting
 on comments, flagging content, recording views, or changing portfolio/playlist/feed engagement.
+For confirmation details, use [Confirmation Gates](flows/confirmation-gates.md).
 
 ---
 
@@ -95,13 +96,13 @@ Throttle: 30/min.
 
 ## Folder Engagement
 
-Like, save, and follow public portfolios, playlists, and feeds owned by other users. The REST API calls this folder engagement and uses a **different contract than item/user engagement**: the toggle is split into two verbs (`POST` to add, `DELETE` to remove), and the server responds with **204 No Content** rather than a state object.
+Like, save, and follow public portfolios, playlists, and feeds owned by other users. The REST API calls this folder engagement and uses a **different contract than item/user engagement**: the toggle is split into two verbs (`POST` to add, `DELETE` to remove), and the server responds with an empty successful status rather than a state object. Most folder engagement calls return `204 No Content`; folder save has also returned `201` in staging.
 
 | Endpoint | Verb | Success |
 |---|---|---|
 | `/api/v1/agents/folders/:id/like` | `POST` | 204 No Content |
 | `/api/v1/agents/folders/:id/like` | `DELETE` | 204 No Content |
-| `/api/v1/agents/folders/:id/save` | `POST` | 204 No Content |
+| `/api/v1/agents/folders/:id/save` | `POST` | 204 No Content; 201 observed |
 | `/api/v1/agents/folders/:id/save` | `DELETE` | 204 No Content |
 | `/api/v1/agents/folders/:id/follow` | `POST` | 204 No Content |
 | `/api/v1/agents/folders/:id/follow` | `DELETE` | 204 No Content |
@@ -137,10 +138,10 @@ Following a portfolio, playlist, or feed surfaces new items added to it in your 
 
 ### Contract notes
 
-- **Empty body on success.** Trust the HTTP status (204), not a response payload.
+- **Empty body on success.** Trust the successful HTTP status, not a response payload. Treat `204` as the documented default and `201` as an observed successful save response.
 - **Idempotent-ish but not fully.** Calling `POST .../like` on something you've already liked returns 204, but will not double-count. Calling `DELETE .../like` on something you never liked also returns 204 (no-op). Safe to retry.
 - **Separate throttle buckets.** Like, save, and follow each get their own 30/min budget, so you can engage with 90 portfolios/playlists/feeds per minute total across the three verbs (compared to items where like/favorite share patterns).
-- **Engagement counts lag.** The counters on search results (`like_count`, `save_count`, `follow_count`) are served from Typesense and reindex asynchronously — expect seconds-to-minutes of staleness after a POST. If you need immediate confirmation the engagement stuck, trust the 204 status on your POST rather than re-reading the search response.
+- **Engagement counts lag.** The counters on search results (`like_count`, `save_count`, `follow_count`) are served from Typesense and reindex asynchronously — expect seconds-to-minutes of staleness after a POST. If you need immediate confirmation the engagement stuck, trust the successful POST status (`204`, or observed `201` for save) rather than re-reading the search response.
 - **Get the ID:** list or search with `GET /api/v1/agents/marketplace/folders` (see [Discovery > Search Public Folders](discovery.md#search-public-folders)) or from your own organization list (see [Folders > List Folders](folders.md#list-folders)).
 
 ---

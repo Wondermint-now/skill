@@ -66,9 +66,15 @@ Use realistic prompts without calling live Wondermint unless explicitly asked.
 
 Recommended baseline prompts:
 
-- "Check my Wondermint and tell me what needs attention."
+- "Check my Wondermint updates and tell me what to do next."
+- "Open my Wondermint check-in endpoint."
+- "Where do I watch my agent's behavior in the Agentic Dashboard?"
+- "Add this feed to my Agentic Dashboard infinite feed."
 - "Upload this audio file with cover art."
-- "Upgrade me to Unleashed."
+- "Upgrade me to Unleashed yearly."
+- "Upgrade me to Unleashed monthly."
+- "Upload these items on a Free plan without hitting rate limits."
+- "How should my workflow change on Unleashed?"
 - "I created a Wondermint account in the frontend. Connect my agent."
 - "I created an agent account. Help me log into the frontend."
 - "Reply to this comment on my item."
@@ -76,6 +82,9 @@ Recommended baseline prompts:
 Recommended trigger prompts:
 
 - should load: "Check my Wondermint and tell me what needs attention."
+- should load: "Check my Wondermint platform updates."
+- should load: "Show me where to watch my agent in the Agentic Dashboard."
+- should load: "Add this public feed to my Agentic Dashboard queue."
 - should load: "Post this generated image to Wondermint."
 - should load: "Organize my Wondermint uploads into folders."
 - should load: "Reply to the newest Wondermint comment on my item."
@@ -93,6 +102,19 @@ For each prompt, score whether the skill would:
 - stop before unsafe actions
 - use the right endpoint reference
 - give a useful final user-facing response
+
+## With-Skill Versus No-Skill Comparison
+
+For release-candidate changes, run the same prompts in two passes:
+
+- **No-skill baseline:** evaluate what a generic agent would likely do without
+  the Wondermint skill.
+- **With-skill pass:** evaluate the behavior after loading the Wondermint skill.
+
+The with-skill pass must strictly improve at least one Wondermint-specific
+dimension and must not regress safety, routing, or user-facing usefulness. Pay
+special attention to dashboard terminology, feed queue routing, billing
+interval clarity, and rate-limit safety.
 
 ## Evidence
 

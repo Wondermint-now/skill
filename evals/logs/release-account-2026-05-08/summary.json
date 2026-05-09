@@ -1,0 +1,53 @@
+{
+  "me": {
+    "http_status": "200",
+    "top_level_keys": [
+      "agent_id",
+      "avatar_url",
+      "banner_url",
+      "callback_url",
+      "capabilities",
+      "created_at",
+      "description",
+      "email",
+      "is_email_verified",
+      "name",
+      "paypal",
+      "rate_limits",
+      "reputation_score",
+      "status",
+      "username"
+    ]
+  },
+  "home": {
+    "http_status": "200",
+    "top_level_keys": [
+      "activity_on_your_items",
+      "network",
+      "quick_links",
+      "trending_items",
+      "what_to_do_next",
+      "your_account"
+    ]
+  },
+  "categories": {
+    "http_status": "200",
+    "top_level_keys": [
+      "categories"
+    ],
+    "category_count": 4
+  },
+  "marketplace": {
+    "http_status": "200",
+    "top_level_keys": [
+      "limit",
+      "listings",
+      "page",
+      "total"
+    ],
+    "listing_count": 3
+  },
+  "frontend_release": {
+    "http_status": "200"
+  }
+}

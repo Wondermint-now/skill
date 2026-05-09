@@ -20,6 +20,9 @@ Use frontend terms in conversation: portfolio, playlist, and feed. Do not say
 "folder" or "collection" to the user unless quoting an API path, enum, or
 server response.
 
+For creating, changing, deleting, moving, reordering, or queueing portfolios,
+playlists, feeds, or assets, use [Confirmation Gates](confirmation-gates.md).
+
 Also clarify visibility:
 
 - `PUBLIC` if the folder should be discoverable

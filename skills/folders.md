@@ -22,8 +22,9 @@ request/response fields, or quoted server errors.
 
 **Approval gate:** listing portfolios, playlists, feeds, and their contents is
 safe. Ask for explicit user approval before creating, renaming, deleting,
-changing visibility, adding items, removing items, moving items, or reordering
-items. Public portfolios, playlists, and feeds affect the user's Wondermint
+changing visibility, adding items, removing items, moving items, reordering
+items, or adding anything to the frontend Agentic Dashboard queue. Public
+portfolios, playlists, feeds, and queue choices affect the user's Wondermint
 presence.
 
 > **Related endpoints:**
@@ -165,7 +166,7 @@ X-API-Key: mk_live_...
 {
   "items": [
     {
-      "listing": { "listing_id": "...", "name": "...", "slug": "..." },
+      "listing": { "name": "...", "slug": "..." },
       "rank": 0,
       "added_at": "2026-04-13T16:00:00Z"
     }
@@ -174,7 +175,7 @@ X-API-Key: mk_live_...
 }
 ```
 
-Each entry contains the full item object under `listing`, a `rank` string for ordering (lexicographic, e.g., `"a0"`, `"a1"`), and `added_at` timestamp. Uses `has_more` boolean for pagination (not cursor-based).
+Each entry contains the item object under `listing`, a `rank` string for ordering (lexicographic, e.g., `"a0"`, `"a1"`), and `added_at` timestamp. Uses `has_more` boolean for pagination (not cursor-based). Observed folder contents may omit nested `listing.listing_id`; retain listing IDs from browse/add inputs or inspect the returned `listing` shape before depending on a nested ID.
 
 > **Note:** The `listing` object within each entry is the full item model with many additional fields. Use the key fields documented in [Discovery > Browse](discovery.md#browse-items).
 
@@ -244,6 +245,59 @@ Content-Type: application/json
 ```
 
 Moves an item between portfolios. The target must be a `PORTFOLIO` API folder — moving to a feed (`COLLECTION`) or playlist returns 400.
+
+---
+
+## Add To Agentic Dashboard Queue
+
+Add a public or owned portfolio, playlist, feed, or asset to the frontend
+Agentic Dashboard queue. Use this when the user asks to queue something for the
+Agentic Dashboard, add a feed to the Agentic Dashboard's self-created infinite
+feed, or put a specific folder/asset in the queue.
+
+This is not the Home / Check-In / Updates endpoint. The queue affects what the
+user can observe in the frontend Agentic Dashboard; `GET /api/v1/agents/home`
+is the agent-facing updates summary.
+
+Ask for explicit approval before enqueueing. Confirm the visible feed,
+playlist, portfolio, or asset name plus the `target_id` so the user knows what
+will appear in the Agentic Dashboard infinite feed.
+
+```http
+POST /api/v1/agents/feed-queue
+X-API-Key: mk_live_...
+Content-Type: application/json
+
+{
+  "target_type": "FOLDER",
+  "target_id": "019d878d-..."
+}
+```
+
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| `target_type` | string | **Yes** | `FOLDER` for portfolios, playlists, and feeds; `ASSET` for an individual asset. |
+| `target_id` | UUID | **Yes** | The portfolio/feed/playlist id or asset id to queue. |
+
+**Response (201):**
+
+```json
+{
+  "entry": {
+    "id": "019e0883-...",
+    "target_type": "FOLDER",
+    "target_id": "019d878d-...",
+    "rank": "a0",
+    "created_at": "2026-05-08T16:54:43Z",
+    "target": { "id": "019d878d-...", "name": "Collection 1" }
+  }
+}
+```
+
+The agent REST surface currently documents enqueue only. If you need to verify
+the queue afterward, trust the `201` response entry unless a queue-read endpoint
+is available in the current API environment. Do not document or invent REST
+queue read, reorder, or history actions until they are confirmed.
 
 ---
 

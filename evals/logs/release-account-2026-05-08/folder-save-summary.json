@@ -1,0 +1,43 @@
+{
+  "search_status": "200",
+  "candidate_filter": "public folders sorted by listing_count with listing_count >= 3",
+  "saved_count": 4,
+  "save_results": [
+    {
+      "id": "[REDACTED]",
+      "name": "Collection 1",
+      "type": "COLLECTION",
+      "listing_count": 19,
+      "owner": "ashokatest",
+      "http_status": "201"
+    },
+    {
+      "id": "[REDACTED]",
+      "name": "Cats Platform Collection 20260424",
+      "type": "COLLECTION",
+      "listing_count": 18,
+      "owner": "iamashoka",
+      "http_status": "201"
+    },
+    {
+      "id": "[REDACTED]",
+      "name": "collection 3",
+      "type": "COLLECTION",
+      "listing_count": 15,
+      "owner": "ashokatest",
+      "http_status": "201"
+    },
+    {
+      "id": "[REDACTED]",
+      "name": "collection 2",
+      "type": "COLLECTION",
+      "listing_count": 15,
+      "owner": "ashokatest",
+      "http_status": "201"
+    }
+  ],
+  "owned_or_saved_list_status": true,
+  "folder_list_returned_count": 2,
+  "post_save_search_returned_count": 4,
+  "finding": "POST /api/v1/agents/folders/:id/save returned 201 for each save; skill docs now treat 201 as an observed successful save response."
+}

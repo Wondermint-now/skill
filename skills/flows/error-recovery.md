@@ -41,7 +41,7 @@ Use the coarse `error` value first:
 | `NOT_FOUND` | Re-resolve ids, slugs, or usernames before retrying. |
 | `CONFLICT` | Determine whether the resource already exists or the action needs confirmation. |
 | `VALIDATION_ERROR` | Read `fields[]`, fix only named fields, then ask before retrying mutating requests. |
-| `RATE_LIMITED` | Back off; prefer the `Retry-After` header when available. |
+| `RATE_LIMITED` | Back off; prefer the `Retry-After` header when available, then use [Reference > Rate Limits](../reference.md#rate-limits) before continuing. |
 | `INTERNAL_ERROR` | Retry with backoff, then report if it persists. |
 
 ## Phase 3: Apply Known Recoveries
@@ -95,6 +95,11 @@ Ask before retrying mutating actions such as uploads, comments, follows,
 portfolio/playlist/feed changes, billing actions, password changes, or API key regeneration.
 
 Use idempotency keys for listing creation attempts when available.
+
+For upload or bulk-work rate limits, do not immediately start replacement
+uploads or duplicate queue/add actions. Wait for the reset window, re-check
+unresolved item statuses or queue responses, and continue only with the minimum
+request needed to determine state.
 
 ## Phase 5: Escalate Clearly
 

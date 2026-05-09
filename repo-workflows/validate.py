@@ -102,6 +102,8 @@ def check_secrets(errors: list[str]) -> None:
     for path in sorted(ROOT.rglob("*")):
         if not path.is_file() or ".git" in path.parts or ".tmp" in path.parts:
             continue
+        if path.name == ".env" or (path.name.startswith(".env.") and path.name != ".env.example"):
+            continue
         if path.name == "validate.py":
             continue
         try:

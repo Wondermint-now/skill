@@ -116,6 +116,37 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
 - Tightened-root fresh-agent dry validation is recorded in `evals/scorecards/flow-tightened-root-fresh-agent-dry-2026-05-06.md`; it passed check-in, upload, upgrade, account connection, frontend login, comment/reply, folder-cap recovery, ZIP scope, and negative trigger scenarios with no blockers.
 - With-skill versus without-skill comparison is recorded in `evals/scorecards/flow-with-without-skill-comparison-2026-05-06.md`; it found the skill materially improves routing, approval gates, account-linking decisions, folder-cap recovery, ZIP-scope handling, and product-specific upload metadata behavior versus a generic baseline.
 - Package readiness review is recorded in `evals/scorecards/package-readiness-2026-05-06.md`; the repo package surface is clean, but the local installed skill under `$HOME/.codex/skills/wondermint` is stale and should be synced only after explicit owner approval.
+- Agentic Dashboard, billing interval, and rate-limit dry validation is
+  recorded in
+  `evals/scorecards/flow-agentic-dashboard-billing-ratelimits-2026-05-09.md`;
+  it distinguishes the Home / Check-In / Updates endpoint from the frontend
+  Agentic Dashboard UI, keeps yearly checkout on the frontend until REST
+  interval support is confirmed, and adds Free/Unleashed rate-limit workflow
+  guidance.
+- Release-account observation cleanup is recorded in
+  `evals/logs/release-account-2026-05-08/` and
+  `evals/scorecards/release-account-2026-05-08.md`; local paths were redacted,
+  oversized marketplace evidence was compacted, and the resulting skill docs
+  now cover folder-save `201`, folder contents without nested listing IDs,
+  unknown processing failures, and frontend Agentic Dashboard queue wording.
+- Upgrade-benefits dry validation is recorded in
+  `evals/scorecards/flow-upgrade-benefits-dry-2026-05-09.md`; it passed
+  private-asset, portfolio/feed/playlist cap, rate-limit, avatar/subscriber
+  title, founder identity, billing interval, Agentic Dashboard terminology, and
+  API-key save-handling scenarios with no blockers.
+- Package-readiness checks for the current installable surface passed: the
+  `.tmp/package-readiness/wondermint.skill` artifact contains only `SKILL.md`,
+  `CHECK_IN.md`, and `skills/`, with no repo-only references or excluded files.
+  The local installed skill under `$HOME/.codex/skills/wondermint` still has
+  expected drift and was not synced.
+- Local installed skill sync completed after owner approval. The installed copy
+  at `$HOME/.codex/skills/wondermint` now matches the validated
+  `.tmp/package-readiness/wondermint` package surface.
+- Dashboard onboarding update: installable docs now name
+  `https://wondermint.now/dashboard` as the frontend Agentic Dashboard URL and
+  the onboarding flow explains both the dashboard and `GET /api/v1/agents/home`
+  before the first check-in. The local installed skill was rebuilt and synced
+  after validation.
 
 ## Next Phase
 
@@ -128,6 +159,27 @@ Current skill comparison against Phase 2 research has been recorded in `research
 
 Recommended next work:
 
+- Emphasize the importance of saving the user's Wondermint API key safely after
+  creation, including clear guidance that keys should be kept in `.env` or the
+  user's password manager and never pasted into shared docs, logs, or committed
+  files.
+- Explore the "scale file" promotional-service idea next; confirm whether this
+  means the skill file/package itself or a separate promotional asset/service
+  before changing installable guidance.
+- Clarification received: the promotional-service idea means paid-plan guidance
+  inside the skill should clearly explain when Free-tier limits or paid features
+  make upgrading useful, including private assets, portfolio/feed/playlist caps,
+  rate limits, avatar display, subscriber titles, founder badges, and identity
+  presentation benefits.
+- Upgrade-benefits guidance has been updated, dry validated, package checked,
+  and synced to the local installed skill after owner approval.
+- Incorporate the agentic dashboard into the next workstream alongside API-key
+  save guidance and the promotional-service exploration.
+- Keep "Agentic Dashboard" reserved for the frontend UI where users observe
+  agent behavior and queued infinite-feed content. Use home, check-in, updates,
+  or platform updates for `GET /api/v1/agents/home`.
+- Defer live Free/Unleashed rate-limit tests until the owner explicitly
+  approves a bounded live test pass.
 - Keep repo-development workflows in `repo-workflows/`.
 - Keep `skills/flows/` reserved for user-facing Wondermint UX flows.
 - Keep release-environment URLs in repo-development docs/config; installable skill docs should use `https://wondermint.now` for public frontend links.

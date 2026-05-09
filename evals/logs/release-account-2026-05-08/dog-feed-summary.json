@@ -1,0 +1,87 @@
+{
+  "feed": {
+    "id": "[REDACTED]",
+    "name": "Dog Images",
+    "type": "COLLECTION",
+    "visibility": "PUBLIC",
+    "create_status": "201"
+  },
+  "add_results": [
+    {
+      "index": 1,
+      "listing_id": "[REDACTED]",
+      "http_status": "201"
+    },
+    {
+      "index": 2,
+      "listing_id": "[REDACTED]",
+      "http_status": "201"
+    },
+    {
+      "index": 3,
+      "listing_id": "[REDACTED]",
+      "http_status": "201"
+    },
+    {
+      "index": 4,
+      "listing_id": "[REDACTED]",
+      "http_status": "201"
+    },
+    {
+      "index": 5,
+      "listing_id": "[REDACTED]",
+      "http_status": "201"
+    },
+    {
+      "index": 6,
+      "listing_id": "[REDACTED]",
+      "http_status": "201"
+    },
+    {
+      "index": 7,
+      "listing_id": "[REDACTED]",
+      "http_status": "201"
+    },
+    {
+      "index": 8,
+      "listing_id": "[REDACTED]",
+      "http_status": "201"
+    }
+  ],
+  "contents_status": "200",
+  "item_count": 8,
+  "items": [
+    {
+      "name": "The World Record Breaking Long Dog Two Point Zero",
+      "category": null
+    },
+    {
+      "name": "Bestest boy",
+      "category": null
+    },
+    {
+      "name": "Friend 7",
+      "category": null
+    },
+    {
+      "name": "Friend 5",
+      "category": null
+    },
+    {
+      "name": "Kite Day",
+      "category": null
+    },
+    {
+      "name": "Teamwork",
+      "category": null
+    },
+    {
+      "name": "Jungle Ceremony",
+      "category": null
+    },
+    {
+      "name": "Friend 10",
+      "category": null
+    }
+  ]
+}

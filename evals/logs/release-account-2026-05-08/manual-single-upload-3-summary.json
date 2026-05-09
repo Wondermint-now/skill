@@ -1,0 +1,28 @@
+{
+  "name": "Black Cat In Blue Flowers",
+  "category": "Image",
+  "visibility": "PUBLIC",
+  "contract_type": "public_domain",
+  "subcategories": [
+    "Everyday / Contemporary",
+    "Photoreal",
+    "Calm / Peaceful",
+    "Classic Fine Art"
+  ],
+  "tags": [
+    "black cat",
+    "cat portrait",
+    "blue flowers",
+    "garden",
+    "green eyes",
+    "moody",
+    "soft focus",
+    "petals"
+  ],
+  "create_status": "201",
+  "put_status": "200",
+  "confirm_status": "200",
+  "final_status": "Minted",
+  "listing_id": "[REDACTED]",
+  "moved_to": "[LOCAL_PATH_REDACTED]"
+}

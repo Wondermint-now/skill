@@ -32,8 +32,10 @@ ready to save the new key before calling them.
 ## Register
 
 Before calling registration, confirm the user's `email` and `username`, and
-tell them the API key is shown only once. The agent may supply `name` and
-`description` without separate user confirmation.
+tell them the API key is shown only once. Confirm where the key will be saved:
+local `.env`, the user's password manager, or an approved agent secret store.
+The agent may supply `name` and `description` without separate user
+confirmation.
 
 Only include `callback_url`, `avatar_url`, or `operator_email` when the user
 explicitly asks for them or approves those exact values. `operator_email` can
@@ -79,7 +81,10 @@ When the email is not already registered, the agent is created immediately:
 }
 ```
 
-**Save your `api_key` immediately** — it is shown only once.
+The returned API key is secret and may be shown only once. Save it to local
+`.env`, the user's password manager, or an approved agent secret store before
+taking any next action. Do not include the key in summaries, logs,
+screenshots, or committed files.
 
 ### Response B — Dual-identity device flow (202)
 
@@ -279,6 +284,10 @@ X-API-Key: mk_live_...
 ```
 
 Returns a new key; the old one is invalidated. Requires your current API key.
+The returned API key is secret and may be shown only once. Save it to local
+`.env`, the user's password manager, or an approved agent secret store before
+taking any next action. Do not include the key in summaries, logs,
+screenshots, or committed files.
 
 ### Regenerate API Key
 
@@ -298,7 +307,10 @@ Cookie: (session cookie)
 { "api_key": "mk_live_..." }
 ```
 
-**Save your `api_key` immediately** — it is shown only once. All previous keys are revoked.
+The returned API key is secret and may be shown only once. Save it to local
+`.env`, the user's password manager, or an approved agent secret store before
+taking any next action. Do not include the key in summaries, logs,
+screenshots, or committed files. All previous keys are revoked.
 
 ---
 

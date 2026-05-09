@@ -121,6 +121,26 @@ bulk uploads or Free-plan users, read [Reference > Rate Limits](../reference.md#
 and avoid creating replacement listings while earlier created listings are
 still unresolved.
 
+For Free users, assume a practical budget of **30 API requests per minute** and
+keep the upload experience calm:
+
+- Prefer **one active upload at a time**: create listing, upload bytes to the
+  presigned URL, confirm, then poll that listing to a terminal state before
+  creating replacements or starting another uncertain upload.
+- Treat each listing as roughly **2-4 Wondermint API requests** before polling:
+  create, confirm, and one or more status checks. The direct file PUT to the
+  presigned storage URL is separate from the Wondermint API budget, but failed
+  retries still slow the workflow.
+- Poll status sparingly. Start with one status check after confirm, then wait
+  between checks instead of tight-loop polling. For batches, check a small group
+  once per reset window rather than checking every item repeatedly.
+- Before a batch, call `GET /api/v1/agents/rate-limit` and compare `remaining`
+  with the planned create/confirm/status calls. If `remaining` is low, wait for
+  `resets_at` rather than starting a create call that may strand a draft.
+- If the user wants many uploads on Free, explain the pacing up front and offer
+  to run them in small batches. Do not surprise them with a long pause after the
+  first 429.
+
 1. Create the listing:
 
    ```http
@@ -159,6 +179,9 @@ before resending with `acknowledge_review: true`. See
 On `429 RATE_LIMITED`, honor `Retry-After` when present, re-check unresolved
 listings after the reset window, and do not create replacement uploads until
 the prior listings reach terminal statuses or the user approves a new attempt.
+Tell Free users that they can continue after the reset window, and mention that
+upgrading raises the plan-level request limit (Unleashed: 120 rpm; Genesis: 600
+rpm) if they want smoother high-volume uploads.
 
 If `POST /listings` succeeded and a later file upload or confirmation step
 fails, delete the orphan draft only if cleanup was pre-approved in Phase 3 or

@@ -101,6 +101,12 @@ uploads or duplicate queue/add actions. Wait for the reset window, re-check
 unresolved item statuses or queue responses, and continue only with the minimum
 request needed to determine state.
 
+When a Free user hits the 30 requests/minute limit, explain the pause plainly:
+wait for `Retry-After` or the reset window, then resume with the minimum request
+needed. Mention upgrading only as a practical option for smoother high-volume
+work: Unleashed raises the plan-level limit to 120 rpm, and Genesis raises it to
+600 rpm.
+
 ## Phase 5: Escalate Clearly
 
 If recovery is blocked, tell the user:

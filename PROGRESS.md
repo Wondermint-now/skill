@@ -163,7 +163,7 @@ Recommended next work:
   creation, including clear guidance that keys should be kept in `.env` or the
   user's password manager and never pasted into shared docs, logs, or committed
   files.
-- Explore the "scale file" promotional-service idea next; confirm whether this
+- Explore the "skill file" promotional-service idea next; confirm whether this
   means the skill file/package itself or a separate promotional asset/service
   before changing installable guidance.
 - Clarification received: the promotional-service idea means paid-plan guidance
@@ -185,6 +185,9 @@ Recommended next work:
 - Keep release-environment URLs in repo-development docs/config; installable skill docs should use `https://wondermint.now` for public frontend links.
 - Continue from the new upload, check-in, upgrade, account-connection, comment/reply, discovery, folder organization, error recovery, onboarding, and category/tag selection flows toward broader flow validation.
 - Use `repo-workflows/validation.md` and `evals/templates/flow-scorecard.md` for dry flow validation before live tests.
+- Use `repo-workflows/validation.md`'s skill-file review checklist during the
+  next release-candidate/package-readiness pass, and split large support files
+  only if dry or fresh-agent evals show concrete agent failures.
 - Owner review before tagging `v0.1.1`; optionally run a fresh-agent trigger eval for stronger routing evidence.
 - Update `SKILL.md` only enough to route agents to user-facing flow files.
 - Use `references/backend-endpoints/` as the source-derived API reference when updating existing endpoint docs.
@@ -206,6 +209,12 @@ Recommended next work:
 - Faces skill analysis found useful guided-flow patterns: posture, auth triage, reuse before creation, artifact-first workflows, and executable protocol diagrams for complex flows.
 - Wondermint should borrow Faces flow design but not its multi-command topology yet. Keep one concise `SKILL.md` that routes into focused files.
 - Skill builder video analysis reinforces the current progressive-disclosure shape, MCP-plus-skill division of labor, explicit positive/negative trigger evals, with-skill versus without-skill comparisons, deterministic checks before LLM-as-judge, and treating production skills like maintained code/docs.
+- Writing Skills reference analysis adds a lightweight authoring checklist for future flow work: clarify task/domain, concrete use cases, script need, reference materials, and success condition before editing installable files. It reinforces the existing description budget, progressive-disclosure, deterministic-script, and shallow-reference guidance rather than adding new Wondermint runtime behavior.
+- The practical Writing Skills additions are now encoded in `repo-workflows/iteration.md` as an intake step and review checks for new or expanded flow work.
+- Skill-file review implementation rule: keep the current installable skill
+  structure unless validation or eval evidence shows routing, comprehension, or
+  context-load problems. Large support files are watch items, not automatic
+  refactor targets.
 - Current skill comparison found that the main Phase 2 patterns are already adopted. This pass added root operating modes, reduced duplicate root plan details, aligned root frontmatter with Codex-first `name`/`description` guidance, and added description-length validation.
 - Token-efficiency pass confirmed the same direction: keep root `SKILL.md` as the trigger, safety, and routing layer; move examples, JSON envelopes, frontend observation details, and detailed workflow mechanics into focused installable files.
 

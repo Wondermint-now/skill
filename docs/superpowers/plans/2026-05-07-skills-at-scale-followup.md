@@ -399,7 +399,7 @@ For creator-facing distribution, treat `.tmp/package-readiness/wondermint.skill`
 In `PROGRESS.md`, under the latest recommended next work bullets, add:
 
 ```markdown
-- Treat the "scale file" promotional-service idea as a `.skill` distribution artifact unless the owner clarifies a separate promotional service; build and inspect the zip under `.tmp/` before any distribution.
+- Treat the "skill file" promotional-service idea as a `.skill` distribution artifact unless the owner clarifies a separate promotional service; build and inspect the zip under `.tmp/` before any distribution.
 - Defer bang-backtick skill-load commands until Codex, Claude Desktop, and any target harness are tested for support, failure behavior, and credential safety.
 ```
 

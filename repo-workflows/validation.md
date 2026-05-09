@@ -60,6 +60,34 @@ For each flow, inspect:
 - The flow says what to report back to the user.
 - The flow stays within MVP scope and REST-only behavior.
 
+## Skill-File Review
+
+Use this when reviewing the installable skill surface against accumulated
+research findings from `research/`.
+
+Check:
+
+- Root `SKILL.md` is a router plus always-loaded safety and scope rules, not a
+  full endpoint inventory.
+- Frontmatter descriptions include concrete `Use when...` trigger language and
+  stay under the 1024-character budget.
+- Positive triggers name real user verbs and product nouns.
+- Negative trigger space covers plausible misroutes such as generic generation,
+  unrelated social posting, unrelated Stripe work, and unrelated API work.
+- Non-read-only actions route through approval gates before public,
+  user-visible, durable, account-mutating, or billing actions.
+- Large files are justified by task-specific loading. If a file is over 300
+  lines, check whether agents are actually missing steps or loading irrelevant
+  context before splitting it.
+- Scripts are used only for deterministic validation, formatting, repeated
+  operations, or explicit error handling.
+- Repo-maintenance, eval, package-readiness, and research guidance stay out of
+  `SKILL.md`, `CHECK_IN.md`, and `skills/`.
+
+Do not split or rewrite installable files only to satisfy a line-count
+heuristic. Split only when validation or eval evidence shows routing,
+comprehension, or context-load problems.
+
 ## Dry Scenario Review
 
 Use realistic prompts without calling live Wondermint unless explicitly asked.

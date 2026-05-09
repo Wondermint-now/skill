@@ -31,23 +31,36 @@ Use any of these inputs when improving the skill:
 1. Read `START_HERE.md`, `PROGRESS.md`, and `PLAN.md`.
 2. Identify whether the change is user-facing skill behavior or repo-development
    process.
-3. For user-facing behavior, update the smallest relevant installable skill
+3. For a new or expanded user-facing flow, define the intake before editing:
+   task/domain covered, concrete use cases, whether deterministic scripts are
+   needed, reference materials to consult or cite, and the verifiable success
+   condition.
+4. For user-facing behavior, update the smallest relevant installable skill
    file and keep `SKILL.md` as a concise router.
-4. For development process, update repo docs or `repo-workflows/`, not the
+5. For development process, update repo docs or `repo-workflows/`, not the
    installable skill.
-5. If the change comes from test evidence, update
+6. If the change comes from test evidence, update
    `references/backend-endpoints/live-observations.md` before changing user
    guidance.
-6. Keep detailed API shapes and recovery notes in focused files; avoid
+7. Keep detailed API shapes and recovery notes in focused files; avoid
    duplicating long reference material in `SKILL.md`.
 
 ## Review Checklist
 
 Before committing an iteration:
 
+- New or expanded flows have a clear task/domain, concrete use cases, script
+  decision, source references, and success condition.
 - Installable skill docs contain only user-facing Wondermint instructions.
 - Evaluation, scorecard, release, and repo-maintenance instructions stay out of
   `SKILL.md`, `CHECK_IN.md`, and `skills/`.
+- Frontmatter descriptions include concrete `Use when...` trigger language and
+  stay within the description budget.
+- Any new script performs deterministic validation, formatting, repeated
+  operations, or explicit error handling; scripts are not added just to encode
+  prose workflows.
+- Long or mixed-topic material is split into focused references instead of
+  expanding root `SKILL.md` or a flow file unnecessarily.
 - No real credentials were added.
 - No GraphQL operations, queries, mutations, schemas, or `/graphql` examples
   were added to skill docs.

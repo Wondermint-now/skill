@@ -37,6 +37,14 @@ local `.env`, the user's password manager, or an approved agent secret store.
 The agent may supply `name` and `description` without separate user
 confirmation.
 
+Exception: when the user already created a frontend account and is only adding
+agent/API access, do not ask them to choose a username again. Use
+[Connect Account Flow](flows/connect-account.md). Confirm the existing frontend
+account email and API-key save location; keep the existing frontend username.
+If a payload helper requires `username`, use the already-chosen frontend
+username if known, or ask for that existing username as an identifier, not as a
+new choice.
+
 Only include `callback_url`, `avatar_url`, or `operator_email` when the user
 explicitly asks for them or approves those exact values. `operator_email` can
 link the agent to another account, so do not infer it.

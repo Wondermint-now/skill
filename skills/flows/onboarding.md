@@ -46,7 +46,9 @@ the final report. If the save location is not available, stop and tell the user
 to save the key before continuing.
 
 If a frontend account exists first, use the [Connect Account Flow](connect-account.md)
-to start and poll the device approval flow.
+to start and poll the device approval flow. Do not ask the user to choose a new
+username in this path; they already chose one when creating the frontend
+account.
 
 If an agent account exists first, use the [Connect Account Flow](connect-account.md)
 to log into the frontend by magic link or optional password setup.

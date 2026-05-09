@@ -34,10 +34,17 @@ Use this when the email already belongs to a human/frontend Wondermint account.
 
 Register the agent with the same email as the frontend account:
 
-Before calling registration, confirm the frontend account email and the
-requested agent username, and tell the user the API key is shown only once and
-must be saved to local `.env`, a password manager, or an approved agent secret
-store before any next action.
+Before calling registration, confirm the frontend account email and tell the
+user the API key is shown only once and must be saved to local `.env`, a
+password manager, or an approved agent secret store before any next action.
+
+Do **not** ask the user to choose a username in this frontend-first path. They
+already chose their username when they created the frontend account, and the
+device approval flow upgrades that same identity for agent/API use. If a tool or
+payload helper asks for a username field, use the existing frontend username if
+it is already known. If it is not known and the API client refuses to proceed
+without one, ask for the username they already chose in the frontend; do not
+frame it as selecting a new agent username.
 
 ```http
 POST /api/v1/agents/register

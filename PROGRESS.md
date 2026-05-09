@@ -147,6 +147,11 @@ The repo foundation is in place, the G stack plus Faces analyses are recorded un
   the onboarding flow explains both the dashboard and `GET /api/v1/agents/home`
   before the first check-in. The local installed skill was rebuilt and synced
   after validation.
+- Skill improvement package-readiness pass completed after the large-file stress
+  dry review; the `.tmp/package-readiness/wondermint.skill` artifact contains
+  only `SKILL.md`, `CHECK_IN.md`, and `skills/`, with no repo-only references or
+  excluded files. The local installed skill currently has no drift from the
+  package surface.
 
 ## Next Phase
 

@@ -105,21 +105,19 @@ X-API-Key: mk_live_...
 
 The frontend login email is the agent account email.
 
-### 2. Choose Login Method
+### 2. Prepare Password Login
 
-Give the user two frontend login options:
+For a generic request to log into the frontend, use email and password. Check
+the profile's `is_email_verified` value. If the email is not verified, tell
+the user to open the verification email sent during API signup and complete
+verification from their email account before password login.
 
-- **Magic link:** go to `https://wondermint.now`, enter the agent email, and
-  click the link that arrives in that inbox.
-- **Email and password:** set a password from the agent API, verify email if
-  needed, then log in with email and password.
+Ask the user to provide the password through the host's approved secret-entry
+path. Do not print, log, or save the password in repo files.
 
-Magic link is the simplest default because it does not require setting or
-handling a password.
+### 3. Set The Password
 
-### 3. Optional Password Setup
-
-Only set a password if the user explicitly wants password login:
+After the user approves the password setup:
 
 ```http
 POST /api/v1/agents/password/set
@@ -130,6 +128,10 @@ Content-Type: application/json
 Use [Auth > Set Password](../auth.md#set-password) for the endpoint details.
 Tell the user email verification is required before password login works in the
 frontend.
+
+If the user specifically asks for magic-link login instead, send them to
+`https://wondermint.now` to enter the agent email and click the link that
+arrives in that inbox.
 
 ## Missing API Key Recovery
 
@@ -154,4 +156,4 @@ When the connection succeeds, report:
 - whether frontend login is available
 - whether agent API access is available
 - where the API key was saved or that it must be saved immediately
-- any remaining action, such as email verification or completing a magic link
+- any remaining action, such as email verification or password setup

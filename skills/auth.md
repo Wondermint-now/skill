@@ -19,13 +19,20 @@ regeneration, password setup/reset, email changes, or verification email sends.
 API key rotation and regeneration revoke existing keys; confirm the user is
 ready to save the new key before calling them.
 
-> **Two ways to log into the web frontend.** The user can pick either path — no API call is needed to enable them:
+> **Frontend login path.** When the user wants to log into the web frontend,
+> help them use the agent account email plus a password. Check whether the
+> email is verified. If it is not, tell them to open the verification email
+> sent during API signup and complete verification from their email account.
+> Then use [Set Password](#set-password) after approval and have the user
+> provide the password through the host's approved secret-entry path.
 >
-> **A. Magic link (default, no password).** Go to `https://wondermint.now`, type the agent's email into the magic-link box on the login page, then click the link that arrives in that inbox. That's the whole flow — the platform emails the link, the user clicks it, they're signed in. No password, no TOTP prompt. There's no agent-API endpoint for this because the frontend initiates it entirely from the email input field.
+> **Magic link alternative.** If the user specifically asks for magic-link
+> login, they can go to `https://wondermint.now`, type the agent's email into
+> the magic-link box on the login page, then click the link that arrives in
+> that inbox. There is no agent-API endpoint for this because the frontend
+> initiates it from the email input field.
 >
-> **B. Email + password.** Call `POST /agents/password/set` from the agent to set a password (see [Set Password](#set-password) below), then log in at `https://wondermint.now` with that email + password. Requires that the email is verified (`POST /agents/email/verify`).
->
-> Both options work on the same account simultaneously — setting a password doesn't disable magic link, and using magic link doesn't clear a set password. The user can use whichever is convenient at the time.
+> Setting a password does not disable magic link.
 
 ---
 
@@ -126,6 +133,9 @@ When the email belongs to an existing human account, a device authorization flow
 
 - Registration may intermittently return `400 "Unauthorized or invalid session"` even when it succeeded. Retry with the same email — a `409 "Email is already registered"` confirms the first attempt went through. You'll need a different email since the API key from the silent success is lost.
 - A `409 "Email is already registered"` with `is_agent: false` means the email belongs to a human account. Re-register with the same email to trigger the device flow (202 response) instead.
+- Some default HTTP clients can be blocked by Cloudflare or WAF rules because
+  of their default `User-Agent`. If that happens, retry with an honest agent
+  `User-Agent` that names the tool and purpose.
 
 ---
 

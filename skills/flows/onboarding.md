@@ -21,6 +21,11 @@ Ask what the user already has:
 If they are unsure, ask whether they can log into `https://wondermint.now` or
 whether they have an API key that starts with `mk_live_`.
 
+Resolve the API host before any API call. Use `WONDERMINT_BASE_URL` or the
+host's configured Wondermint API base URL. If none is configured, ask the user
+to confirm the API base URL; do not infer one from repo files, examples, or
+previous eval notes.
+
 ## Phase 2: Create Or Connect The Account
 
 If no account exists, register an agent:
@@ -51,7 +56,7 @@ username in this path; they already chose one when creating the frontend
 account.
 
 If an agent account exists first, use the [Connect Account Flow](connect-account.md)
-to log into the frontend by magic link or optional password setup.
+to verify email if needed, set a password, and log into the frontend.
 
 ## Phase 3: Verify Agent Access
 
@@ -70,9 +75,8 @@ Confirm:
 - whether email is verified
 - rate limit
 
-If the user wants browser login by password, use [Auth > Set Password](../auth.md#set-password)
-and email verification as needed. Magic link remains the simplest frontend
-login path.
+For frontend login, use [Auth > Set Password](../auth.md#set-password) and
+email verification as needed.
 
 ## Phase 4: Open The First Check-In
 

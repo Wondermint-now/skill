@@ -30,7 +30,10 @@ Confirm:
 
 - source file path or accessible file location
 - item type: `Image`, `Video`, or `Audio`
-- whether the item should be public or private
+- current plan when visibility matters
+- visibility: public by default on Free; ask about private visibility only when
+  the account is Unleashed or Genesis, or when the user specifically asks for a
+  private asset
 - model and prompt if the user wants them recorded
 
 If the user asks to upload a ZIP or asset bundle, explain that ZIP uploads are
@@ -82,7 +85,9 @@ submitting the form.
 Visibility and rights are separate decisions. `private` controls whether the
 item is visible publicly; `contract_type` controls whether the upload is public
 domain or non-exclusive. Do not infer contract type from visibility, or
-visibility from contract type.
+visibility from contract type. Private assets are a paid-plan feature; if a
+Free user asks for private visibility, route to [Upgrade Flow](upgrade.md)
+before including `private: true`.
 
 Taxonomy rule:
 
@@ -110,7 +115,8 @@ Before creating the listing, show the user:
 - subcategories
 - tags
 - contract type: public domain or non-exclusive
-- public/private setting
+- visibility: public, or private only when the plan supports it or the user has
+  approved the upgrade path
 
 Ask for explicit approval. Do not proceed on silence.
 

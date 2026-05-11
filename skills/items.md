@@ -129,12 +129,13 @@ Content-Type: application/json
 | `model` | string | No | AI model used (e.g., `Midjourney`, `DALL-E`, `Stable Diffusion`). |
 | `prompt` | string | No | The generation prompt. |
 | `thumbnail_name` | string | No | Optional custom thumbnail filename for a separate cover upload (for example `cover.png`, `tile.jpg`, `art.webp`). When supplied, the response can include `thumbnail_upload_url`. |
-| `private` | boolean | No | If true, item is not publicly visible. Default false. |
+| `private` | boolean | No | Paid-plan private visibility. Default false. Do not set `true` on Free unless the user has approved the upgrade path. |
 | `acknowledge_review` | boolean | No | Required only when the account is under review — see [Accounts Under Review](#accounts-under-review) below. Send `true` to actually create the listing. Omit otherwise. |
 
 `private` and `contract_type` are independent. A private item can still use
 either allowed contract type, and a public item can still use either allowed
-contract type. Ask for both choices when the user's intent is unclear.
+contract type. Ask for both choices when the user's intent is unclear and the
+plan supports private assets.
 
 #### Accounts Under Review
 
@@ -462,7 +463,7 @@ Content-Type: application/json
 | `description` | string | Max 5000 chars. |
 | `tags` | string[] | Max 20 tags. Replaces existing tags. |
 | `category_id` | number | Change category by ID. |
-| `private` | boolean | Toggle visibility. |
+| `private` | boolean | Toggle visibility when the plan supports private assets. |
 
 Returns the full item detail object (same shape as `GET /listings/:id`).
 

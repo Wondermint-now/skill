@@ -123,6 +123,36 @@ Keep entries short and link to raw evidence under `evals/logs/` when available.
   account billing docs.
 - Confidence: observed once.
 
+## 2026-05-12 - Backend PR #1151 Source Review
+
+- Environment: local source review of `/Users/ashokaji/code/fullstock/backend`
+  at merge commit `e241768b` on `origin/release`.
+- Evidence: `git diff 85363146..e241768b` and source reads of
+  `src/agent/controllers/agent-account.controller.ts`,
+  `src/agent/dto/account.dto.ts`, and `src/utils/error-recovery.ts`.
+- Endpoints touched: subscription status, checkout, upgrade, and billing
+  interval switching.
+- Request shape confirmed:
+  - `POST /api/v1/agents/subscription/checkout` accepts
+    `{ "plan": "unleashed" | "genesis", "interval": "monthly" | "yearly" }`;
+    `interval` is optional and defaults to `monthly`.
+  - `POST /api/v1/agents/subscription/upgrade` accepts the same body and now
+    returns a Stripe Billing Portal `url`.
+  - New endpoint `POST /api/v1/agents/subscription/switch-interval` accepts
+    `{ "interval": "monthly" | "yearly" }` and returns a Stripe Billing Portal
+    `url`.
+- Response shape confirmed: `GET /api/v1/agents/subscription` now includes
+  `billing_interval`, which is `null` on Free and `monthly` or `yearly` on paid
+  plans.
+- Error recovery confirmed: new billing recovery hints reference
+  `NO_ACTIVE_SUBSCRIPTION`, `SUBSCRIPTION_ALREADY_ACTIVE`,
+  `CANNOT_SWITCH_FREE_BILLING_INTERVAL`, `BILLING_INTERVAL_ALREADY_ACTIVE`,
+  `BILLING_PAYMENT_ACTION_REQUIRED`, and `SUBSCRIPTION_CHANGE_NOT_ALLOWED`.
+- Skill docs to update: remove old guidance that yearly checkout must route to
+  frontend; include REST `interval` in checkout and document the new interval
+  switch endpoint.
+- Confidence: source reviewed; no live API call made.
+
 ## 2026-05-06 - ZIP Post-MVP Scope Live Read-Only Eval
 
 - Environment: staging, `https://api-staging.fullstock.ai`

@@ -128,6 +128,10 @@ Notes from source: `statusCode` is camelCase in the normalized backend response.
 | `WALLET_IS_REQUIRED` | Wallet is required | `src/utils/customException.ts:105` |
 | `WALLET_NOT_FOUND` | Wallet not found | `src/utils/customException.ts:106` |
 | `WEB3_ISSUE` | Web3 Issue | `src/utils/customException.ts:107` |
+| `CANNOT_SWITCH_FREE_BILLING_INTERVAL` | Cannot switch billing interval on a free plan | `src/utils/customException.ts:133` |
+| `BILLING_INTERVAL_ALREADY_ACTIVE` | Billing interval is already active | `src/utils/customException.ts:134` |
+| `BILLING_PAYMENT_ACTION_REQUIRED` | Payment action required before changing subscription | `src/utils/customException.ts:135` |
+| `SUBSCRIPTION_CHANGE_NOT_ALLOWED` | Subscription change is not allowed | `src/utils/customException.ts:136` |
 | `WHITELIST_REQUEST_EXISTS` | Whitelist request already exists | `src/utils/customException.ts:108` |
 | `WRONG_2FA_CODE` | Wrong 2FA code | `src/utils/customException.ts:109` |
 | `WRONG_ASSET_NAME` | Listing name contains disallowed characters | `src/utils/customException.ts:110` |
@@ -193,6 +197,18 @@ Notes from source: `statusCode` is camelCase in the normalized backend response.
 | `hint` | Published listings are permanent. Do not retry — surface this to the operator and create a new listing if a different version is needed. | `src/utils/error-recovery.ts:91` |
 | `code` | OPERATOR_MANAGED_BILLING | `src/utils/error-recovery.ts:98` |
 | `hint` | Your operator controls billing for this account. Contact them to change plans or review billing state. | `src/utils/error-recovery.ts:99` |
+| `code` | NO_ACTIVE_SUBSCRIPTION | `src/utils/error-recovery.ts:112` |
+| `hint` | Start a paid subscription before upgrading or switching billing intervals. | `src/utils/error-recovery.ts:113` |
+| `code` | SUBSCRIPTION_ALREADY_ACTIVE | `src/utils/error-recovery.ts:134` |
+| `hint` | You are already on this plan. Use the interval switch endpoint only if the monthly/yearly billing interval needs to change. | `src/utils/error-recovery.ts:135` |
+| `code` | CANNOT_SWITCH_FREE_BILLING_INTERVAL | `src/utils/error-recovery.ts:157` |
+| `hint` | Free plans have no billing interval. Start checkout with the desired paid plan and interval. | `src/utils/error-recovery.ts:158` |
+| `code` | BILLING_INTERVAL_ALREADY_ACTIVE | `src/utils/error-recovery.ts:179` |
+| `hint` | No billing change is needed because this interval is already active. | `src/utils/error-recovery.ts:180` |
+| `code` | BILLING_PAYMENT_ACTION_REQUIRED | `src/utils/error-recovery.ts:194` |
+| `hint` | Resolve the Stripe payment state before changing the subscription. | `src/utils/error-recovery.ts:195` |
+| `code` | SUBSCRIPTION_CHANGE_NOT_ALLOWED | `src/utils/error-recovery.ts:216` |
+| `hint` | This subscription change is not available through the requested API action. Check the current subscription before choosing the next billing flow. | `src/utils/error-recovery.ts:217` |
 | `code` | INVALID_SOCIAL_TOKEN | `src/utils/errors.ts:5` |
 | `code` | SOCIAL_LOGIN_FAILED | `src/utils/errors.ts:9` |
 | `code` | UNAUTHENTICATED | `src/utils/gqlAuth.guard.ts:111` |
@@ -1206,4 +1222,3 @@ This table is intentionally source-level. Service methods can be shared by more 
 | `throw` | `err` | `src/webhook/webhook.service.ts:152` |
 | `BadRequestException` | ``Maximum ${maxEndpoints} webhook endpoints per user`` | `src/webhook/webhook.service.ts:42` |
 | `throw` | `err` | `src/webhook/webhook.service.ts:60` |
-

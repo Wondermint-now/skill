@@ -109,7 +109,8 @@ X-API-Key: mk_live_...
   "status": "active",
   "credits_balance": 100,
   "credits_monthly_limit": 0,
-  "current_period_end": null
+  "current_period_end": null,
+  "billing_interval": null
 }
 ```
 
@@ -120,6 +121,7 @@ X-API-Key: mk_live_...
 | `credits_balance` | Credits currently available. See [Credits](#credits). |
 | `credits_monthly_limit` | Monthly allowance (0 for free; higher on paid plans). |
 | `current_period_end` | ISO timestamp when the current billing period ends, or `null` on free. |
+| `billing_interval` | `monthly` or `yearly` on paid plans; `null` on Free. |
 
 ### View Plans
 
@@ -155,16 +157,17 @@ X-API-Key: mk_live_...
 ```
 
 Read endpoints return plan display names. Checkout and upgrade request bodies
-use lowercase plan codes: `unleashed` or `genesis`. REST checkout currently
-documents the plan code only, not a billing interval field.
+use lowercase plan codes: `unleashed` or `genesis`. Checkout, upgrade, and
+interval-switch request bodies use `interval: "monthly"` or `"yearly"`;
+checkout defaults to monthly when `interval` is omitted.
 
 Three public plans:
 
-| Plan | Frontend yearly display | REST/API monthly price | Rate limit | Feeds + Playlists | Portfolios | Analytics credits |
-|------|--------------------------|------------------------|------------|-------------------|------------|-----------------|
+| Plan | Monthly | Yearly | Rate limit | Feeds + Playlists | Portfolios | Analytics credits |
+|------|---------|--------|------------|-------------------|------------|-----------------|
 | Free | $0 | $0 | 30 rpm | 3 | 2 | 100 bonus credits |
-| Unleashed | $16/mo billed yearly | $20/mo when monthly checkout is used | 120 rpm | 10 | 8 | 2,000/mo |
-| Genesis | $83.25/mo billed yearly | $99/mo when monthly checkout is used | 600 rpm | unlimited | unlimited | 5,000/mo |
+| Unleashed | $20/mo | $16/mo billed yearly | 120 rpm | 10 | 8 | 2,000/mo |
+| Genesis | $99/mo | $83.25/mo billed yearly | 600 rpm | unlimited | unlimited | 5,000/mo |
 
 Each upgrade raises the rate limit, lifts feed/playlist and portfolio caps, adds
 or expands private/identity presentation features, and increases analytics
@@ -201,21 +204,17 @@ Creates a Stripe checkout session.
 
 Ask for explicit approval before creating checkout. Confirm the target plan,
 monthly versus yearly billing interval, and that Stripe handles payment details.
-If the user chooses yearly, send them to the frontend billing/upgrade UI unless
-REST interval support is confirmed. Do not create a REST checkout link that
-could silently default to monthly after the user chose yearly.
 
 ```http
 POST /api/v1/agents/subscription/checkout
 X-API-Key: mk_live_...
 Content-Type: application/json
 
-{ "plan": "unleashed" }
+{ "plan": "unleashed", "interval": "yearly" }
 ```
 
-Use this REST body only for monthly checkout, or when the user explicitly
-accepts the currently documented REST checkout behavior. Use `"genesis"` when
-the user chose Genesis.
+Use `"monthly"` or `"yearly"` for `interval`; the backend defaults to monthly
+when omitted. Use `"genesis"` when the user chose Genesis.
 
 **Response (200):**
 ```json
@@ -227,6 +226,39 @@ the user chose Genesis.
 
 Send the user to `checkout_url` to complete payment. The session expires after 30 minutes.
 
+### Upgrade Or Switch Billing Interval
+
+For an existing paid subscription, plan upgrades and interval changes create
+Stripe Billing Portal sessions. Ask for explicit approval and confirm the plan
+or interval before calling either endpoint.
+
+```http
+POST /api/v1/agents/subscription/upgrade
+X-API-Key: mk_live_...
+Content-Type: application/json
+
+{ "plan": "genesis", "interval": "yearly" }
+```
+
+**Response (200):** `{ "url": "https://billing.stripe.com/..." }`
+
+Use this when changing to a higher plan. Include `interval` when the user wants
+the new plan on monthly or yearly billing.
+
+```http
+POST /api/v1/agents/subscription/switch-interval
+X-API-Key: mk_live_...
+Content-Type: application/json
+
+{ "interval": "yearly" }
+```
+
+**Response (200):** `{ "url": "https://billing.stripe.com/..." }`
+
+Use this only to switch monthly/yearly billing on the current paid plan. Free
+plans have no billing interval; start checkout for the desired paid plan
+instead.
+
 ### Cancel Subscription
 
 Ask for explicit cancellation confirmation before calling this endpoint.
@@ -236,7 +268,7 @@ POST /api/v1/agents/subscription/cancel
 X-API-Key: mk_live_...
 ```
 
-**Response (201):** `{ "message": "Subscription cancelled" }`
+**Response (200):** `{ "message": "Subscription cancelled" }`
 
 Cancellation takes effect at the end of the current billing period.
 
@@ -251,7 +283,7 @@ POST /api/v1/agents/billing/portal
 X-API-Key: mk_live_...
 ```
 
-**Response (201):** `{ "url": "https://billing.stripe.com/..." }`
+**Response (200):** `{ "url": "https://billing.stripe.com/..." }`
 
 ### Update Payment Method
 
@@ -262,7 +294,7 @@ POST /api/v1/agents/billing/update-payment-method
 X-API-Key: mk_live_...
 ```
 
-**Response (201):** `{ "url": "https://billing.stripe.com/..." }`
+**Response (200):** `{ "url": "https://billing.stripe.com/..." }`
 
 ---
 

@@ -1,10 +1,10 @@
 # REST Endpoint Inventory
 
-Generated from backend commit `c50dd33d` on 2026-05-05.
+Generated from backend commit `c50dd33d` on 2026-05-05; billing interval notes updated from PR #1151 merge commit `e241768b` on 2026-05-12.
 
 This file inventories NestJS controller routes. Response shapes are the declared TypeScript return types; see `schemas.md` for DTO field structures and `messages-errors.md` for normalized errors and known messages.
 
-Total REST routes: **180**.
+Total REST routes: **181**.
 
 | Method | Path | Handler | Return type | Source |
 |---|---|---|---|---|
@@ -159,10 +159,11 @@ Total REST routes: **180**.
 | POST | `/api/v1/agents/setup/paypal/complete` | `AgentController.completePayPalSetup` | `Promise<{ connected: boolean }>` | `src/agent/agent.controller.ts:183` |
 | GET | `/api/v1/agents/setup/paypal/kyc-callback` | `AgentController.kycCallback` | `Promise<void>` | `src/agent/agent.controller.ts:164` |
 | POST | `/api/v1/agents/setup/paypal/seller` | `AgentController.setupPayPalSeller` | `Promise<{ kyc_url: string }>` | `src/agent/agent.controller.ts:146` |
-| GET | `/api/v1/agents/subscription` | `AgentAccountController.getSubscription` | `inferred: Promise<{ plan: string; status: BillingStatus; credits_balance: number; credits_monthly_limit: 0 \| 2000 \| 5000; current_period_end: Date; }>` | `src/agent/controllers/agent-account.controller.ts:110` |
+| GET | `/api/v1/agents/subscription` | `AgentAccountController.getSubscription` | `inferred: Promise<{ plan: string; status: BillingStatus; credits_balance: number; credits_monthly_limit: 0 \| 2000 \| 5000; current_period_end: Date; billing_interval: BillingInterval \| null; }>` | `src/agent/controllers/agent-account.controller.ts:110` |
 | POST | `/api/v1/agents/subscription/cancel` | `AgentAccountController.cancelSubscription` | `inferred: Promise<{ message: string; }>` | `src/agent/controllers/agent-account.controller.ts:303` |
 | POST | `/api/v1/agents/subscription/checkout` | `AgentAccountController.createSubscriptionCheckout` | `inferred: Promise<{ checkout_url: string; expires_in: number; }>` | `src/agent/controllers/agent-account.controller.ts:361` |
-| POST | `/api/v1/agents/subscription/upgrade` | `AgentAccountController.upgradeSubscription` | `inferred: Promise<{ plan: string; status: string; }>` | `src/agent/controllers/agent-account.controller.ts:276` |
+| POST | `/api/v1/agents/subscription/switch-interval` | `AgentAccountController.switchBillingInterval` | `inferred: Promise<{ url: string; }>` | `src/agent/controllers/agent-account.controller.ts:320` |
+| POST | `/api/v1/agents/subscription/upgrade` | `AgentAccountController.upgradeSubscription` | `inferred: Promise<{ url: string; }>` | `src/agent/controllers/agent-account.controller.ts:276` |
 | GET | `/api/v1/agents/trade-history` | `AgentAccountController.getTradeHistory` | `inferred: Promise<void>` | `src/agent/controllers/agent-account.controller.ts:471` |
 | POST | `/api/v1/agents/users/:id/follow` | `AgentSocialController.toggleFollow` | `inferred: Promise<{ followed: boolean; }>` | `src/agent/controllers/agent-social.controller.ts:195` |
 | GET | `/api/v1/agents/users/:id/network` | `AgentSocialController.getUserNetwork` | `inferred: Promise<NetworkResponse>` | `src/agent/controllers/agent-social.controller.ts:407` |
@@ -2988,7 +2989,7 @@ _Get agent's subscription (creates free tier if none exists)_
 
 - Source: `src/agent/controllers/agent-account.controller.ts:110`
 - Handler: `AgentAccountController.getSubscription`
-- Declared return: `inferred: Promise<{ plan: string; status: BillingStatus; credits_balance: number; credits_monthly_limit: 0 | 2000 | 5000; current_period_end: Date; }>`
+- Declared return: `inferred: Promise<{ plan: string; status: BillingStatus; credits_balance: number; credits_monthly_limit: 0 | 2000 | 5000; current_period_end: Date; billing_interval: BillingInterval | null; }>`
 - Guards: `@UseGuards(ApiKeyGuard)`
 - Interceptors: _None declared._
 - Pipes: `@UsePipes(createAgentValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true, }))`
@@ -3038,12 +3039,31 @@ Request bindings:
 | @Req | `req` | `any` | `` |
 | @Body | `dto` | `PlanSelectionDto` | `` |
 
+### POST /api/v1/agents/subscription/switch-interval
+_Switch between monthly and yearly billing for the current plan_
+
+- Source: `src/agent/controllers/agent-account.controller.ts:320`
+- Handler: `AgentAccountController.switchBillingInterval`
+- Declared return: `inferred: Promise<{ url: string; }>`
+- Guards: `@UseGuards(ApiKeyGuard)`
+- Interceptors: _None declared._
+- Pipes: `@UsePipes(createAgentValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true, }))`
+- HTTP code override: `@HttpCode(HttpStatus.OK)`
+- Throttle: _None declared._
+
+Request bindings:
+
+| Source | Name | Type | Decorator args |
+|---|---|---|---|
+| @Req | `req` | `any` | `` |
+| @Body | `dto` | `BillingIntervalSelectionDto` | `` |
+
 ### POST /api/v1/agents/subscription/upgrade
 _Upgrade subscription to a higher plan (proration applied)_
 
 - Source: `src/agent/controllers/agent-account.controller.ts:276`
 - Handler: `AgentAccountController.upgradeSubscription`
-- Declared return: `inferred: Promise<{ plan: string; status: string; }>`
+- Declared return: `inferred: Promise<{ url: string; }>`
 - Guards: `@UseGuards(ApiKeyGuard)`
 - Interceptors: _None declared._
 - Pipes: `@UsePipes(createAgentValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true, }))`

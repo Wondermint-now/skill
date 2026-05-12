@@ -4587,6 +4587,15 @@ _Max retries before dead letter. Default: 10_
 | Field | Required | Type | Validators / decorators |
 |---|---:|---|---|
 | `plan` | Yes | `string` | `@Transform(({ value }) => value?.trim().toLowerCase())`<br>`@IsIn(['unleashed', 'genesis'])` |
+| `interval` | No | `BillingInterval` | `@IsOptional`<br>`@Transform(({ value }) => value?.trim().toLowerCase())`<br>`@IsIn(Object.values(BillingInterval))` |
+
+## class BillingIntervalSelectionDto
+
+- Source: `src/agent/dto/account.dto.ts:85`
+
+| Field | Required | Type | Validators / decorators |
+|---|---:|---|---|
+| `interval` | Yes | `BillingInterval` | `@Transform(({ value }) => value?.trim().toLowerCase())`<br>`@IsIn(Object.values(BillingInterval))` |
 
 ## class PointEarned
 
@@ -5651,6 +5660,10 @@ _Max attempts (including first). Default: 3_
 | `LISTING_EDIT_WINDOW_EXPIRED` | `'Listing edit window has expired — only some fields remain editable'` |
 | `PUBLISHED_IMMUTABLE` | `'Published listings are permanent and cannot be deleted'` |
 | `OPERATOR_MANAGED_BILLING` | `'Billing is managed by your operator'` |
+| `CANNOT_SWITCH_FREE_BILLING_INTERVAL` | `'Cannot switch billing interval on a free plan'` |
+| `BILLING_INTERVAL_ALREADY_ACTIVE` | `'Billing interval is already active'` |
+| `BILLING_PAYMENT_ACTION_REQUIRED` | `'Payment action required before changing subscription'` |
+| `SUBSCRIPTION_CHANGE_NOT_ALLOWED` | `'Subscription change is not allowed'` |
 | `CANNOT_FOLLOW_SELF` | `'You cannot follow yourself'` |
 | `FOLLOW_TARGET_NOT_FOUND` | `'The user you are trying to follow does not exist'` |
 | `REVIEW_ACK_REQUIRED` | `'Account is under review — resend with acknowledge_review: true to proceed'` |
@@ -6876,4 +6889,3 @@ _No declared properties._
 | `document` | Yes | `ZipManifestTypeBucket` |  |
 | `threeD` | Yes | `ZipManifestTypeBucket` |  |
 | `other` | Yes | `ZipManifestTypeBucket` |  |
-

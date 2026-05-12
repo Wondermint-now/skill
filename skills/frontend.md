@@ -255,11 +255,10 @@ generic upgrade pitch when no limit or paid feature is involved.
 Do not treat coming-soon marketplace, trade, offer, advanced analytics, or
 benchmark copy as active MVP functionality.
 
-Ask whether the user wants monthly or yearly before creating checkout. Current
-REST checkout documents plan code only and may create the monthly checkout; if
-the user chooses yearly, route them to the frontend Upgrade/Billing UI to pick
-the yearly option unless REST interval support has been confirmed. Ask for
-explicit approval before creating any Stripe checkout or billing portal URL.
+Ask whether the user wants monthly or yearly before creating checkout. REST
+checkout accepts `interval: "monthly"` or `"yearly"` and defaults to monthly
+when omitted. Ask for explicit approval before creating any Stripe checkout or
+billing portal URL.
 
 ## FAQ
 
@@ -277,8 +276,9 @@ Use these concise answers for common frontend questions:
   and international methods supported by Stripe.
 - **Cancellation?** Users can cancel any time; access remains until the end of
   the billing period and renewal stops.
-- **Switching plans?** Upgrade from subscription settings. For switching plans,
-  cancel the current plan and subscribe to the new one.
+- **Switching plans?** Use the agent upgrade endpoint for higher tiers, the
+  interval-switch endpoint for monthly/yearly changes, or the billing portal
+  for self-service management.
 - **Refunds?** Wondermint does not offer refunds; canceled paid plans retain
   access until the end of the subscription period.
 

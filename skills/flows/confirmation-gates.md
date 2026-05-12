@@ -51,9 +51,8 @@ Before calling the endpoint, confirm:
 
 Never collect card details. Stripe handles payment details.
 
-If the user chooses yearly, do not create a REST checkout link unless REST
-interval support is confirmed. Route them to the frontend billing/upgrade UI to
-select yearly there.
+For REST checkout, include `interval: "monthly"` or `"yearly"` in the request;
+omitting it defaults to monthly.
 
 ## Report Back
 

@@ -37,6 +37,7 @@ X-API-Key: mk_live_...
 Summarize:
 
 - current plan
+- current billing interval when present
 - request limit
 - feed, playlist, and portfolio limits when available
 - private asset availability when relevant
@@ -51,11 +52,11 @@ For endpoint details, read [Account > Subscription](../account.md#subscription).
 
 Use the current plan table from [Account > Plans](../account.md#plans):
 
-| Plan | Frontend yearly display | REST/API monthly price | Main benefit |
+| Plan | Monthly | Yearly | Main benefit |
 |---|---:|---:|---|
 | Free | $0 | $0 | Basic access, 100 bonus analytics credits, 30 rpm, smaller feed/playlist/portfolio caps |
-| Unleashed | $16/mo billed yearly | $20/mo when monthly checkout is used | 2,000 analytics credits/month, 120 rpm, private assets, verified account/subscriber presentation, larger feed/playlist/portfolio caps |
-| Genesis | $83.25/mo billed yearly | $99/mo when monthly checkout is used | 5,000 analytics credits/month, 600 rpm, unlimited feed/playlist/portfolio caps, founder badge/title and identity features |
+| Unleashed | $20/mo | $16/mo billed yearly | 2,000 analytics credits/month, 120 rpm, private assets, verified account/subscriber presentation, larger feed/playlist/portfolio caps |
+| Genesis | $99/mo | $83.25/mo billed yearly | 5,000 analytics credits/month, 600 rpm, unlimited feed/playlist/portfolio caps, founder badge/title and identity features |
 
 Keep the recommendation practical:
 
@@ -107,25 +108,46 @@ Ask for explicit approval.
 
 ## Phase 4: Create Checkout Or Portal Link
 
-For a monthly upgrade, create a Stripe checkout session:
+For a new paid subscription, create a Stripe checkout session:
 
 ```http
 POST /api/v1/agents/subscription/checkout
 X-API-Key: mk_live_...
 Content-Type: application/json
 
-{ "plan": "unleashed" }
+{ "plan": "unleashed", "interval": "yearly" }
 ```
 
-Use `"genesis"` instead of `"unleashed"` when the user chose Genesis.
-
-REST checkout currently documents only a `plan` field. If the user chooses
-yearly, do not create a REST checkout link that could default to monthly. Route
-the user to the frontend Upgrade/Billing UI to select the yearly option unless
-REST interval support has been confirmed.
+Use `"genesis"` instead of `"unleashed"` when the user chose Genesis. Use
+`"monthly"` or `"yearly"` for `interval`; checkout defaults to monthly when
+omitted.
 
 Give the user the returned `checkout_url` and note that it expires after the
 reported `expires_in` window.
+
+For an existing paid subscription, create a Stripe Billing Portal session for a
+higher-tier upgrade:
+
+```http
+POST /api/v1/agents/subscription/upgrade
+X-API-Key: mk_live_...
+Content-Type: application/json
+
+{ "plan": "genesis", "interval": "yearly" }
+```
+
+For switching the current paid plan between monthly and yearly:
+
+```http
+POST /api/v1/agents/subscription/switch-interval
+X-API-Key: mk_live_...
+Content-Type: application/json
+
+{ "interval": "yearly" }
+```
+
+Both endpoints return `{ "url": "https://billing.stripe.com/..." }`; the user
+completes the change in Stripe.
 
 For payment method or invoice management, open the billing portal:
 

@@ -15,9 +15,9 @@ backend awareness, but GraphQL operations, queries, mutations, schemas, and
 ## Source Reviewed
 
 - Backend repo: `/Users/ashokaji/code/fullstock/backend`
-- Backend branch: `release`
-- Backend commit: `c50dd33d`
-- Review date: 2026-05-05
+- Backend branch: `origin/release`
+- Backend commit: `e241768b` for PR #1151 (`feature/api-subscription-intervals`)
+- Review date: 2026-05-12
 
 ## Files
 
@@ -30,10 +30,10 @@ backend awareness, but GraphQL operations, queries, mutations, schemas, and
 
 ## Counts
 
-- REST routes: 180
+- REST routes: 181
 - GraphQL operations: 305
-- Schema declarations: 563
-- Static error messages: 129
+- Schema declarations: 564
+- Static error messages: 133
 - Throw sites scanned: 777
 
 ## How To Use This Reference

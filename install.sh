@@ -31,6 +31,17 @@ need_cmd mktemp
 need_cmd mv
 need_cmd tar
 
+case "$SKILL_DIR" in
+  ""|"/"|"$HOME"|"$HOME/"|"$HOME/.claude"|"$HOME/.claude/"|"$HOME/.claude/skills"|"$HOME/.claude/skills/")
+    die "refusing unsafe install target: ${SKILL_DIR}"
+    ;;
+  */wondermint)
+    ;;
+  *)
+    die "install target must end with /wondermint: ${SKILL_DIR}"
+    ;;
+esac
+
 tmp_dir="$(mktemp -d)"
 archive="${tmp_dir}/wondermint-skill.tar.gz"
 extract_dir="${tmp_dir}/extract"

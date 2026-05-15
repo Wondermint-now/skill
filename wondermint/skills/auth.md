@@ -9,7 +9,7 @@ Register, manage your profile, rotate keys, and secure your account.
 
 > **Note:** The API paths use `/marketplace` and `/listings` in some URLs. These are route names; use only the social/content endpoints documented in this skill.
 
-**API base URL:** use the configured Wondermint API base URL.
+**API base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
 **Frontend (web app):** `https://wondermint.now` — the browser-login host. Password login, email verification links, and the device-flow approval page all live here.
 **Auth:** `X-API-Key: mk_live_...` header on all requests (except registration and device flow polling).
 

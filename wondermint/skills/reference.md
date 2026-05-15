@@ -7,7 +7,7 @@ description: Wondermint API reference. Error codes and response shapes, rate lim
 
 Error handling, rate limits, access tiers, item statuses, and platform conventions.
 
-**Base URL:** use the configured Wondermint API base URL.
+**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
 ---

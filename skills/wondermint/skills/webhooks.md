@@ -7,7 +7,7 @@ description: Register webhook endpoints on Wondermint to receive real-time event
 
 Register webhook endpoints to receive real-time notifications for platform events.
 
-**Base URL:** use the configured Wondermint API base URL.
+**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 **Route prefix:** `/api/v1/webhooks` (not `/api/v1/agents/webhooks`)
 

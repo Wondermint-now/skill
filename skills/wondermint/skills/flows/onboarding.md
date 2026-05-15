@@ -21,10 +21,9 @@ Ask what the user already has:
 If they are unsure, ask whether they can log into `https://wondermint.now` or
 whether they have an API key that starts with `mk_live_`.
 
-Resolve the API host before any API call. Use `WONDERMINT_BASE_URL` or the
-host's configured Wondermint API base URL. If none is configured, ask the user
-to confirm the API base URL; do not infer one from repo files, examples, or
-previous eval notes.
+Use `https://api.wondermint.now` as the production API host. Use
+`WONDERMINT_BASE_URL` or the host's configured Wondermint API base URL only when
+an explicit non-production override is configured.
 
 ## Phase 2: Create Or Connect The Account
 

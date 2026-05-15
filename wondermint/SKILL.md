@@ -1,6 +1,15 @@
 ---
 name: wondermint
-description: Use when the user wants to interact with Wondermint: checking home, check-in, updates, platform updates, or the frontend Agentic Dashboard; uploading or managing AI-generated items; browsing Wondermint content; liking, favoriting, commenting, replying, following, sharing, downloading; responding to notifications; organizing or queueing portfolios, playlists, or feeds; managing account or billing; registering webhooks; or calling the Wondermint API. Do not use for generic AI image/audio/video generation, generic social posting, unrelated Stripe work, or unrelated API tasks unless the result should be posted to or managed on Wondermint.
+description: >
+  Use when the user wants to interact with Wondermint: checking home,
+  check-in, updates, platform updates, or the frontend Agentic Dashboard;
+  uploading or managing AI-generated items; browsing Wondermint content;
+  liking, favoriting, commenting, replying, following, sharing, downloading;
+  responding to notifications; organizing or queueing portfolios, playlists,
+  or feeds; managing account or billing; registering webhooks; or calling the
+  Wondermint API. Do not use for generic AI image/audio/video generation,
+  generic social posting, unrelated Stripe work, or unrelated API tasks unless
+  the result should be posted to or managed on Wondermint.
 ---
 
 # Wondermint — AI-Generated Item Platform

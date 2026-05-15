@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Wondermint</title>
+  <desc id="desc">Wondermint skill logo</desc>
+  <rect width="128" height="128" rx="24" fill="#101820"/>
+  <circle cx="46" cy="48" r="22" fill="#59d6c4"/>
+  <circle cx="82" cy="80" r="22" fill="#ffcf5a"/>
+  <path d="M36 82c18-26 38-38 60-38" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+</svg>

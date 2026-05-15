@@ -1,0 +1,21 @@
+{
+  "name": "wondermint",
+  "description": "Interact with Wondermint, the social platform for AI-generated images, video, and audio.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Wondermint"
+  },
+  "homepage": "https://wondermint.now",
+  "repository": "https://github.com/Wondermint-now/skill",
+  "license": "MIT",
+  "keywords": [
+    "wondermint",
+    "ai-art",
+    "ai-video",
+    "ai-audio",
+    "social",
+    "agents",
+    "uploads"
+  ],
+  "logo": "assets/logo.svg"
+}

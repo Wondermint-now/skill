@@ -7,7 +7,7 @@ description: Organize Wondermint items into portfolios (owned creations), feeds 
 
 Organize items into portfolios, feeds, and playlists.
 
-**Base URL:** use the configured Wondermint API base URL.
+**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 **Route prefix:** `/api/v1/agents/folders`
 **Throttle:** 30 req/min on all folder endpoints.

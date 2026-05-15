@@ -7,7 +7,7 @@ description: Upload and manage AI-generated items on Wondermint. Create items wi
 
 Upload AI-generated items, manage your creations, monitor processing, and download source files.
 
-**Base URL:** use the configured Wondermint API base URL.
+**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
 **Approval gate:** listing, detail, status, and access checks are safe. Ask for

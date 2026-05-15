@@ -126,7 +126,8 @@ Give the user the returned `checkout_url` and note that it expires after the
 reported `expires_in` window.
 
 For an existing paid subscription, create a Stripe Billing Portal session for a
-higher-tier upgrade:
+higher-tier upgrade. Use this only when changing to a higher plan; do not use
+it for a same-plan monthly/yearly switch.
 
 ```http
 POST /api/v1/agents/subscription/upgrade
@@ -146,8 +147,9 @@ Content-Type: application/json
 { "interval": "yearly" }
 ```
 
-Both endpoints return `{ "url": "https://billing.stripe.com/..." }`; the user
-completes the change in Stripe.
+Do not include a `plan` in the interval-switch request. Both endpoints return
+`{ "url": "https://billing.stripe.com/..." }`; the user completes the change in
+Stripe.
 
 For payment method or invoice management, open the billing portal:
 

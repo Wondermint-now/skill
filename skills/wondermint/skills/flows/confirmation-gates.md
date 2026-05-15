@@ -54,6 +54,11 @@ Never collect card details. Stripe handles payment details.
 For REST checkout, include `interval: "monthly"` or `"yearly"` in the request;
 omitting it defaults to monthly.
 
+For existing paid subscriptions, use `/subscription/upgrade` only for a higher
+plan. Use `/subscription/switch-interval` for same-plan monthly/yearly changes.
+That interval-switch endpoint returns a Stripe Billing Portal URL; tell the
+user they must open the portal link to complete the monthly/yearly change.
+
 ## Report Back
 
 After the action, report what changed, what did not change, and any remaining

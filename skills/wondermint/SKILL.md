@@ -171,6 +171,10 @@ Current plan display names are Free, Unleashed, and Genesis. Checkout request
 bodies use lowercase plan codes: `unleashed` or `genesis`. Ask whether the user
 wants monthly or yearly before checkout; REST checkout accepts
 `interval: "monthly"` or `"yearly"` and defaults to monthly when omitted.
+For existing paid subscriptions, same-plan monthly/yearly changes use
+`POST /api/v1/agents/subscription/switch-interval` with only the requested
+`interval`. The response is a Stripe Billing Portal URL; tell the user they
+need to open the Stripe portal to complete the change, then give them the link.
 
 For current prices, rate limits, portfolio/feed/playlist caps, analytics-credit
 allowances, and upgrade reasons, read [Account > View Plans](skills/account.md#view-plans)

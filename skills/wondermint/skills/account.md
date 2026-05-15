@@ -259,7 +259,11 @@ Content-Type: application/json
 Use this only to switch monthly/yearly billing on the current paid plan. Do not
 include a `plan`; use `/subscription/upgrade` for higher-plan changes. Free
 plans have no billing interval; start checkout for the desired paid plan
-instead.
+instead. The response is a Stripe Billing Portal URL, not an immediate
+subscription mutation. Tell the user they need to open the Stripe portal to
+complete the interval change, then give them the link, for example: "To switch
+to {interval}, you need to open the Stripe portal. Here's the {interval} link:
+[url]."
 
 ### Cancel Subscription
 

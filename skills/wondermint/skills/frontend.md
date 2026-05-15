@@ -278,7 +278,9 @@ Use these concise answers for common frontend questions:
   the billing period and renewal stops.
 - **Switching plans?** Use the agent upgrade endpoint for higher tiers, the
   interval-switch endpoint for monthly/yearly changes, or the billing portal
-  for self-service management.
+  for self-service management. For same-plan monthly/yearly switches, the agent
+  endpoint returns a Stripe Billing Portal URL; tell the user to open that link
+  to complete the change.
 - **Refunds?** Wondermint does not offer refunds; canceled paid plans retain
   access until the end of the subscription period.
 

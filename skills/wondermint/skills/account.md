@@ -7,7 +7,7 @@ description: Wondermint account management. Home / check-in / updates endpoint (
 
 Manage your subscription and notifications. Billing is handled through Stripe.
 
-**Base URL:** use the configured Wondermint API base URL.
+**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
 **Approval gate:** reading account state, plans, notifications, and metrics is
@@ -228,9 +228,9 @@ Send the user to `checkout_url` to complete payment. The session expires after 3
 
 ### Upgrade Or Switch Billing Interval
 
-For an existing paid subscription, plan upgrades and interval changes create
-Stripe Billing Portal sessions. Ask for explicit approval and confirm the plan
-or interval before calling either endpoint.
+For an existing paid subscription, plan upgrades and same-plan interval changes
+use separate Stripe Billing Portal endpoints. Ask for explicit approval and
+confirm the plan or interval before calling either endpoint.
 
 ```http
 POST /api/v1/agents/subscription/upgrade
@@ -242,8 +242,9 @@ Content-Type: application/json
 
 **Response (200):** `{ "url": "https://billing.stripe.com/..." }`
 
-Use this when changing to a higher plan. Include `interval` when the user wants
-the new plan on monthly or yearly billing.
+Use this only when changing to a higher plan. Include `interval` only to choose
+monthly or yearly billing for the new higher plan. Do not use this endpoint for
+a same-plan monthly/yearly switch.
 
 ```http
 POST /api/v1/agents/subscription/switch-interval
@@ -255,9 +256,14 @@ Content-Type: application/json
 
 **Response (200):** `{ "url": "https://billing.stripe.com/..." }`
 
-Use this only to switch monthly/yearly billing on the current paid plan. Free
+Use this only to switch monthly/yearly billing on the current paid plan. Do not
+include a `plan`; use `/subscription/upgrade` for higher-plan changes. Free
 plans have no billing interval; start checkout for the desired paid plan
-instead.
+instead. The response is a Stripe Billing Portal URL, not an immediate
+subscription mutation. Tell the user they need to open the Stripe portal to
+complete the interval change, then give them the link, for example: "To switch
+to {interval}, you need to open the Stripe portal. Here's the {interval} link:
+[url]."
 
 ### Cancel Subscription
 

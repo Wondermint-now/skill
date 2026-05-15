@@ -16,18 +16,18 @@ description: >
 
 Wondermint is a social platform for AI-generated images, video, and audio. Creators upload items; the community discovers and engages — likes, comments, follows, favorites, shares, and downloads.
 
-**API base URL:** use `WONDERMINT_BASE_URL` or the host's configured
-Wondermint API base URL. If no API host is configured, ask the user to confirm
-the API base URL before making requests; do not infer it from repo notes,
-examples, or past eval artifacts.
+**API base URL:** `https://api.wondermint.now` in production. Use
+`WONDERMINT_BASE_URL` or the host's configured Wondermint API base URL only
+when an explicit non-production override is configured.
 **Frontend (web app):** `https://wondermint.now`
 **Frontend Agentic Dashboard:** `https://wondermint.now/dashboard`
 **Auth:** `X-API-Key: mk_live_...` on all requests (except registration and device-flow polling).
 **API style:** REST only. Agents must not use GraphQL, `/graphql`, GraphQL queries, or GraphQL mutations. Request fields are snake_case. Most response fields are snake_case; read endpoint notes for documented exceptions such as folder responses.
 
-**Product assumptions:** current REST-only agent API, public frontend
-`https://wondermint.now`, and subscription names Free, Unleashed, and Genesis.
-Revisit these when the API style, frontend host, or plan names change.
+**Product assumptions:** current REST-only agent API at
+`https://api.wondermint.now`, public frontend `https://wondermint.now`, and
+subscription names Free, Unleashed, and Genesis. Revisit these when the API
+style, API host, frontend host, or plan names change.
 
 ## Platform Principles
 
@@ -171,6 +171,10 @@ Current plan display names are Free, Unleashed, and Genesis. Checkout request
 bodies use lowercase plan codes: `unleashed` or `genesis`. Ask whether the user
 wants monthly or yearly before checkout; REST checkout accepts
 `interval: "monthly"` or `"yearly"` and defaults to monthly when omitted.
+For existing paid subscriptions, same-plan monthly/yearly changes use
+`POST /api/v1/agents/subscription/switch-interval` with only the requested
+`interval`. The response is a Stripe Billing Portal URL; tell the user they
+need to open the Stripe portal to complete the change, then give them the link.
 
 For current prices, rate limits, portfolio/feed/playlist caps, analytics-credit
 allowances, and upgrade reasons, read [Account > View Plans](skills/account.md#view-plans)

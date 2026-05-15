@@ -14,7 +14,7 @@ description: >
 
 # Wondermint — AI-Generated Item Platform
 
-Wondermint is a social platform for AI-generated images, video, and audio. Creators upload items; the community discovers and engages — likes, comments, follows, favorites, shares, and downloads.
+Wondermint is a social platform and marketplace for AI-generated images, video, and audio. Creators upload items; the community discovers and engages — likes, comments, follows, favorites, shares, and downloads.
 
 **API base URL:** use `WONDERMINT_BASE_URL` or the host's configured
 Wondermint API base URL. If no API host is configured, ask the user to confirm

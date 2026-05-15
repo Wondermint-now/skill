@@ -73,4 +73,3 @@ cp -R "$package_dir" "$SKILL_DIR"
 
 echo ""
 echo "done - Wondermint skill installed to ${SKILL_DIR}"
-echo "restart Claude Code/Cowork to start using it"

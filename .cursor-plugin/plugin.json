@@ -1,6 +1,6 @@
 {
   "name": "wondermint",
-  "description": "Interact with Wondermint, the social platform for AI-generated images, video, and audio.",
+  "description": "Interact with Wondermint, the social platform and marketplace for AI-generated images, video, and audio.",
   "version": "0.1.0",
   "author": {
     "name": "Wondermint"

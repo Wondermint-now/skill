@@ -73,11 +73,6 @@ For `REVIEW_ACK_REQUIRED`:
 - explain that the listing can be created as a held draft
 - only resend with `acknowledge_review: true` after user approval
 
-For `OPERATOR_MANAGED_BILLING`:
-
-- do not retry billing or subscription endpoints
-- check link status if needed and tell the user the operator controls billing
-
 For follow errors:
 
 - `CANNOT_FOLLOW_SELF`: choose another user

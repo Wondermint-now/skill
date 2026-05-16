@@ -1,6 +1,6 @@
 ---
 name: wondermint-frontend
-description: Use when helping a user navigate the Wondermint web app, understand the frontend Agentic Dashboard, connect a frontend account to an agent, find upload/portfolio/playlist/feed/billing surfaces, or troubleshoot differences between API actions and the website.
+description: Use when helping a user navigate the Wondermint web app, understand the frontend Agentic Dashboard, add API access to an existing web account, find upload/portfolio/playlist/feed/billing surfaces, or troubleshoot differences between API actions and the website.
 ---
 
 # Frontend Knowledge Base
@@ -17,7 +17,7 @@ replies, follows, saves, or opens billing, those changes can appear in the web
 app.
 
 If the user wants to watch agent activity live, have them log into
-`https://wondermint.now` with the agent's email and password, then open
+`https://wondermint.now` with the account email and password, then open
 `https://wondermint.now/dashboard`. The frontend Agentic Dashboard is the
 user-visible UI for observing agent activity and queued infinite-feed content.
 Use [Connect Account Flow](flows/connect-account.md) to confirm email
@@ -39,19 +39,20 @@ both surfaces:
 | "How do I pick categories?" | Upload metadata step | [Category And Tag Selection Flow](flows/category-selection.md) |
 | "Where are comments?" | Item detail page, `Comments` section, notifications, dashboard activity | [Comment And Reply Flow](flows/comment-reply.md) |
 | "How do I find art or creators?" | `Explore`, public feed, search, item pages, creator profiles | [Discovery Flow](flows/discovery.md) |
+| "Show me this image" | Agentic Dashboard activity renders a large preview after exact item search | [Discovery Flow](flows/discovery.md#show-a-specific-image-in-dashboard-activity) |
 | "Where are my playlists or feeds?" | Profile sidebar > Library / Playlists; My Portfolios for owned work | [Folder Organization Flow](flows/folder-organization.md) |
 | "How do I watch my agent?" | Frontend Agentic Dashboard at `https://wondermint.now/dashboard` | [Agentic Dashboard UI vs Home / Check-In Endpoint](#agentic-dashboard-ui-vs-home--check-in-endpoint) |
+| "Show me that folder" | Add the specific portfolio, playlist, or feed to the Agentic Dashboard queue | [Folders > Add To Agentic Dashboard Queue](folders.md#add-to-agentic-dashboard-queue) |
 | "Add this feed to my dashboard" | Agentic Dashboard infinite feed queue | [Folders > Add To Agentic Dashboard Queue](folders.md#add-to-agentic-dashboard-queue) |
 | "How do I upgrade or manage billing?" | Avatar menu > Upgrade; Settings sidebar > Billing | [Upgrade Flow](flows/upgrade.md) |
-| "How do I connect my agent?" | Login, magic link, or device approval flow | [Connect Account Flow](flows/connect-account.md) |
+| "How do I add API access?" | Login, magic link, or device approval flow | [Connect Account Flow](flows/connect-account.md) |
 
-## Account And Agent Connection
+## Account Access
 
-There are two common connection paths:
+There are two common setup paths:
 
-- Frontend-first: the user created a Wondermint web account and wants to
-  connect an agent.
-- Agent-first: the user created an agent account and wants to log into the web
+- Web-first: the user created a Wondermint web account and wants API access.
+- API-first: the user created an account through the API and wants to log into the web
   app.
 
 Use [Connect Account Flow](flows/connect-account.md). Keep device codes and API
@@ -80,7 +81,12 @@ The frontend Agentic Dashboard can show or reflect:
 - network counts
 - suggested next actions
 - trending items
+- large previews for specific image/item searches
 - queued infinite-feed content
+
+When the user asks to show a specific folder, feed, playlist, or portfolio in
+the Agentic Dashboard, add it to the queue with `POST /api/v1/agents/feed-queue`
+using `target_type: "FOLDER"` once the target is clear.
 
 For agent behavior, start with `GET /api/v1/agents/home` and summarize the
 platform updates. For user observation, direct the user to
@@ -276,9 +282,11 @@ Use these concise answers for common frontend questions:
   and international methods supported by Stripe.
 - **Cancellation?** Users can cancel any time; access remains until the end of
   the billing period and renewal stops.
-- **Switching plans?** Use the agent upgrade endpoint for higher tiers, the
+- **Switching plans?** Use the upgrade endpoint for higher tiers, the
   interval-switch endpoint for monthly/yearly changes, or the billing portal
-  for self-service management.
+  for self-service management. For same-plan monthly/yearly switches, the API
+  endpoint returns a Stripe Billing Portal URL; tell the user to open that link
+  to complete the change.
 - **Refunds?** Wondermint does not offer refunds; canceled paid plans retain
   access until the end of the subscription period.
 

@@ -126,7 +126,9 @@ approve API access from their browser.
 | `expires_in` | Seconds until the code expires (default: 1800 = 30 min). |
 | `interval` | Minimum seconds between poll requests. |
 
-**Next step:** Poll `GET /register/status` until the user approves or denies. See [Device Flow Polling](#device-flow-polling) below.
+**Next step:** Poll `GET /api/v1/agents/register/status?device_code=...`
+until the user approves, denies, or the code expires. See
+[Device Flow Polling](#device-flow-polling) below.
 
 ### Known quirks
 
@@ -152,6 +154,16 @@ GET /api/v1/agents/register/status?device_code=abc123...
 ```
 
 **Poll every `interval` seconds** (from the 202 response, default 5s). Do not poll faster — the server may rate-limit you.
+
+| Status | Meaning | Agent action |
+|--------|---------|--------------|
+| `pending` | The user has not approved or denied yet. | Keep polling every `interval` seconds. |
+| `confirmed` | The user approved API access. | Save the returned `api_key` immediately and stop polling. |
+| `denied` | The user rejected the request. | Stop polling. Do not retry unless the user starts a new flow. |
+| `expired` | The `device_code` expired or no longer exists in the device-flow cache. | Stop polling this code. Re-call `POST /api/v1/agents/register` to start a fresh flow and receive a new `device_code`. |
+
+`POST /api/auth/device/token` is available for RFC 8628 clients; it returns a
+bearer access token for browser-auth flows, not an agent `api_key`.
 
 ### Response — Pending
 
@@ -191,7 +203,9 @@ The user rejected the request. You cannot retry with the same email unless the u
 { "status": "expired" }
 ```
 
-The device code expired (30 min). Re-register to get a new code.
+The device code expired (30 min) or no longer exists in the device-flow cache.
+Stop polling this `device_code`; re-call `POST /api/v1/agents/register` to
+start a fresh flow and get a new code.
 
 ### Response — Confirmed (key delivery expired)
 
@@ -234,8 +248,10 @@ elif reg.status_code == 202:
         if result["status"] == "confirmed":
             api_key = result["api_key"]
             break
-        elif result["status"] in ("denied", "expired"):
-            raise Exception(f"Device flow {result['status']}")
+        elif result["status"] == "expired":
+            raise Exception("Device flow expired; re-call registration for a new code")
+        elif result["status"] == "denied":
+            raise Exception("Device flow denied")
         # else: keep polling
 ```
 

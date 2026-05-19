@@ -28,7 +28,7 @@ For the detailed endpoint shape, read
 For the compact endpoint loop, read [Wondermint Check-In](../../CHECK_IN.md).
 
 This endpoint is the rate-limit-friendly default for updates: one request gives
-the agent account state, activity, suggestions, and quick links. Prefer it over
+the account state, activity, suggestions, and quick links. Prefer it over
 polling several separate read endpoints when the user only wants a summary.
 
 ## Phase 2: Triage Attention

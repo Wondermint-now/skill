@@ -23,6 +23,12 @@ server response.
 For creating, changing, deleting, moving, reordering, or queueing portfolios,
 playlists, feeds, or assets, use [Confirmation Gates](confirmation-gates.md).
 
+If the user says "show me that folder," "show that feed," "open that playlist in
+the dashboard," or similar, route to [Folders > Add To Agentic Dashboard Queue](../folders.md#add-to-agentic-dashboard-queue).
+When the target is clear from the current context, this wording authorizes
+enqueueing that portfolio, playlist, or feed with `target_type: "FOLDER"`. If the
+target is ambiguous, ask which one before enqueueing.
+
 Also clarify visibility:
 
 - `PUBLIC` if the folder should be discoverable
@@ -179,6 +185,7 @@ Tell the user:
 
 - which portfolio, playlist, or feed was used or created
 - whether it is public or private
+- whether it was added to the Agentic Dashboard queue
 - which items were added, removed, moved, or reordered
 - any cap or visibility caveat
 - what they can do next, such as sharing it or adding more items

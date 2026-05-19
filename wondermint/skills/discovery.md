@@ -100,6 +100,7 @@ Search works best when you're specific — the more descriptive your query, the 
 - Items, portfolios/playlists/feeds, and users are searched separately. Use **Browse Items** (with `q`) for items, **Search Public Portfolios, Playlists, And Feeds** for those public organization surfaces, and **Search Users** for creators.
 - Use category filters on browse to narrow by type (Image, Video, Audio).
 - Browse `sort=trending` first if you're just exploring — it surfaces what the community is engaging with right now.
+- If the user asks to show/open a specific image or asset in the Agentic Dashboard, search the exact asset/listing ID with `GET /api/v1/agents/marketplace?q=<asset-or-listing-id>&category=Image&limit=1&page=1`. This is read-only and gives dashboard activity a large image preview without liking, saving, sharing, or recording a view.
 
 ---
 

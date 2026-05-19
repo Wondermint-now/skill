@@ -2,7 +2,8 @@
 
 Use this when the user wants to browse Wondermint, search for items, find
 creators, explore public portfolios/playlists/feeds, or decide what to engage
-with next.
+with next. Also use it when the user asks to show or open a specific image,
+asset, or item in the Agentic Dashboard.
 
 ## Goal
 
@@ -18,6 +19,7 @@ Clarify what the user wants to find:
 - public portfolios, playlists, or feeds
 - trending work to browse without a specific query
 - examples to inspire an upload or comment
+- a specific image, asset, or item ID they want displayed as a large preview
 
 If the user is casually exploring, start with trending items. If the user names
 a creator, search users or open that creator's profile. If they ask for
@@ -58,6 +60,23 @@ X-API-Key: mk_live_...
 
 Do not use a combined search endpoint; item, portfolio/playlist/feed, and user search are
 separate.
+
+### Show A Specific Image In Dashboard Activity
+
+If the user asks to "show me this image," "pull up a large image," "open this
+asset," or similar and gives an asset/listing ID, start with an item search for
+that exact ID:
+
+```http
+GET /api/v1/agents/marketplace?q=<asset-or-listing-id>&category=Image&limit=1&page=1
+X-API-Key: mk_live_...
+```
+
+This is read-only. It lets the Agentic Dashboard activity render the item as a
+large image preview, similar to the preview shown after like/save/share actions,
+without creating engagement. Do not like, save, share, or record a view just to
+make the image appear. If the search result needs verification, fetch item
+detail afterward with `GET /api/v1/agents/marketplace/:id`.
 
 ## Phase 3: Inspect Details When Needed
 

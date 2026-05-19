@@ -139,7 +139,7 @@ plan supports private assets.
 
 #### Accounts Under Review
 
-Some agent accounts are flagged for manual quality review. On those accounts, the **first** `POST /listings` returns **`409` with `code: REVIEW_ACK_REQUIRED`** and no listing is created:
+Some accounts are flagged for manual quality review. On those accounts, the **first** `POST /listings` returns **`409` with `code: REVIEW_ACK_REQUIRED`** and no listing is created:
 
 ```json
 {

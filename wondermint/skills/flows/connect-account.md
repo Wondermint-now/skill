@@ -1,50 +1,49 @@
 # Connect Account Flow
 
-Use this when the user wants to connect a Wondermint frontend account with an
-agent account, or wants to use an agent-created account in the web app.
+Use this when the user wants to add API-key access to an existing Wondermint web
+account, or add web login to an account created through the API.
 
 ## Goal
 
-Help the user end up with one Wondermint identity they can use in both places:
+Help the user end up with one Wondermint account they can use in both places:
 
 - browser/frontend session at `https://wondermint.now`
-- agent/API access with `X-API-Key`
+- API access with `X-API-Key`
 
 ## Choose The Path
 
-Ask which account exists first:
+Ask which access path exists first:
 
-- **Frontend account exists first:** the user already signed up on
-  `https://wondermint.now` and now wants to connect an agent.
-- **Agent account exists first:** the user registered an agent by API and now
-  wants to log into the frontend.
+- **Web login exists first:** the user already signed up on
+  `https://wondermint.now` and now wants API access.
+- **API access exists first:** the user registered through the API and now wants
+  to log into the frontend.
 
 If they are not sure, ask what they can currently do:
 
 - Can they log into `https://wondermint.now` with the email? Treat it as
-  frontend-first.
-- Do they have an agent API key or did an agent register the email? Treat it as
-  agent-first.
+  web-first.
+- Do they have an API key or did they register through the API? Treat it as
+  API-first.
 
-## Path A: Frontend Account Exists First
+## Path A: Web Login Exists First
 
-Use this when the email already belongs to a human/frontend Wondermint account.
+Use this when the email already belongs to a Wondermint account with web login.
 
-### 1. Start Agent Registration
+### 1. Start API Registration
 
-Register the agent with the same email as the frontend account:
+Register with the same email as the web account:
 
-Before calling registration, confirm the frontend account email and tell the
+Before calling registration, confirm the account email and tell the
 user the API key is shown only once and must be saved to local `.env`, a
 password manager, or an approved agent secret store before any next action.
 
-Do **not** ask the user to choose a username in this frontend-first path. They
-already chose their username when they created the frontend account, and the
-device approval flow upgrades that same identity for agent/API use. If a tool or
-payload helper asks for a username field, use the existing frontend username if
-it is already known. If it is not known and the API client refuses to proceed
-without one, ask for the username they already chose in the frontend; do not
-frame it as selecting a new agent username.
+Do **not** ask the user to choose a username in this web-first path. They
+already chose their username when they created the account, and the device
+approval flow adds API access to that same account. If a tool or payload helper
+asks for a username field, use the existing username if it is already known. If
+it is not known and the API client refuses to proceed without one, ask for the
+username they already chose; do not frame it as selecting a new username.
 
 ```http
 POST /api/v1/agents/register
@@ -53,7 +52,7 @@ Content-Type: application/json
 
 Use the endpoint details in [Auth > Register](../auth.md#register).
 
-When the email belongs to an existing frontend account, the response should
+When the email belongs to an existing web account, the response should
 start a device authorization flow with status `pending_confirmation`.
 
 ### 2. Send The User To Approval
@@ -64,7 +63,7 @@ Show the user:
 - the frontend approval URL: `https://wondermint.now{verification_uri_complete}`
 - the expiration window
 
-Tell them to approve the agent connection in their browser. Do not expose the
+Tell them to approve API access in their browser. Do not expose the
 `device_code`; it is only for polling.
 
 ### 3. Poll Until Complete
@@ -86,24 +85,23 @@ Outcomes:
 - `denied`: stop and tell the user the connection was rejected.
 - `expired`: re-register to start a fresh approval flow.
 
-After confirmation, the same Wondermint identity works both ways: browser
-session for frontend use and API key for agent use.
+After confirmation, the same Wondermint account works both ways: browser session
+for web use and API-key use.
 
-## Path B: Agent Account Exists First
+## Path B: API Access Exists First
 
-Use this when the agent account already exists and the user now wants frontend
-access.
+Use this when API access already exists and the user now wants web login.
 
-### 1. Confirm The Agent Email
+### 1. Confirm The Account Email
 
-Use the agent profile if needed:
+Use the profile endpoint if needed:
 
 ```http
 GET /api/v1/agents/me
 X-API-Key: mk_live_...
 ```
 
-The frontend login email is the agent account email.
+The web login email is the account email.
 
 ### 2. Prepare Password Login
 
@@ -130,7 +128,7 @@ Tell the user email verification is required before password login works in the
 frontend.
 
 If the user specifically asks for magic-link login instead, send them to
-`https://wondermint.now` to enter the agent email and click the link that
+`https://wondermint.now` to enter the account email and click the link that
 arrives in that inbox.
 
 ## Missing API Key Recovery
@@ -154,6 +152,6 @@ When the connection succeeds, report:
 
 - which path was used
 - whether frontend login is available
-- whether agent API access is available
+- whether API access is available
 - where the API key was saved or that it must be saved immediately
 - any remaining action, such as email verification or password setup

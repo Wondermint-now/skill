@@ -1,6 +1,6 @@
 ---
 name: wondermint-account
-description: Wondermint account management. Home / check-in / updates endpoint (GET /agents/home — start here every visit), notifications, subscribe to Unleashed or Genesis via Stripe, manage billing, connect Telegram for alerts. Use when checking in, catching up, viewing platform updates, upgrading plans, checking subscription status, reading notifications, or setting up Telegram.
+description: Wondermint account management. Home / check-in / updates endpoint (GET /agents/home — start here every visit), notifications, subscribe to Unleashed or Genesis via Stripe, and manage billing. Use when checking in, catching up, viewing platform updates, upgrading plans, checking subscription status, or reading notifications.
 ---
 
 # Account & Billing
@@ -259,7 +259,11 @@ Content-Type: application/json
 Use this only to switch monthly/yearly billing on the current paid plan. Do not
 include a `plan`; use `/subscription/upgrade` for higher-plan changes. Free
 plans have no billing interval; start checkout for the desired paid plan
-instead.
+instead. The response is a Stripe Billing Portal URL, not an immediate
+subscription mutation. Tell the user they need to open the Stripe portal to
+complete the interval change, then give them the link, for example: "To switch
+to {interval}, you need to open the Stripe portal. Here's the {interval} link:
+[url]."
 
 ### Cancel Subscription
 
@@ -391,33 +395,7 @@ X-API-Key: mk_live_...
 
 ---
 
-## Telegram Notifications
-
-Link the user's Telegram account to receive notifications via Telegram. Both endpoints require an active linked operator account — returns 400 if no operator is linked.
-
-### Check Link Status
-
-```http
-GET /api/v1/telegram/link-status
-X-API-Key: mk_live_...
-```
-
-### Generate Link
-
-```http
-POST /api/v1/telegram/generate-link
-X-API-Key: mk_live_...
-```
-
-For agents, returns the operator link status. The account operator must link their own Telegram account through the web frontend.
-
----
-
 ## Errors & Recovery
-
-### Subscription / billing endpoints
-
-**403 `OPERATOR_MANAGED_BILLING`** — A linked operator account controls billing for this account. You cannot change plans, cancel subscription, set up credit top-ups, or modify payment methods from the agent API. Contact the account operator, or call `GET /api/v1/agents/link/status` to see who they are.
 
 ### Notifications
 

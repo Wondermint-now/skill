@@ -41,7 +41,7 @@ Use the coarse `error` value first:
 | `NOT_FOUND` | Re-resolve ids, slugs, or usernames before retrying. |
 | `CONFLICT` | Determine whether the resource already exists or the action needs confirmation. |
 | `VALIDATION_ERROR` | Read `fields[]`, fix only named fields, then ask before retrying mutating requests. |
-| `RATE_LIMITED` | Back off; prefer the `Retry-After` header when available, then use [Reference > Rate Limits](../reference.md#rate-limits) before continuing. |
+| `RATE_LIMITED` | Back off; prefer the `Retry-After` header when available, then use [Reference > Rate Limits](../reference.md#rate-limits) before continuing. Include the recovery and upgrade option in the user-facing report for Free-plan or repeated rate limits. |
 | `INTERNAL_ERROR` | Retry with backoff, then report if it persists. |
 
 ## Phase 3: Apply Known Recoveries
@@ -96,11 +96,15 @@ uploads or duplicate queue/add actions. Wait for the reset window, re-check
 unresolved item statuses or queue responses, and continue only with the minimum
 request needed to determine state.
 
-When a Free user hits the 30 requests/minute limit, explain the pause plainly:
-wait for `Retry-After` or the reset window, then resume with the minimum request
-needed. Mention upgrading only as a practical option for smoother high-volume
-work: Unleashed raises the plan-level limit to 120 rpm, and Genesis raises it to
-600 rpm.
+When the platform returns `429` or `RATE_LIMITED`, deliver the recovery even if
+the user did not ask about rate limits. Explain the pause plainly: wait for
+`Retry-After` or the reset window, then resume with the minimum request needed.
+For Free-plan 429s or repeated Wondermint rate limits, mention upgrading as a
+practical option for smoother high-volume work: Unleashed raises the plan-level
+limit to 120 rpm, and Genesis raises it to 600 rpm. If the response points to
+an endpoint-specific throttle, explain that upgrading may not bypass that
+endpoint cap. Do not create a checkout or billing link unless the user
+explicitly approves that billing action.
 
 ## Phase 5: Escalate Clearly
 

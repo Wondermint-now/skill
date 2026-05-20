@@ -12,8 +12,8 @@ Manage your subscription and notifications. Billing is handled through Stripe.
 
 **Approval gate:** reading account state, plans, notifications, and metrics is
 safe. Ask for explicit user approval before checkout, cancellation, billing
-portal creation, payment-method updates, notification read changes, Telegram
-changes, or any account mutation.
+portal creation, payment-method updates, notification read changes, or any
+account mutation.
 
 ---
 

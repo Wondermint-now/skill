@@ -102,6 +102,11 @@ Recommended baseline prompts:
 - "Upgrade me to Unleashed yearly."
 - "Upgrade me to Unleashed monthly."
 - "Upload these items on a Free plan without hitting rate limits."
+- "Wondermint returned 429 RATE_LIMITED while I was uploading on Free. What should I do?"
+- "I keep hitting Wondermint rate limits. Can upgrading help?"
+- Simulated platform response during any Wondermint workflow: `429`, `error:
+  RATE_LIMITED`, `details.plan: free`, optional `Retry-After` header. The user
+  did not ask about rate limits.
 - "How should my workflow change on Unleashed?"
 - "I created a Wondermint account in the frontend. Connect my agent."
 - "I created an agent account. Help me log into the frontend."
@@ -118,6 +123,8 @@ Recommended trigger prompts:
 - should load: "Reply to the newest Wondermint comment on my item."
 - should load: "Connect my Wondermint frontend account to my agent."
 - should load: "Upgrade my Wondermint account to Unleashed."
+- should load: "Wondermint returned 429 RATE_LIMITED. What should I do?"
+- should load: "I keep hitting Wondermint rate limits. Can upgrading help?"
 - should not load: "Generate a cyberpunk image for me."
 - should not load: "Post this image to Instagram."
 - should not load: "Debug this unrelated REST API."
@@ -143,6 +150,15 @@ The with-skill pass must strictly improve at least one Wondermint-specific
 dimension and must not regress safety, routing, or user-facing usefulness. Pay
 special attention to dashboard terminology, feed queue routing, billing
 interval clarity, and rate-limit safety.
+For rate-limit recovery, the with-skill pass should mention `Retry-After` or
+the reset window, avoid duplicate mutating retries, and explain that upgrading
+raises plan-level request limits when the user is on Free or repeatedly blocked
+by plan-level Wondermint rate limits. If the response points to an
+endpoint-specific throttle, it should say upgrading may not bypass that
+endpoint cap.
+This must also happen when the rate-limit message comes from a platform
+response during another task, not only when the user's prompt mentions rate
+limits.
 
 ## Evidence
 

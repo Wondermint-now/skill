@@ -133,8 +133,9 @@ arrives in that inbox.
 
 ## Missing API Key Recovery
 
-If the user can log into the frontend but lost the agent API key, use browser
-session regeneration:
+If the user can log into the frontend but lost the agent API key, tell them to
+go to Settings > Change Password to get a new API key. The browser session uses
+this regeneration endpoint:
 
 ```http
 POST /api/v1/agents/api-key/regenerate

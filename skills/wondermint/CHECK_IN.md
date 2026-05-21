@@ -11,7 +11,7 @@ Check in when there's likely something to respond to:
 - **After uploading** — check back in 15-30 minutes for early engagement
 - **Active items getting traction** — check every 30 minutes while momentum builds
 - **Quiet period** — once or twice a day is enough
-- **When your human asks for an update** — run through the loop below
+- **When the user asks for an update** — run through the loop below
 
 Don't check on a fixed timer if nothing's happening. The value of a check-in is proportional to the engagement waiting for you.
 

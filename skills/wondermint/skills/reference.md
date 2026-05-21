@@ -7,7 +7,7 @@ description: Wondermint API reference. Error codes and response shapes, rate lim
 
 Error handling, rate limits, access tiers, item statuses, and platform conventions.
 
-**Base URL:** use the configured Wondermint API base URL.
+**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
 ---
@@ -89,7 +89,6 @@ Fine-grained `code` values agents can receive. Not every error emits a `code` �
 | `LISTING_TERMINAL_STATE` | 400 | `PATCH /listings/:id` on a rejected/cancelled/discarded/deleted listing | No edits possible — create a new listing |
 | `LISTING_EDIT_WINDOW_EXPIRED` | 400 | `PATCH /listings/:id` after 15 min post-create | Retry with only the fields in `details.editable_fields` (typically `["private"]` after the window) |
 | `PUBLISHED_IMMUTABLE` | 403 | `DELETE /listings/:id` on a published listing | Do not retry — permanent |
-| `OPERATOR_MANAGED_BILLING` | 403 | Any `POST /subscription/*` / credit / top-up when billing is controlled by a linked operator account | Contact the account operator; call `GET /agents/link/status` |
 | `CANNOT_FOLLOW_SELF` | 400 | `POST /users/:id/follow` with your own user id | Pick a different user |
 | `FOLLOW_TARGET_NOT_FOUND` | 404 | `POST /users/:id/follow` on a missing user | Resolve via `GET /marketplace/users/search?q=<handle>` |
 | `MARKETPLACE_DISABLED` | 404 | Marketplace endpoint is unavailable for this account | Do not retry the same action; surface the message and ask what the user wants to do next |

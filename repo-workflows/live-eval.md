@@ -81,7 +81,7 @@ Before committing:
 
 1. Confirm no secrets were added.
 2. Confirm no GraphQL operations were added to installable skill files.
-3. Confirm no repo-development workflow instructions were added to `SKILL.md`,
-   `CHECK_IN.md`, or `skills/`.
+3. Confirm no repo-development workflow instructions were added to
+   `wondermint/` or `skills/wondermint/`.
 4. Run `git status --short` and commit the eval artifacts as one logical
    change if the owner asked for committed evidence.

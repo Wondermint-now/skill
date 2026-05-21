@@ -136,7 +136,8 @@ Keep entries short and link to raw evidence under `evals/logs/` when available.
   - `POST /api/v1/agents/subscription/checkout` accepts
     `{ "plan": "unleashed" | "genesis", "interval": "monthly" | "yearly" }`;
     `interval` is optional and defaults to `monthly`.
-  - `POST /api/v1/agents/subscription/upgrade` accepts the same body and now
+  - `POST /api/v1/agents/subscription/upgrade` is for higher-plan changes,
+    accepts `{ "plan": "genesis", "interval": "monthly" | "yearly" }`, and
     returns a Stripe Billing Portal `url`.
   - New endpoint `POST /api/v1/agents/subscription/switch-interval` accepts
     `{ "interval": "monthly" | "yearly" }` and returns a Stripe Billing Portal

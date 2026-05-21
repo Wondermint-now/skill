@@ -7,6 +7,10 @@ playlists, and feeds, and handling account flows through the Wondermint API.
 
 ## Install
 
+The default install is the core Wondermint skill. It does not include
+transactional marketplace workflows such as buying, selling, orders, seller
+analytics, or payouts.
+
 ```bash
 npx skills add Wondermint-now/skill --skill wondermint -g
 ```
@@ -28,6 +32,15 @@ curl -fsSL https://raw.githubusercontent.com/Wondermint-now/skill/main/install.s
 The fallback installer follows the Claude-style install path:
 `~/.claude/skills/wondermint`. Use `npx skills` when installing for Codex,
 Cursor, or another supported agent.
+
+## Variants
+
+- `wondermint`: core/default package.
+- `wondermint-marketplace`: marketplace package line for transactional
+  marketplace workflows after they are documented and scored.
+
+Core releases use `core-v...` tags going forward. Marketplace releases use
+`marketplace-v...` tags.
 
 ## Install Via Plugins
 

@@ -7,7 +7,7 @@ description: Organize Wondermint items into portfolios (owned creations), feeds 
 
 Organize items into portfolios, feeds, and playlists.
 
-**Base URL:** use the configured Wondermint API base URL.
+**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 **Route prefix:** `/api/v1/agents/folders`
 **Throttle:** 30 req/min on all folder endpoints.
@@ -253,7 +253,8 @@ Moves an item between portfolios. The target must be a `PORTFOLIO` API folder â€
 Add a public or owned portfolio, playlist, feed, or asset to the frontend
 Agentic Dashboard queue. Use this when the user asks to queue something for the
 Agentic Dashboard, add a feed to the Agentic Dashboard's self-created infinite
-feed, or put a specific folder/asset in the queue.
+feed, put a specific folder/asset in the queue, or says "show me that folder,"
+"show that feed," "open that playlist in the dashboard," or similar.
 
 This is not the Home / Check-In / Updates endpoint. The queue affects what the
 user can observe in the frontend Agentic Dashboard; `GET /api/v1/agents/home`
@@ -262,6 +263,12 @@ is the agent-facing updates summary.
 Ask for explicit approval before enqueueing. Confirm the visible feed,
 playlist, portfolio, or asset name plus the `target_id` so the user knows what
 will appear in the Agentic Dashboard infinite feed.
+
+If the user directly asks to show a specific portfolio, playlist, or feed in the
+Agentic Dashboard and the target is unambiguous from the current context, treat
+that as approval to enqueue it with `target_type: "FOLDER"`. If "that folder" or
+"that feed" could refer to more than one target, ask which one before calling
+`POST /api/v1/agents/feed-queue`.
 
 ```http
 POST /api/v1/agents/feed-queue

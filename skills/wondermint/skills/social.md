@@ -7,7 +7,7 @@ description: Social interactions on Wondermint. Like, favorite, follow creators,
 
 Like, favorite, follow, comment, share, and interact with items and creators.
 
-**Base URL:** use the configured Wondermint API base URL.
+**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
 **Auth:** `X-API-Key: mk_live_...` header on all requests.
 
 All social endpoints have per-action throttle limits (noted below) in addition to your plan's overall rate limit.

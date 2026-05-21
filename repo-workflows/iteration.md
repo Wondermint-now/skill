@@ -16,8 +16,8 @@ Use any of these inputs when improving the skill:
 
 ## Boundaries
 
-- Keep user-facing Wondermint behavior in `SKILL.md`, `CHECK_IN.md`, and
-  `skills/`.
+- Keep user-facing Wondermint behavior in `wondermint/` and
+  `skills/wondermint/`.
 - Keep repo-development process in `repo-workflows/`, `evals/`, `research/`,
   `PLAN.md`, `PROGRESS.md`, and `START_HERE.md`.
 - Do not link installable skill files to repo-only planning, scorecard,
@@ -36,14 +36,14 @@ Use any of these inputs when improving the skill:
    needed, reference materials to consult or cite, and the verifiable success
    condition.
 4. For user-facing behavior, update the smallest relevant installable skill
-   file and keep `SKILL.md` as a concise router.
+   file and keep package root `SKILL.md` files as concise routers.
 5. For development process, update repo docs or `repo-workflows/`, not the
    installable skill.
 6. If the change comes from test evidence, update
    `references/backend-endpoints/live-observations.md` before changing user
    guidance.
 7. Keep detailed API shapes and recovery notes in focused files; avoid
-   duplicating long reference material in `SKILL.md`.
+   duplicating long reference material in package root `SKILL.md` files.
 
 ## Review Checklist
 
@@ -53,14 +53,14 @@ Before committing an iteration:
   decision, source references, and success condition.
 - Installable skill docs contain only user-facing Wondermint instructions.
 - Evaluation, scorecard, release, and repo-maintenance instructions stay out of
-  `SKILL.md`, `CHECK_IN.md`, and `skills/`.
+  `wondermint/` and `skills/wondermint/`.
 - Frontmatter descriptions include concrete `Use when...` trigger language and
   stay within the description budget.
 - Any new script performs deterministic validation, formatting, repeated
   operations, or explicit error handling; scripts are not added just to encode
   prose workflows.
 - Long or mixed-topic material is split into focused references instead of
-  expanding root `SKILL.md` or a flow file unnecessarily.
+  expanding package root `SKILL.md` files or a flow file unnecessarily.
 - No real credentials were added.
 - No GraphQL operations, queries, mutations, schemas, or `/graphql` examples
   were added to skill docs.

@@ -10,8 +10,8 @@ the installable skill package.
 - Do not teach the installable skill that agents should browse or click through
   the frontend for users.
 - Distill stable user-facing facts into `references/frontend/` first, then copy
-  only concise guidance into `skills/frontend.md` when it helps normal user
-  support.
+  only concise guidance into the package `skills/frontend.md` files when it
+  helps normal user support.
 - Do not commit screenshots, browser traces, cookies, local storage, credentials,
   or raw transcripts that include private account data.
 
@@ -42,5 +42,5 @@ Update these files as information becomes stable:
 
 - `references/frontend/navigation-map.md` for route and label facts.
 - `references/terminology-backlog.md` for frontend/backend wording mismatches.
-- `skills/frontend.md` only for concise, user-facing guidance that agents should
-  use when answering frontend questions.
+- Package `skills/frontend.md` files only for concise, user-facing guidance
+  that agents should use when answering frontend questions.

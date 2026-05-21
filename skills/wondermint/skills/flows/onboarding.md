@@ -5,30 +5,29 @@ an agent, or asks what to do first.
 
 ## Goal
 
-Get the user to one working Wondermint identity with frontend access, agent API
-access, and a clear first useful action.
+Get the user to one working Wondermint account with web login, API-key access,
+and a clear first useful action.
 
 ## Phase 1: Determine Starting Point
 
 Ask what the user already has:
 
 - no Wondermint account yet
-- a frontend account at `https://wondermint.now`
-- an agent API key
-- an agent account but no frontend login
+- web login at `https://wondermint.now`
+- an API key
+- API access but no web login
 - unsure
 
 If they are unsure, ask whether they can log into `https://wondermint.now` or
 whether they have an API key that starts with `mk_live_`.
 
-Resolve the API host before any API call. Use `WONDERMINT_BASE_URL` or the
-host's configured Wondermint API base URL. If none is configured, ask the user
-to confirm the API base URL; do not infer one from repo files, examples, or
-previous eval notes.
+Use `https://api.wondermint.now` as the production API host. Use
+`WONDERMINT_BASE_URL` or the host's configured Wondermint API base URL only when
+an explicit non-production override is configured.
 
 ## Phase 2: Create Or Connect The Account
 
-If no account exists, register an agent:
+If no account exists, register the account through the API:
 
 Before calling registration, confirm the durable account details with the user:
 
@@ -50,12 +49,11 @@ returned `api_key` immediately in the approved location. Do not paste it into
 the final report. If the save location is not available, stop and tell the user
 to save the key before continuing.
 
-If a frontend account exists first, use the [Connect Account Flow](connect-account.md)
+If web login exists first, use the [Connect Account Flow](connect-account.md)
 to start and poll the device approval flow. Do not ask the user to choose a new
-username in this path; they already chose one when creating the frontend
-account.
+username in this path; they already chose one when creating the account.
 
-If an agent account exists first, use the [Connect Account Flow](connect-account.md)
+If API access exists first, use the [Connect Account Flow](connect-account.md)
 to verify email if needed, set a password, and log into the frontend.
 
 ## Phase 3: Verify Agent Access
@@ -135,8 +133,8 @@ Tell the user the normal routine:
 
 Tell the user:
 
-- whether frontend access is available
-- whether agent API access is available
+- whether web login is available
+- whether API access is available
 - what account email and username are in use
 - where the API key was saved or that it must be saved immediately
 - the dashboard URL: `https://wondermint.now/dashboard`

@@ -1,6 +1,6 @@
 ---
 name: wondermint-auth
-description: Register a new Wondermint agent, link an existing human account to an agent via device authorization flow, poll device flow status, view and update your profile, rotate or regenerate API keys, set passwords, change email, verify email, and view activity logs. Use this skill when creating an account, managing identity, checking rate limit status, handling a 202 device code response from registration, polling for approval, linking an existing account, regenerating a lost API key, or troubleshooting "email already registered" errors during agent signup.
+description: Register a Wondermint account, add API-key access to an existing web account via device authorization flow, poll device flow status, view and update your profile, rotate or regenerate API keys, set passwords, change email, verify email, and view activity logs. Use this skill when creating an account, managing identity, checking rate limit status, handling a 202 device code response from registration, polling for approval, adding API access, regenerating a lost API key, or troubleshooting "email already registered" errors during signup.
 ---
 
 # Auth & Identity
@@ -9,7 +9,7 @@ Register, manage your profile, rotate keys, and secure your account.
 
 > **Note:** The API paths use `/marketplace` and `/listings` in some URLs. These are route names; use only the social/content endpoints documented in this skill.
 
-**API base URL:** use the configured Wondermint API base URL.
+**API base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
 **Frontend (web app):** `https://wondermint.now` — the browser-login host. Password login, email verification links, and the device-flow approval page all live here.
 **Auth:** `X-API-Key: mk_live_...` header on all requests (except registration and device flow polling).
 
@@ -20,14 +20,14 @@ API key rotation and regeneration revoke existing keys; confirm the user is
 ready to save the new key before calling them.
 
 > **Frontend login path.** When the user wants to log into the web frontend,
-> help them use the agent account email plus a password. Check whether the
+> help them use the account email plus a password. Check whether the
 > email is verified. If it is not, tell them to open the verification email
 > sent during API signup and complete verification from their email account.
 > Then use [Set Password](#set-password) after approval and have the user
 > provide the password through the host's approved secret-entry path.
 >
 > **Magic link alternative.** If the user specifically asks for magic-link
-> login, they can go to `https://wondermint.now`, type the agent's email into
+> login, they can go to `https://wondermint.now`, type the account email into
 > the magic-link box on the login page, then click the link that arrives in
 > that inbox. There is no agent-API endpoint for this because the frontend
 > initiates it from the email input field.
@@ -44,17 +44,15 @@ local `.env`, the user's password manager, or an approved agent secret store.
 The agent may supply `name` and `description` without separate user
 confirmation.
 
-Exception: when the user already created a frontend account and is only adding
-agent/API access, do not ask them to choose a username again. Use
-[Connect Account Flow](flows/connect-account.md). Confirm the existing frontend
-account email and API-key save location; keep the existing frontend username.
-If a payload helper requires `username`, use the already-chosen frontend
-username if known, or ask for that existing username as an identifier, not as a
-new choice.
+Exception: when the user already created a web account and is only adding API
+access, do not ask them to choose a username again. Use
+[Connect Account Flow](flows/connect-account.md). Confirm the existing account
+email and API-key save location; keep the existing username. If a payload helper
+requires `username`, use the already-chosen username if known, or ask for that
+existing username as an identifier, not as a new choice.
 
-Only include `callback_url`, `avatar_url`, or `operator_email` when the user
-explicitly asks for them or approves those exact values. `operator_email` can
-link the agent to another account, so do not infer it.
+Only include `callback_url` or `avatar_url` when the user explicitly asks for
+them or approves those exact values.
 
 ```http
 POST /api/v1/agents/register
@@ -76,7 +74,6 @@ Content-Type: application/json
 | `description` | string | No | Max 500 chars. |
 | `callback_url` | string | No | HTTPS URL for webhook callbacks. |
 | `avatar_url` | string | No | HTTPS URL for custom avatar. |
-| `operator_email` | string | No | If this email matches an existing user, the agent is auto-linked to them as operator. |
 
 ### Response A — New account (201)
 
@@ -101,14 +98,16 @@ The returned API key is secret and may be shown only once. Save it to local
 taking any next action. Do not include the key in summaries, logs,
 screenshots, or committed files.
 
-### Response B — Dual-identity device flow (202)
+### Response B — Device approval flow (202)
 
-When the email belongs to an existing human account, a device authorization flow is initiated instead of rejecting the request. The human account owner must approve the agent upgrade from their browser.
+When the email belongs to an existing Wondermint account, a device authorization
+flow is initiated instead of rejecting the request. The account owner must
+approve API access from their browser.
 
 ```json
 {
   "status": "pending_confirmation",
-  "message": "This email belongs to an existing account. The account owner must approve the agent upgrade.",
+  "message": "This email belongs to an existing account. The account owner must approve API access.",
   "device_code": "abc123...",
   "user_code": "ABCD-1234",
   "verification_uri": "/device",
@@ -121,20 +120,20 @@ When the email belongs to an existing human account, a device authorization flow
 | Field | Description |
 |-------|-------------|
 | `device_code` | Opaque token for polling — keep this secret. |
-| `user_code` | Short code the human enters at the verification page. Display this to the user. |
-| `verification_uri` | Path the human should visit (relative to frontend base URL). |
+| `user_code` | Short code the user enters at the verification page. Display this to the user. |
+| `verification_uri` | Path the user should visit (relative to frontend base URL). |
 | `verification_uri_complete` | Relative frontend path with `user_code` pre-filled. Show it as `https://wondermint.now{verification_uri_complete}`. |
 | `expires_in` | Seconds until the code expires (default: 1800 = 30 min). |
 | `interval` | Minimum seconds between poll requests. |
 
 **Next step:** Poll `GET /api/v1/agents/register/status?device_code=...`
-until the human approves, denies, or the code expires. See
+until the user approves, denies, or the code expires. See
 [Device Flow Polling](#device-flow-polling) below.
 
 ### Known quirks
 
 - Registration may intermittently return `400 "Unauthorized or invalid session"` even when it succeeded. Retry with the same email — a `409 "Email is already registered"` confirms the first attempt went through. You'll need a different email since the API key from the silent success is lost.
-- A `409 "Email is already registered"` with `is_agent: false` means the email belongs to a human account. Re-register with the same email to trigger the device flow (202 response) instead.
+- A `409 "Email is already registered"` with `is_agent: false` means the email belongs to an existing web account. Re-register with the same email to trigger the device flow (202 response) instead.
 - Some default HTTP clients can be blocked by Cloudflare or WAF rules because
   of their default `User-Agent`. If that happens, retry with an honest agent
   `User-Agent` that names the tool and purpose.
@@ -143,9 +142,12 @@ until the human approves, denies, or the code expires. See
 
 ## Device Flow Polling
 
-When registration returns 202, it means the email already belongs to a human user on Wondermint. Rather than rejecting the agent, the platform starts an RFC 8628 device authorization flow — the human account owner must approve the upgrade from their browser. This protects human accounts from unauthorized agent linking.
+When registration returns 202, it means the email already belongs to a Wondermint
+account. Rather than rejecting the request, the platform starts an RFC 8628
+device authorization flow; the account owner must approve API access from their
+browser. This protects accounts from unauthorized API-key access.
 
-Poll this endpoint to check whether the human approved. No authentication required — the `device_code` itself is the credential.
+Poll this endpoint to check whether the user approved. No authentication required — the `device_code` itself is the credential.
 
 ```http
 GET /api/v1/agents/register/status?device_code=abc123...
@@ -155,9 +157,9 @@ GET /api/v1/agents/register/status?device_code=abc123...
 
 | Status | Meaning | Agent action |
 |--------|---------|--------------|
-| `pending` | The human has not approved or denied yet. | Keep polling every `interval` seconds. |
-| `confirmed` | The human approved agent access. | Save the returned `api_key` immediately and stop polling. |
-| `denied` | The human rejected the request. | Stop polling. Do not retry unless the human starts a new flow. |
+| `pending` | The user has not approved or denied yet. | Keep polling every `interval` seconds. |
+| `confirmed` | The user approved API access. | Save the returned `api_key` immediately and stop polling. |
+| `denied` | The user rejected the request. | Stop polling. Do not retry unless the user starts a new flow. |
 | `expired` | The `device_code` expired or no longer exists in the device-flow cache. | Stop polling this code. Re-call `POST /api/v1/agents/register` to start a fresh flow and receive a new `device_code`. |
 
 `POST /api/auth/device/token` is available for RFC 8628 clients; it returns a
@@ -169,7 +171,7 @@ bearer access token for browser-auth flows, not an agent `api_key`.
 { "status": "pending", "interval": 5 }
 ```
 
-The human hasn't acted yet. Keep polling.
+The user hasn't acted yet. Keep polling.
 
 ### Response — Confirmed
 
@@ -181,9 +183,11 @@ The human hasn't acted yet. Keep polling.
 }
 ```
 
-The human approved. **Save your `api_key` immediately** — it is shown only once.
+The user approved. **Save your `api_key` immediately** — it is shown only once.
 
-Your account is now **dual-identity**: it's the same user, but behavior switches based on how you authenticate. Requests with `X-API-Key` use agent API behavior and rate limits. Requests via browser session behave as a normal human user. This lets one person use Wondermint as both a creator in the browser and an automated agent through the API without needing two accounts.
+The same Wondermint account now has both web login and API-key access. Requests
+with `X-API-Key` use the agent API and rate limits; browser sessions use the web
+app.
 
 ### Response — Denied
 
@@ -191,7 +195,7 @@ Your account is now **dual-identity**: it's the same user, but behavior switches
 { "status": "denied" }
 ```
 
-The human rejected the request. You cannot retry with the same email unless the human initiates a new flow.
+The user rejected the request. You cannot retry with the same email unless the user initiates a new flow.
 
 ### Response — Expired
 
@@ -214,7 +218,11 @@ If the flow completed but you didn't poll in time to receive the API key:
 }
 ```
 
-The account was upgraded successfully, but the API key was cached in memory for only 24 hours and has since expired. The key itself is stored as a SHA-256 hash — it can't be recovered. Use [API Key Regeneration](#regenerate-api-key) to mint a fresh one. This requires the human to log in via browser and visit the regeneration endpoint.
+The account now has API access, but the API key was cached in memory for only 24
+hours and has since expired. The key itself is stored as a SHA-256 hash — it
+can't be recovered. Use [API Key Regeneration](#regenerate-api-key) to mint a
+fresh one. This requires the user to log in via browser and visit the
+regeneration endpoint.
 
 ### Implementation example
 

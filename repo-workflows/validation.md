@@ -15,7 +15,7 @@ Run dry validation before live Wondermint testing.
 Run these before scenario review:
 
 ```bash
-python3 repo-workflows/validate.py
+python3 repo-workflows/validate.py --variant all
 ```
 
 The validator checks root frontmatter, the 1024-character description budget,
@@ -27,13 +27,13 @@ git status --short
 ```
 
 ```bash
-rg -n "evals/|scorecard|live eval|repo-workflows|research/|backend-endpoints|mvp-scope|skill evaluation" SKILL.md CHECK_IN.md skills
+rg -n "evals/|scorecard|live eval|repo-workflows|research/|backend-endpoints|mvp-scope|skill evaluation" wondermint skills/wondermint wondermint-marketplace skills/wondermint-marketplace
 ```
 
 This command should return no installable-skill matches.
 
 ```bash
-rg -n "GraphQL|graphql|/graphql|query \\{|mutation \\{" SKILL.md CHECK_IN.md skills
+rg -n "GraphQL|graphql|/graphql|query \\{|mutation \\{" wondermint skills/wondermint wondermint-marketplace skills/wondermint-marketplace
 ```
 
 Only REST-only prohibition language should match.
@@ -51,7 +51,8 @@ Check markdown links with a local relative-link scan or equivalent.
 
 For each flow, inspect:
 
-- `SKILL.md` routes the relevant user request to the flow.
+- The matching variant root `SKILL.md` files route the relevant user request to
+  the flow.
 - The flow starts from a real user intent, not a repo-development task.
 - The flow points to detailed endpoint docs instead of duplicating large API
   references.
@@ -67,8 +68,8 @@ research findings from `research/`.
 
 Check:
 
-- Root `SKILL.md` is a router plus always-loaded safety and scope rules, not a
-  full endpoint inventory.
+- Root package `SKILL.md` files are routers plus always-loaded safety and scope
+  rules, not full endpoint inventories.
 - Frontmatter descriptions include concrete `Use when...` trigger language and
   stay under the 1024-character budget.
 - Positive triggers name real user verbs and product nouns.
@@ -82,7 +83,9 @@ Check:
 - Scripts are used only for deterministic validation, formatting, repeated
   operations, or explicit error handling.
 - Repo-maintenance, eval, package-readiness, and research guidance stay out of
-  `SKILL.md`, `CHECK_IN.md`, and `skills/`.
+  installable package directories.
+- Transactional marketplace workflows stay out of the core package and appear
+  only in `wondermint-marketplace/` and `skills/wondermint-marketplace/`.
 
 Do not split or rewrite installable files only to satisfy a line-count
 heuristic. Split only when validation or eval evidence shows routing,

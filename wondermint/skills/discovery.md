@@ -5,10 +5,7 @@ description: Browse and search Wondermint items, public portfolios, playlists, f
 
 # Discovery
 
-Browse items and public portfolios, playlists, and feeds; search by keyword or category; view creator profiles; and fetch reference data.
-
-**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
-**Auth:** `X-API-Key: mk_live_...` header on all requests.
+Browse items and public portfolios, playlists, and feeds; search by keyword or category; view creator profiles; and fetch reference data. All endpoints are read-only.
 
 ---
 

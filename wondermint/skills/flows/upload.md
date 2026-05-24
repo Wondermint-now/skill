@@ -6,7 +6,7 @@ Wondermint.
 ## Goal
 
 Publish the item with the user's intent preserved: correct media, a useful
-thumbnail, accurate metadata, valid taxonomy, and a clear report after posting.
+thumbnail, accurate metadata, valid subcategories, and a clear report after posting.
 
 ## Non-Negotiable Gates
 
@@ -14,7 +14,7 @@ thumbnail, accurate metadata, valid taxonomy, and a clear report after posting.
   upload plan.
 - Treat published items as permanent. Draft cleanup is possible after some
   failures, but published `Minted` or `Listing` items may not be deletable.
-- For audio, ask about a custom cover before creating the listing.
+- For audio, require a cover thumbnail before creating the listing.
 - If the agent drafts metadata, show the user the draft and wait for approval.
 - If the user says to handle the details, still show a one-line posting summary
   and ask for confirmation before the first API call.
@@ -36,18 +36,21 @@ Confirm:
   private asset
 - model and prompt if the user wants them recorded
 
-If the user asks to upload a ZIP or asset bundle, explain that ZIP uploads are
-post-MVP and current Wondermint uploads support Image, Video, and Audio only.
+If the user asks to upload a ZIP or asset bundle, explain that current
+Wondermint uploads support Image, Video, and Audio only.
 
 For audio, ask:
 
 > Do you have a custom cover image for this? Audio items need their own
 > visual in Wondermint's browse grids. Without one, Wondermint uses a generic
-> placeholder. I can use a cover you provide, help create one, or proceed with
-> the placeholder if you explicitly want that.
+> placeholder that hurts discovery. I can use a cover you provide or help
+> create one before posting.
 
-If a custom cover is used, include `thumbnail_name` in the create payload and
-upload the cover to `thumbnail_upload_url` before confirming the upload.
+Audio uploads require a thumbnail/cover in the agent flow. Include
+`thumbnail_name` in the create payload. The create response returns
+`thumbnail_upload_url` only when the request includes `thumbnail_name`; if
+`thumbnail_name` is omitted, the response includes only the main `upload_url`.
+Upload the cover to `thumbnail_upload_url` before confirming the upload.
 
 ## Phase 2: Prepare Metadata
 
@@ -55,10 +58,10 @@ Collect or draft:
 
 - `name`: max 50 characters; avoid punctuation that can trigger the special
   character validator
-- `description`: max 5000 characters
-- `subcategories`: 1 to 5 Level 3 taxonomy values from
-  `GET /api/v1/agents/categories`
-- `tags`: up to 20 free-form keywords
+- `description`: max 2000 characters
+- `subcategories`: 1 to 5 accepted subcategory names from the precreated
+  [Category Reference](../references/categories.md)
+- `tags`: up to 10 free-form keywords
 - `contract_type`: `public_domain` or `non_exclusive`
 - optional `model`, `prompt`, and `private`
 
@@ -68,15 +71,15 @@ way:
 - `Add Media*`: source file
 - `Thumbnail`: thumbnail or cover upload, especially important for audio and
   other uploads that need a better preview
-- `Pick 3 that describe your post`: Level 3 `subcategories`
+- `Pick 3 that describe your post`: upload `subcategories`
 - `License*`: `contract_type`
 - Non-Exclusive Contract: `non_exclusive`
 - Public Domain: `public_domain`
 - `Other` model: capture the custom model name
 
 The website asks users to pick exactly 3 descriptors. The REST upload accepts
-approved Level 3 `subcategories`; follow the user's frontend picks when they
-are provided and valid.
+only precreated `subcategories`; follow the user's frontend picks only when they
+exactly match accepted subcategory names.
 
 The website currently warns: "Text or information cannot be edited after you tap
 create." When guiding a frontend user, do not promise they can edit text after
@@ -89,14 +92,17 @@ visibility from contract type. Private assets are a paid-plan feature; if a
 Free user asks for private visibility, route to [Upgrade Flow](upgrade.md)
 before including `private: true`.
 
-Taxonomy rule:
+Subcategory rule:
 
-- `category` is the top-level type.
-- `subcategories` must be Level 3 values, such as `Sci-Fi / Futuristic` or
-  `Ambient / Atmospheric`.
-- Level 2 group headings such as `Mood` or `Genre / World` are not valid
-  upload `subcategories`.
-- `tags` are free-form keywords, not taxonomy values.
+- `subcategories` are the exact descriptor strings sent in the upload payload,
+  such as `Everyday / Contemporary`, `Cinematic`, or `Warm / Cozy`.
+- `subcategories` are not free-form; select them from the category reference
+  list only. Put custom descriptors in `tags`.
+- Identify the media type (`Image`, `Video`, or `Audio`) before choosing
+  subcategories so you use the right precreated list.
+- Use only values from the media type's list in the category reference. Invented,
+  paraphrased, or custom category names are rejected.
+- `tags` are free-form keywords, not subcategories.
 
 For the detailed endpoint fields and category reference, read
 [Category And Tag Selection Flow](category-selection.md),
@@ -157,8 +163,9 @@ keep the upload experience calm:
 2. Upload the source file to `upload_url` with the file's actual
    `Content-Type`.
 
-3. If `thumbnail_upload_url` is present, upload the cover image there before
-   confirming.
+3. If the create request included `thumbnail_name`, the response includes
+   `thumbnail_upload_url`; upload the cover image there before confirming. If
+   `thumbnail_name` was omitted, no separate thumbnail URL is returned.
 
 4. Confirm the upload:
 
@@ -210,7 +217,7 @@ After a successful post, tell the user:
 
 - what went live
 - public URL when available
-- whether a custom or placeholder thumbnail was used
+- whether a cover thumbnail was used, and whether it was provided by the user or created during the flow
 - status: `Minted`, `Listing`, or `Pending Approval`
 - the 15-minute metadata edit deadline
 - what can still be changed: description, tags, category, privacy

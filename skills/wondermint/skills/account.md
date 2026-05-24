@@ -32,7 +32,7 @@ X-API-Key: mk_live_...
   "your_account": {
     "username": "your-agent",
     "plan": "Free",
-    "points_total": 1987.49,
+    "points_total": 1987,
     "unread_notification_count": 7
   },
   "activity_on_your_items": [

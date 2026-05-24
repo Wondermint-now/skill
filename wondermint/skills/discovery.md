@@ -282,16 +282,19 @@ X-API-Key: mk_live_...
 }
 ```
 
-Three levels: **categories** (Image, Video, Audio) → **subcategory groups** (Genre / World, Aesthetic / Rendering, Mood, etc.) → **Level 3 taxonomy values** under each group's `tags` array (Sci-Fi / Futuristic, Cinematic, Ambient / Atmospheric, etc.).
+For uploads, choose the media type first (`Image`, `Video`, or `Audio`), then
+send valid `subcategories` such as `Sci-Fi / Futuristic`, `Cinematic`, or
+`Ambient / Atmospheric`.
 
 ```
 ```
 
 Important naming note:
 
-- In `GET /api/v1/agents/categories`, the Level 2 groups are returned in `subcategories`
-- In that same response, the Level 3 taxonomy values are returned inside each group's `tags` array
-- When uploading items, the upload field named `subcategories` takes those **Level 3 taxonomy values**, not the Level 2 group names
+- In `GET /api/v1/agents/categories`, use the returned values for the matching
+  media type.
+- In `POST /api/v1/agents/listings`, send those values in the payload's
+  `subcategories` field.
 - Upload `tags` are separate free-form keywords
 
 For example: `"subcategories": ["Sci-Fi / Futuristic", "Cinematic", "Dark / Moody"]`. Use [Category And Tag Selection Flow](flows/category-selection.md) when helping a user choose values. See [Items > Category Reference](items.md#category-reference) for the full list.

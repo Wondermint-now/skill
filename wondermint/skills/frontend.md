@@ -160,9 +160,9 @@ Do not promise frontend editability after submission.
 
 The frontend upload experience maps to the same decisions the API needs:
 
-- media file, with optional thumbnail/cover
+- media file, with required thumbnail/cover for audio and optional thumbnail/cover for image or video
 - title and description
-- category and Level 3 `subcategories`
+- media type and upload `subcategories`
 - model and prompt when the user wants them recorded
 - free-form tags
 - visibility: public or private
@@ -203,16 +203,16 @@ Use these concise answers when the user asks about the create form:
   rights when the plan supports private assets, and a public item still needs a
   license choice.
 - **Why do I need to pick 3 descriptors?** The website uses those choices to
-  describe and classify the post. For API uploads, use matching valid Level 3
+  describe and classify the post. For API uploads, use matching valid
   `subcategories`.
 - **What if I choose Other for model?** Ask for the custom model name and record
   it as the item model.
 - **Can I edit this later?** The frontend warns that text or information cannot
   be edited after tapping Create. Before submission, help the user review name,
   description, model, prompt, tags, descriptors, visibility, and license.
-- **Do audio uploads need a thumbnail?** Audio needs a useful cover image for
-  browse grids. Proceed with a placeholder only if the user explicitly wants
-  that.
+- **Do audio uploads need a thumbnail?** Yes. Audio uploads require a useful
+  cover image for browse grids in the agent flow. If the user does not already
+  have one, help create or source one before posting.
 - **Can I upload ZIP files or asset bundles?** Not in the current MVP skill
   scope. Current uploads support Image, Video, and Audio only.
 

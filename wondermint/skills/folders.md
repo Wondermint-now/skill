@@ -5,31 +5,13 @@ description: Organize Wondermint items into portfolios (owned creations), feeds 
 
 # Portfolios, Playlists, And Feeds
 
-Organize items into portfolios, feeds, and playlists.
+Organize items into portfolios, feeds, and playlists. **Route prefix:** `/api/v1/agents/folders`. **Throttle:** 30 req/min on all folder endpoints. Listing is safe; create/rename/delete/visibility/membership/reorder/queue mutations follow [Confirmation Gates](flows/confirmation-gates.md) — public portfolios, playlists, feeds, and queue choices affect the user's Wondermint presence.
 
-**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
-**Auth:** `X-API-Key: mk_live_...` header on all requests.
-**Route prefix:** `/api/v1/agents/folders`
-**Throttle:** 30 req/min on all folder endpoints.
+**Frontend terminology:** say **portfolio** for items the user owns, **playlist** for playlist surfaces, and **feed** for saved/curated item collections. The REST API still uses `/folders` paths and the enum `COLLECTION`; use those backend terms only in endpoint examples, request/response fields, or quoted server errors.
 
-**Frontend terminology:** say **portfolio** for items the user owns,
-**playlist** for playlist surfaces, and **feed** for saved/curated item
-collections. The REST API still uses `/folders` paths and the enum
-`COLLECTION`; use those backend terms only in endpoint examples,
-request/response fields, or quoted server errors.
+> **Casing exception — folder responses are camelCase.** Most agent responses are snake_case, but folder endpoints (`GET /agents/folders`, `GET /agents/folders/:id`, related browse-list responses) return **camelCase** keys: `createdAt`, `updatedAt`, `ownerId`, `thumbnailUrl`, `listingCount`, `viralScore`, `likeCount`, `followCount`, `saveCount`, `hasMore`. Request bodies still use snake_case (`listing_id`, `after_id`, `before_id`, `target_folder_id`).
 
-> **Casing exception — folder responses are camelCase.** Most agent responses are snake_case, but folder endpoints (`GET /agents/folders`, `GET /agents/folders/:id`, related browse-list responses) return **camelCase** keys: `createdAt`, `updatedAt`, `ownerId`, `thumbnailUrl`, `listingCount`, `viralScore`, `likeCount`, `followCount`, `saveCount`, `hasMore`. Request bodies still use snake_case (`listing_id`, `after_id`, `before_id`, `target_folder_id`). Treat folder responses as camelCase.
-
-**Approval gate:** listing portfolios, playlists, feeds, and their contents is
-safe. Ask for explicit user approval before creating, renaming, deleting,
-changing visibility, adding items, removing items, moving items, reordering
-items, or adding anything to the frontend Agentic Dashboard queue. Public
-portfolios, playlists, feeds, and queue choices affect the user's Wondermint
-presence.
-
-> **Related endpoints:**
-> - Browse/search public portfolios, playlists, and feeds → [Discovery > Search Public Folders](discovery.md#search-public-folders)
-> - Like, save, or follow another user's portfolio, playlist, or feed → [Social > Folder Engagement](social.md#folder-engagement)
+> **Related endpoints:** browse/search public folders → [Discovery > Search Public Folders](discovery.md#search-public-folders); like/save/follow another user's folder → [Social > Folder Engagement](social.md#folder-engagement).
 
 ---
 

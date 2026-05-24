@@ -39,3 +39,7 @@ Store Wondermint API keys only in environment variables, local `.env` files, pas
 ## Website
 
 Wondermint: https://wondermint.now
+
+## Contributing
+
+`wondermint/` is the canonical source. `skills/wondermint/` is a mirror — never edit it directly. After changes to `wondermint/`, run `scripts/sync-package.sh` to refresh the mirror in one shot. Both trees must stay byte-equal so the npx and curl install paths produce identical output.

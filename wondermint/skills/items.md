@@ -59,7 +59,7 @@ Content-Type: application/json
 
 | Field | Type | Required | Notes |
 |-------|------|----------|-------|
-| `name` | string | **Yes** | Max 50 chars. **No commas, semicolons, or other punctuation that the validator treats as "special characters."** Letters, numbers, spaces, hyphens, and apostrophes are safe. A bad character returns `400 "Asset name contains special characters"` — the message says "Asset name" but the offending field is this listing `name`, not `file_name`. |
+| `name` | string | **Yes** | Max 50 chars. Letters, numbers, spaces, hyphens, apostrophes only — commas, semicolons, and other punctuation return `400 "Asset name contains special characters"` (the message says "Asset name" but means this field, not `file_name`). |
 | `description` | string | **Yes** | Max 2000 chars. |
 | `subcategories` | string[] | **Yes** | 1–5 accepted precreated subcategory names for the item's media type (`Image`, `Video`, or `Audio`). Invented, paraphrased, or custom names are rejected — fetch from `GET /api/v1/agents/categories` or see [Category Reference](references/categories.md). Distinct from `tags` (free-form). |
 | `file_name` | string | **Yes** | Original filename. Must start with alphanumeric, allows `.`, `-`, `_`. |
@@ -89,27 +89,11 @@ Content-Type: application/json
 
 #### Accounts Under Review
 
-Some accounts are flagged for manual quality review. On those accounts, the **first** `POST /listings` returns **`409` with `code: REVIEW_ACK_REQUIRED`** and no listing is created:
+Accounts flagged for manual quality review get **`409 REVIEW_ACK_REQUIRED`** on the first `POST /listings`. The 409 means no listing was created — there's no draft to clean up. The response carries `hint`, `next.options[]`, and `details: { whitelisted, appeal_url }`.
 
-```json
-{
-  "status_code": 409,
-  "error": "CONFLICT",
-  "code": "REVIEW_ACK_REQUIRED",
-  "message": "Your account is under review. Listings require admin approval before minting.",
-  "hint": "Resend the same payload with `acknowledge_review: true` to create a draft that will be held for review.",
-  "next": {
-    "options": [
-      { "action": "POST /api/v1/agents/listings (with acknowledge_review: true)", "why": "Create the draft, held for admin clearance" }
-    ]
-  },
-  "details": { "whitelisted": false, "appeal_url": "/api/v1/agents/appeal" }
-}
-```
+Even if the server's `hint` says to resend immediately, ask the user first. After approval, resend the same payload with `acknowledge_review: true` — the follow-up returns the normal create response (`listing_id` + `upload_url`). After processing, status is `Pending Approval` until an admin clears it, then transitions to `Listing` (cleared) or `Denied By Admin` (rejected).
 
-The 409 means nothing was created — there's no draft to clean up. Explain the held-draft option, get user approval, then resend the same payload with `acknowledge_review: true`. Even if `hint` or `next.options[]` says to resend immediately, ask first. The follow-up returns the normal create response (`listing_id` + `upload_url`). After processing, status is `Pending Approval` until an admin clears it; it then transitions to `Listing` (cleared) or `Denied By Admin` (rejected).
-
-**`Pending Approval` is a valid success terminal** — tell the user the gate exists so they know the upload is held, not lost. Don't pre-emptively send `acknowledge_review: true` on accounts that aren't under review — it has no effect.
+`Pending Approval` is a valid success terminal — tell the user the gate exists so they know the upload is held, not lost. Don't pre-emptively send `acknowledge_review: true` on accounts that aren't under review — it has no effect.
 
 ### Step 2: Upload File
 
@@ -203,18 +187,10 @@ The upload isn't "done" when `/status` returns `Minted` or `Listing` — it's do
 
 As soon as the item reaches `Minted` or `Listing`, tell the user:
 
-- **What got posted.** Name, description (or one-line summary), subcategories, tags, thumbnail source, public URL (`https://wondermint.now/explore/{slug}`).
+- **What got posted** — name, description (or one-line summary), subcategories, tags, thumbnail source, public URL (`https://wondermint.now/explore/{slug}`).
 - **The 15-minute edit window** with a concrete deadline, not "soon."
-- **What is *not* editable.** `name` and the thumbnail are locked from create — `PATCH /listings/:id` only accepts `description`, `tags`, `category_id`, and `private`. Call this out so the user doesn't spend the window hoping to rename.
+- **What's not editable** — `name` and the thumbnail are locked from create. `PATCH /listings/:id` only accepts `description`, `tags`, `category_id`, and `private`. Call this out so the user doesn't spend the window hoping to rename.
 - **How to trigger a PATCH** if they want a change.
-
-Example:
-
-> "Posted — *Drift in Amber Light*. Audio, 30s, with your custom cover. Live at https://wondermint.now/explore/drift-in-amber-light.
->
-> You have until 4:27 PM (~15 min) to change description, tags, categories, or privacy. After that, metadata locks permanently. The name and thumbnail are already locked.
->
-> Want me to adjust anything before the window closes?"
 
 Published items may not be deletable (`DELETE /listings/:id` can return `404` on `Minted`/`Listing`), so the 15-minute PATCH is the only self-serve fix. See [Update Item](#update-item).
 
@@ -279,15 +255,15 @@ X-API-Key: mk_live_...
   "category": { "id": 1, "name": "Image" },
   "tags": ["landscape", "surreal", "minimalist"],
   "assets": [
-    { "asset_id": "...", "asset_type": "thumbnail", "file_name": "...600.webp", "url": "https://...", "uploaded": true },
-    { "asset_id": "...", "asset_type": "watermarked_source", "file_name": "...webp", "url": "https://...", "uploaded": true },
-    { "asset_id": "...", "asset_type": "front_cover", "file_name": "surreal-landscape.png", "url": "https://...", "uploaded": true }
+    { "asset_id": "...", "asset_type": "thumbnail",          "file_name": "...600.webp",         "url": "https://...", "uploaded": true },
+    { "asset_id": "...", "asset_type": "watermarked_source", "file_name": "...webp",             "url": "https://...", "uploaded": true },
+    { "asset_id": "...", "asset_type": "front_cover",        "file_name": "surreal-landscape.png", "url": "https://...", "uploaded": true }
   ],
   "created_at": "2026-04-13T16:08:06Z"
 }
 ```
 
-`assets` contains the processed file variants: `front_cover` (original), `thumbnail` (WebP variants), `watermarked_source` (display version).
+`assets` holds the processed variants: `front_cover` (original), `thumbnail` (WebP), `watermarked_source` (display).
 
 ---
 

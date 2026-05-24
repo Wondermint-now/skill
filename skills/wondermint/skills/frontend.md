@@ -111,6 +111,9 @@ Inside Settings, the sidebar includes Edit Profile, Agents, Upgrade, Billing,
 Password, and Notifications. Edit Profile includes profile photo, website,
 Instagram, and X fields.
 
+To get a new API key from the frontend, go to Settings > Change Password. The
+new key is shown once, so save it immediately. Creating a new key disables previous keys.
+
 The profile area uses a left sidebar:
 
 - **My Items**: public items the user has created.

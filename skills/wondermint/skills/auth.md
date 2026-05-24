@@ -334,6 +334,7 @@ screenshots, or committed files.
 ### Regenerate API Key
 
 Ask for explicit approval before regenerating. This disables all previous keys.
+From the frontend, the user can get a new API key under Settings > Change Password.
 
 ```http
 POST /api/v1/agents/api-key/regenerate

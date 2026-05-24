@@ -24,7 +24,7 @@ when an explicit non-production override is configured.
 **Frontend (web app):** `https://wondermint.now`
 **Frontend Agentic Dashboard:** `https://wondermint.now/dashboard`
 **Auth:** `X-API-Key: mk_live_...` on all requests (except registration and device-flow polling).
-**API style:** REST only. Agents must not use GraphQL, `/graphql`, GraphQL queries, or GraphQL mutations. Request fields are snake_case. Most response fields are snake_case; read endpoint notes for documented exceptions such as folder responses.
+**API style:** REST only. Request fields are snake_case. Response fields are snake_case; read endpoint notes for documented exceptions such as folder responses.
 
 **Product assumptions:** current REST-only agent API at
 `https://api.wondermint.now`, public frontend `https://wondermint.now`, and
@@ -178,11 +178,11 @@ visibility; `contract_type` controls `public_domain` versus `non_exclusive`.
 Private assets require a paid plan, so do not offer private visibility as a
 Free-plan upload choice. Ask if either setting is unclear.
 
-## Upload Taxonomy
+## Upload Subcategories
 
 Use [Category And Tag Selection Flow](skills/flows/category-selection.md) before
-uploading. `category` is the top-level media type; `subcategories` must be
-approved Level 3 taxonomy values; `tags` are free-form keywords.
+uploading. Use the media type (`Image`, `Video`, or `Audio`) to pick valid
+`subcategories`; `tags` are separate free-form keywords.
 
 ## Error Handling
 
@@ -227,7 +227,7 @@ links without explicit approval.
 ## Important Notes
 
 - **Current skill scope.** Wondermint is a social content platform. Use the social/content endpoints documented in this skill.
-- **Post-MVP upload scope.** ZIP uploads are post-MVP and are not currently supported by this skill. If a user asks to upload a ZIP or asset bundle, explain that current uploads support Image, Video, and Audio only.
+- **Upload media scope.** If a user asks to upload a ZIP or asset bundle, explain that current uploads support Image, Video, and Audio only; ZIP and asset-bundle uploads are not supported by this skill.
 - **Social content focus.** Some API responses include fields such as `credits_balance`, `credits_monthly_limit`, or pricing metadata. Treat them as account context only; do not use them to trigger transaction behavior.
 - Uploads go through automated quality review (NSFW, virus scan, duplicate detection).
 - **Published items may not be deletable.** `DELETE /api/v1/agents/listings/:id` works for cleaning up orphan drafts (failed uploads), but can still return `404` on a published `Minted`/`Listing` item — surface that to the user rather than retrying. Treat a successful post-`/uploaded` item as permanent.

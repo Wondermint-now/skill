@@ -37,27 +37,27 @@ retracted.
 
 **Pause before the first API call.** A published upload is effectively permanent — `DELETE /listings/:id` can recover an orphan draft after a failed upload, but returns `404` on a published `Minted`/`Listing` item, and metadata (description, tags, privacy) locks 15 minutes after creation. Whatever you post is what lives on the item forever. Two decisions shape whether the upload lands well, and both should reflect the user's intent, not the agent's best guess:
 
-### 1. Thumbnail — essential for Audio, useful elsewhere
+### 1. Thumbnail — required for Audio, useful elsewhere
 
-Audio listings have **no intrinsic visual**. Think of the thumbnail the way a song needs **album art** — it is literally what people see in browse, trending, and portfolio/playlist/feed grids. Without a custom cover, Wondermint substitutes a generic platform placeholder, and those listings get scrolled past. This is the single biggest reason strong audio tracks get ignored in the feed.
+Audio listings have **no intrinsic visual**. Think of the thumbnail the way a song needs **album art** — it is literally what people see in browse, trending, and portfolio/playlist/feed grids. Treat a thumbnail as required for audio uploads in the agent flow; do not create an audio listing until a cover file is available or the user has approved creating one.
 
-**Never start an audio upload without first asking the user about a cover.** Don't treat this as optional; it's as important as the source file itself.
+**Never start an audio upload without a cover thumbnail.** It is part of the audio upload requirements, not an optional enhancement.
 
 **Before creating an audio listing, ask the user:**
 
-> "Before I upload, do you have a custom cover image for this? Audio items really need their own art — like album cover for a song. Without one, Wondermint uses a generic placeholder that makes the piece much harder to discover. If you don't have one ready, I can generate one or help source it."
+> "Before I upload, do you have a custom cover image for this? Audio items need their own art — like album cover for a song. If you don't have one ready, I can generate one or help source it before posting."
 
 Paths:
 
-- **User provides a cover file** → include `thumbnail_name` in the `POST /listings` body. The response returns `thumbnail_upload_url`. PUT the cover there **before** calling `/uploaded` — calling confirm before the thumbnail is present can fail.
+- **User provides a cover file** → include `thumbnail_name` in the `POST /listings` body. The response returns `thumbnail_upload_url` only when `thumbnail_name` is present. PUT the cover there **before** calling `/uploaded` — calling confirm before the thumbnail is present can fail.
 - **User wants the agent to generate/source one** → produce a candidate (via image generation, stock, or using source material's existing art). Show the candidate. Wait for approval before creating the listing. Don't silently pick.
-- **User explicitly says "ship it with the placeholder"** → proceed without `thumbnail_name`, but only after that explicit choice. Don't default to the placeholder silently. You should have said something like "to be clear, this will use the generic Wondermint placeholder instead of its own cover — are you sure?" and gotten a yes.
+- **No cover is available yet** → pause the upload and help create or source one. Do not omit `thumbnail_name` for audio.
 
 For Images and Video, Wondermint generates a preview from the source file itself, so the thumbnail prompt is less load-bearing — but if the auto-preview is likely weak (dark first video frame, tiny image), still surface the option to supply a custom cover.
 
 ### 2. Name, description, subcategories, tags — ask who drafts
 
-These four fields drive how the item is found (search, taxonomy filters), read (description, tags), and credited (name). They are public, hard to change after 15 minutes, and carry the user's creative voice. Rather than invent them, surface the choice:
+These four fields drive how the item is found (search and subcategory filters), read (description, tags), and credited (name). They are public, hard to change after 15 minutes, and carry the user's creative voice. Rather than invent them, surface the choice:
 
 > "Do you want to write the name, description, categories, and tags yourself — should I draft them and show you before posting — or just hand it off to me (I'll draft and confirm with a one-line summary before it goes public)?"
 
@@ -65,9 +65,9 @@ Three paths:
 
 - **User supplies them all** → use their copy verbatim. Validate against the platform's constraints before sending:
   - `name` ≤ 50 chars.
-  - `description` ≤ 5000 chars.
-  - `subcategories` — at least 1, max 5, all **Level 3** taxonomy values (see [Upload Taxonomy Rule](#upload-taxonomy-rule)).
-  - `tags` — free-form keywords, max 20.
+  - `description` ≤ 2000 chars.
+  - `subcategories` — at least 1, max 5, all accepted precreated subcategory names for the item's media type (see [Upload Subcategory Rule](#upload-subcategory-rule)).
+  - `tags` — free-form keywords, max 10.
   If any field is missing or over-limit, flag it and ask for a fix before posting.
 
 - **Agent drafts, user approves** → generate the name/description/subcategories/tags, show the full draft in one block, and wait for **explicit approval** (or edits) before calling `POST /listings`. Don't post on silence. A good draft references concrete attributes of the source (genre, mood, color palette, model used).
@@ -78,7 +78,7 @@ Three paths:
 
 - **Published items may not be deletable.** A misnamed or miscategorized item can stay in the user's public gallery indefinitely.
 - **Metadata locks at 15 minutes.** After that, `PATCH /listings/:id` is rejected — there's no fix path except posting a new item.
-- **The generic audio placeholder is the single biggest reason strong audio gets ignored.** The discovery grid is visual-first.
+- **Audio discovery is visual-first.** Strong audio still needs a useful cover to be noticed in browse grids.
 - **Users have voice and intent the agent can't infer.** The name they'd pick for their own work is almost never the name a model would draft.
 
 Treat this confirmation step as non-skippable for first uploads and recommended for every subsequent upload.
@@ -89,9 +89,9 @@ Treat this confirmation step as non-skippable for first uploads and recommended 
 
 Creating an item is a multi-step process:
 
-1. **Create item** → returns `listing_id` + presigned `upload_url` (and optionally `thumbnail_upload_url`)
+1. **Create item** → returns `listing_id` + presigned `upload_url`; returns `thumbnail_upload_url` only when the request includes `thumbnail_name`
 2. **Upload source file** → PUT binary to the main presigned URL
-3. **Optional: upload thumbnail** → for audio/custom cover flows, PUT the image to `thumbnail_upload_url` before confirm
+3. **Upload thumbnail when requested** → when `thumbnail_name` was sent, PUT the image to `thumbnail_upload_url` before confirm. This is required for audio uploads.
 4. **Confirm upload** → `POST /api/v1/agents/listings/:id/uploaded`
 5. **Wait for processing** → media processor generates thumbnails, watermarks, and variants
 6. **Item reaches `Minted`** once processing completes; listing/publication is a separate state
@@ -108,7 +108,6 @@ Content-Type: application/json
   "description": "A surreal landscape featuring endless rows of bright green fields...",
   "subcategories": ["Sci-Fi / Futuristic", "Cinematic", "Dark / Moody", "Anime / Manga"],
   "file_name": "surreal-landscape.png",
-  "category": "Image",
   "contract_type": "public_domain",
   "tags": ["landscape", "surreal", "minimalist"],
   "model": "Midjourney",
@@ -120,15 +119,15 @@ Content-Type: application/json
 | Field | Type | Required | Notes |
 |-------|------|----------|-------|
 | `name` | string | **Yes** | Max 50 chars. **No commas, semicolons, or other punctuation that the validator treats as "special characters."** Letters, numbers, spaces, hyphens, and apostrophes are safe. A bad character returns `400 "Asset name contains special characters"` — the message says "Asset name" but the offending field is this listing `name`, not `file_name`. |
-| `description` | string | **Yes** | Max 5000 chars. |
-| `subcategories` | string[] | **Yes** | **Level 3 taxonomy values** from `GET /api/v1/agents/categories` — at least 1 required, max 5. Do **not** send level 2 group names here. See [Category Reference](#category-reference) below. |
+| `description` | string | **Yes** | Max 2000 chars. |
+| `subcategories` | string[] | **Yes** | Accepted precreated subcategory names from the category reference — at least 1 required, max 5. Use the item's media type to choose the right list. Invented, paraphrased, or custom category names are rejected. See [Category Reference](#category-reference) below. |
 | `file_name` | string | **Yes** | Original filename. Must start with alphanumeric, allows `.`, `-`, `_`. |
-| `category` | string | No | Top-level category name (e.g., `Image`, `Video`, `Audio`). Auto-assigned from your selected level 3 taxonomy values. |
+| `category` | string | No | Top-level media type name (e.g., `Image`, `Video`, `Audio`). Usually omit this; the platform can infer it from the file and selected subcategories. |
 | `contract_type` | string | **Yes** | Rights setting. Allowed values: `public_domain` or `non_exclusive`. `exclusive` is not currently accepted. |
-| `tags` | string[] | No | Max 20 free-form keywords. These are **not** the taxonomy values from `GET /api/v1/agents/categories`. |
+| `tags` | string[] | No | Max 10 free-form keywords. These are separate from `subcategories`. |
 | `model` | string | No | AI model used (e.g., `Midjourney`, `DALL-E`, `Stable Diffusion`). |
 | `prompt` | string | No | The generation prompt. |
-| `thumbnail_name` | string | No | Optional custom thumbnail filename for a separate cover upload (for example `cover.png`, `tile.jpg`, `art.webp`). When supplied, the response can include `thumbnail_upload_url`. |
+| `thumbnail_name` | string | Required for Audio; optional for Image/Video | Thumbnail filename for a separate cover upload (for example `cover.png`, `tile.jpg`, `art.webp`). When supplied, the create response includes `thumbnail_upload_url`; when omitted, the response includes only the main `upload_url`. |
 | `private` | boolean | No | Paid-plan private visibility. Default false. Do not set `true` on Free unless the user has approved the upgrade path. |
 | `acknowledge_review` | boolean | No | Required only when the account is under review — see [Accounts Under Review](#accounts-under-review) below. Send `true` to actually create the listing. Omit otherwise. |
 
@@ -166,39 +165,43 @@ ask for approval first.
 
 If you only ever upload from one account and never see the 409, you can ignore `acknowledge_review`. Don't pre-emptively send `acknowledge_review: true` on accounts that aren't under review — it has no effect.
 
-#### How Categories Work
+#### How Upload Subcategories Work
 
-Categories have three levels:
-- **Level 1** (e.g., `Image`) — the item type. Auto-assigned.
-- **Level 2** (e.g., `Genre / World`) — the **group heading**. Reference only; do not send these in upload payloads.
-- **Level 3** (e.g., `Sci-Fi / Futuristic`) — the **specific taxonomy value**. **You choose and send these.**
+The upload payload sends subcategories as plain strings:
 
-The `subcategories` field takes **Level 3 taxonomy values**. At least one is required. Ideally, choose one from each relevant Level 2 group for your item type — for example, for an Image: one genre, one aesthetic, one mood, and one cultural/artistic style.
+```json
+{
+  "subcategories": ["Everyday / Contemporary", "Cinematic", "Warm / Cozy"]
+}
+```
+
+First identify the media type (`Image`, `Video`, or `Audio`) so you choose from
+the right precreated list. Then send only the selected subcategory strings. Do
+not invent or paraphrase category names.
 
 For a guided user-facing selection process, use
 [Category And Tag Selection Flow](flows/category-selection.md).
 
-#### Upload Taxonomy Rule
+#### Upload Subcategory Rule
 
 `GET /api/v1/agents/categories` returns:
 
-- Level 1 `category` values such as `Image`, `Video`, `Audio`
-- Level 2 **subcategory groups** such as `Mood`, `Sonic Production`, `Musical Style`
-- Level 3 **taxonomy values** nested under each Level 2 group
+- media-type sections such as `Image`, `Video`, and `Audio`
+- accepted precreated subcategory names for each media type
 
 When creating a listing:
 
-- Put only **Level 3 taxonomy values** into `subcategories`
-- Do **not** put Level 2 group names into `subcategories`
+- Put only accepted precreated subcategory names into `subcategories`
 - Use `tags` only for free-form keywords
 
-This naming is easy to mix up because the categories API uses `tags` for Level 3 taxonomy values, while the upload payload uses `tags` for free-form keywords.
+This naming is easy to mix up because the categories API may use `tags` for the
+allowed subcategory names, while the upload payload uses `tags` for free-form
+keywords.
 
 Example:
 
 ```json
 {
-  "category": "Audio",
   "subcategories": [
     "Ambient / Atmospheric",
     "Nostalgic / Dreamy",
@@ -217,9 +220,9 @@ Example:
 }
 ```
 
-Create responses can include:
-- sometimes only `listing_id` + `upload_url`
-- sometimes `listing_id` + `upload_url` + `thumbnail_upload_url`
+Create responses include:
+- `listing_id` + `upload_url` when `thumbnail_name` is omitted
+- `listing_id` + `upload_url` + `thumbnail_upload_url` when `thumbnail_name` is included
 - sometimes a `warnings` array if one or more submitted subcategories could not be matched
 
 If the request matches a previously submitted idempotency key, returns 200 with a `warning` field.
@@ -243,7 +246,9 @@ Set the `Content-Type` header to match the actual file type. The presigned URL i
 
 ### Step 2b: Optional Thumbnail Upload
 
-If `POST /api/v1/agents/listings` returns `thumbnail_upload_url`, upload the custom cover image before calling `/uploaded`:
+`thumbnail_upload_url` is conditional. `POST /api/v1/agents/listings` returns it only when the create request included `thumbnail_name`. If `thumbnail_name` is omitted, there is no separate thumbnail upload URL and only the main `upload_url` is returned.
+
+When `thumbnail_upload_url` is returned, upload the custom cover image before calling `/uploaded`:
 
 ```http
 PUT {thumbnail_upload_url}
@@ -254,7 +259,7 @@ Content-Type: image/png
 
 Use the MIME type that matches `thumbnail_name`.
 
-For audio listings with a custom cover:
+For audio listings:
 - create listing with `thumbnail_name: "cover.png"`
 - upload the MP3 to `upload_url`
 - upload the PNG/JPG/WebP cover to `thumbnail_upload_url`
@@ -280,7 +285,9 @@ The media processor automatically detects the upload via R2 webhook and begins p
 > 3. Upload the cover image to `thumbnail_upload_url`
 > 4. Call `POST /listings/:id/uploaded`
 >
-> If you omit `thumbnail_name`, Wondermint falls back to the platform's generic audio placeholder. Embedded audio art may still be useful as a fallback, but the separate `thumbnail_upload_url` flow is the clearest documented path.
+> If you omit `thumbnail_name`, the create response will not include
+> `thumbnail_upload_url`; it will include only the main `upload_url`. Do not omit
+> `thumbnail_name` for audio uploads.
 
 Check processing status:
 
@@ -330,7 +337,7 @@ The upload is not really "done" when `/status` returns `Minted` or `Listing` —
 
 **As soon as the item reaches `Minted` or `Listing`, tell the user:**
 
-- **Exactly what got posted.** Name, description (or a one-line summary if long), subcategories, tags, thumbnail source (custom vs. placeholder), and the public URL (`https://wondermint.now/explore/{slug}` or the user's preferred form).
+- **Exactly what got posted.** Name, description (or a one-line summary if long), subcategories, tags, thumbnail source, and the public URL (`https://wondermint.now/explore/{slug}` or the user's preferred form).
 - **The 15-minute edit window.** Metadata locks 15 minutes from create time. Give them a concrete deadline, not "soon."
 - **What is *not* editable.** The `name` and the thumbnail are already locked from the moment of create — `PATCH /listings/:id` only accepts `description`, `tags`, `category_id`, and `private`. Call this out so the user doesn't spend the 15 minutes hoping to rename the item.
 - **How to trigger a PATCH.** If they want a change, they can say so and the agent will fire `PATCH /listings/:id` before the window closes.
@@ -460,8 +467,8 @@ Content-Type: application/json
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `description` | string | Max 5000 chars. |
-| `tags` | string[] | Max 20 tags. Replaces existing tags. |
+| `description` | string | Max 2000 chars. |
+| `tags` | string[] | Max 10 tags. Replaces existing tags. |
 | `category_id` | number | Change category by ID. |
 | `private` | boolean | Toggle visibility when the plan supports private assets. |
 
@@ -565,9 +572,8 @@ X-API-Key: mk_live_...
 
 ## Category Reference
 
-For the full list of all Level 3 taxonomy values organized by current MVP content type (Image, Video, Audio), read [references/categories.md](references/categories.md).
-
-You can also fetch the live list: `GET /api/v1/agents/categories`
+For the full list of accepted precreated subcategories organized by current MVP media type
+(Image, Video, Audio), read [references/categories.md](references/categories.md).
 
 ---
 
@@ -589,7 +595,7 @@ All listing endpoints use the standard envelope (see [reference.md](reference.md
 
 ### POST /listings
 
-**400 `VALIDATION_ERROR`** — One or more input fields failed validation. The response's `fields[]` array names each offending field + constraint (e.g. `{field: "subcategories", constraint: "isIn", ...}`). Use Level 3 taxonomy values, not Level 2 group headings — see [Upload Taxonomy Rule](#upload-taxonomy-rule).
+**400 `VALIDATION_ERROR`** — One or more input fields failed validation. The response's `fields[]` array names each offending field + constraint (e.g. `{field: "subcategories", constraint: "isIn", ...}`). Use accepted precreated subcategory names for the item's media type — see [Upload Subcategory Rule](#upload-subcategory-rule).
 
 **409 `REVIEW_ACK_REQUIRED`** — Account is under manual review. The 409 means no draft was created. Explain that the listing can be created as a held draft, then get user approval before resending the same payload with `acknowledge_review: true`. See [Accounts Under Review](#accounts-under-review).
 

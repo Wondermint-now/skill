@@ -5,7 +5,7 @@ tags before posting to Wondermint.
 
 ## Goal
 
-Choose taxonomy values that match the work and avoid upload validation errors,
+Choose subcategories that match the work and avoid upload validation errors,
 while keeping free-form tags useful for discovery.
 
 ## Phase 1: Identify The Item
@@ -17,34 +17,32 @@ Confirm or infer:
 - style, mood, genre, technique, and intended audience
 - model, prompt, or creator notes if available
 
-If the asset is available, inspect it before choosing taxonomy. If it is not
-available, ask for a concise description and any prompt/model details.
+Inspect it before choosing subcategories.
 
-## Phase 2: Fetch Or Use The Category Reference
+## Phase 2: Use The Category Reference
 
-Use the live category endpoint when current values matter:
+Read [Category Reference](../references/categories.md). Only the precreated
+subcategory names in that reference are accepted; do not invent, paraphrase, or
+send custom category names.
 
-```http
-GET /api/v1/agents/categories
-X-API-Key: mk_live_...
-```
-
-For a local reference, read [Category Reference](../references/categories.md).
+`subcategories` are not free-form. Select them from the reference list only. If
+the user wants a descriptor that is not in the list, put it in `tags` instead.
 
 ## Phase 3: Choose Upload `subcategories`
 
-Wondermint categories have three levels:
+In agent upload payloads, `subcategories` are the exact descriptor strings sent
+to Wondermint:
 
-- Level 1: item type, such as `Image`, `Video`, or `Audio`
-- Level 2: group heading, such as `Genre / World`, `Mood/Tone`, or
-  `Sonic Production`
-- Level 3: specific taxonomy value, such as `Sci-Fi / Futuristic`,
-  `Dark / Moody`, or `Ambient / Atmospheric`
+- `Everyday / Contemporary`
+- `Cinematic`
+- `Warm / Cozy`
 
-Upload payloads use the field name `subcategories`, but that field must contain
-only Level 3 taxonomy values. Do not send Level 2 group headings.
+First identify the media type (`Image`, `Video`, or `Audio`) so you can use the
+right precreated list. The upload payload usually does not need a separate
+`category` field; the platform infers the item type from the file and selected
+subcategories.
 
-Pick 1 to 5 Level 3 values. Prefer:
+Pick 1 to 5 accepted subcategories for that media type. Prefer:
 
 - one primary genre or subject value
 - one visual, sonic, or format style value
@@ -55,12 +53,11 @@ Do not force five values. Fewer accurate values are better than broad guesses.
 
 In the frontend create form, this appears as "Pick 3 that describe your post".
 When the user provides those website selections, use them as upload
-`subcategories` if they match valid Level 3 taxonomy values.
+`subcategories` only if they exactly match accepted subcategory names.
 
 ## Phase 4: Choose Free-Form `tags`
 
-Tags are not taxonomy values. They are free-form keywords for search and
-discovery.
+Tags are not subcategories. They are free-form keywords for search and discovery.
 
 Pick up to 20 tags. Prefer:
 
@@ -71,7 +68,7 @@ Pick up to 20 tags. Prefer:
 
 Avoid:
 
-- duplicating every taxonomy value as a tag
+- duplicating every subcategory as a tag
 - generic tags like `art`, `cool`, or `ai` unless the user asks
 - tags that imply content not present in the work
 
@@ -95,11 +92,10 @@ Use this shape when handing selections to the upload flow:
 
 ```json
 {
-  "category": "Image",
   "subcategories": ["Sci-Fi / Futuristic", "Cinematic", "Dark / Moody"],
   "tags": ["neon", "cityscape", "cyberpunk", "rain", "wide shot"]
 }
 ```
 
 For endpoint details and validation errors, read
-[Items > Upload Taxonomy Rule](../items.md#upload-taxonomy-rule).
+[Items > Upload Subcategory Rule](../items.md#upload-subcategory-rule).

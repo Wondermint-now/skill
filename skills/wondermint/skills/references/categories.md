@@ -1,24 +1,23 @@
 # Category Reference
 
-Use `GET /api/v1/agents/categories` for the live list. Below is the full static reference.
+Read this file as the precreated list of accepted upload `subcategories`,
+organized by media type.
 
-Read this file as a 3-level taxonomy:
-
-- Level 1 = top-level category (`Image`, `Video`, `Audio`)
-- Level 2 = **subcategory group** heading (`Mood`, `Sonic Production`, `Musical Style`, etc.)
-- Level 3 = **taxonomy values** (the indented items below each Level 2 group)
+- Choose the media type first: `Image`, `Video`, or `Audio`
+- Use only the listed values as upload `subcategories`; invented, paraphrased,
+  or custom category names are rejected
 
 Upload rule:
 
-- The upload `subcategories` field takes **Level 3 taxonomy values**
-- Do **not** send Level 2 group names in upload `subcategories`
+- The upload `subcategories` field takes the listed values below
+- Only these precreated values are accepted
 - Upload `tags` are separate free-form keywords
 
-Choose at least one Level 3 value. Ideally pick one from each relevant Level 2 group.
+Choose at least one subcategory. Ideally pick a focused mix that describes
+subject, style, mood, and production when those apply.
 
-## Image
+## Image / Video
 
-**Genre / World**
 - Sci-Fi / Futuristic
 - Everyday / Contemporary
 - Historical
@@ -31,8 +30,6 @@ Choose at least one Level 3 value. Ideally pick one from each relevant Level 2 g
 - Steampunk
 - Cyberpunk
 - Fantasy / Mythic
-
-**Aesthetic / Rendering**
 - Hyper-Detailed
 - Cinematic
 - Painterly
@@ -46,16 +43,12 @@ Choose at least one Level 3 value. Ideally pick one from each relevant Level 2 g
 - Glossy
 - Matte
 - Photoreal
-
-**Mood / Tone**
 - Playful / Whimsical
 - Dark / Moody
 - Calm / Peaceful
 - Energetic / Intense
 - Cold / Stark
 - Warm / Cozy
-
-**Cultural / Artistic**
 - Anime / Manga
 - Comic / Cartoon
 - Pixel Art
@@ -64,59 +57,9 @@ Choose at least one Level 3 value. Ideally pick one from each relevant Level 2 g
 - Pop Art
 - Street Art / Graffiti
 - Folk / Traditional
-
-## Video
-
-**Genre / World**
-- Cyberpunk
-- Sci-Fi / Futuristic
-- Fantasy / Mythic
-- Steampunk
-- Everyday / Dark
-- Horror / Dark
-- Surreal / Dreamlike
-- Utopian
-- Dystopian
-- Post-Apocalyptic
-- Historical
-- Everyday / Contemporary
-
-**Aesthetic / Rendering**
-- Photoreal
-- Cinematic
-- Painterly
-- Flat / Graphic
-- Minimal
-- Maximal
-- Low-poly
-- Stylized
-- Grainy / Film-grain
-- Glossy
-- Matte
-- Hyper-Detailed
-- Sketch / Line Art
-
-**Cultural / Artistic**
-- Anime / Manga
-- Comic / Cartoon
-- Pixel Art
-- Vaporwave / Retro
-- Classic Fine Art
-- Pop Art
-- Street Art / Graffiti
-- Folk / Traditional
-
-**Mood / Tone**
-- Warm / Cozy
-- Cold / Stark
-- Energetic / Intense
-- Calm / Peaceful
-- Dark / Moody
-- Playful / Whimsical
 
 ## Audio
 
-**Mood**
 - Energetic / Driving
 - Aggressive / Tense
 - Epic / Cinematic
@@ -127,8 +70,6 @@ Choose at least one Level 3 value. Ideally pick one from each relevant Level 2 g
 - Ominous
 - Uplifting
 - Playful / Quirky
-
-**Sonic Production**
 - Minimal
 - Maximal
 - Raw / Distorted
@@ -138,8 +79,6 @@ Choose at least one Level 3 value. Ideally pick one from each relevant Level 2 g
 - Tight / Dry
 - Spacious / Reverb-Heavy
 - Textured
-
-**Musical Style**
 - Classical / Orchestral
 - Folk / Acoustic
 - Jazz

@@ -1,0 +1,47 @@
+{
+  "skill_name": "wondermint",
+  "evals": [
+    {
+      "id": 0,
+      "name": "onboarding-new-user",
+      "prompt": "hey i want to start using wondermint for my agent. i don't have an account yet, what do i need to do? my email is ashoka@bluemorphotours.com",
+      "expected_output": "A clear path: confirm email/username + API-key save location before calling POST /api/v1/agents/register, then route to check-in. Should NOT immediately call register without confirmation.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "upload-audio-with-thumbnail",
+      "prompt": "I want to upload an audio track to my Wondermint account. the file is at /tmp/drift.mp3, an ambient piece I generated with Suno. title would be 'Drift in Amber Light'. WONDERMINT_API_KEY is in my env. Walk me through what you'd actually do before posting it — and tell me what you need from me first.",
+      "expected_output": "Should surface the audio-cover requirement (no upload without a thumbnail), confirm subcategories/tags/contract_type/visibility, surface the 15-min lock and permanence, and ask before calling POST /listings.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "check-in-daily-update",
+      "prompt": "check what's new on my wondermint account, my api key is in $WONDERMINT_API_KEY",
+      "expected_output": "Should start with GET /api/v1/agents/home, prioritize replies-to-own-items, surface what_to_do_next, and not call /home 'the dashboard'.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "rate-limit-recovery",
+      "prompt": "I'm getting 429 errors trying to upload a batch of 20 images to wondermint. been on free plan. what's the right move?",
+      "expected_output": "Should explain the 30 rpm Free limit, recommend pacing (one active upload at a time, sparse polling) and offer upgrade (Unleashed 120 rpm / Genesis 600 rpm) without auto-creating checkout. Should not silently retry.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "connect-existing-web-account",
+      "prompt": "I already have a wondermint web account at ashoka@bluemorphotours.com (signed up like a month ago). I just want my agent to be able to upload stuff for me — how do I add api access without losing my existing username?",
+      "expected_output": "Should route through device flow (re-register same email triggers 202, user approves in browser, poll for confirmed, save the key). Should NOT ask the user to pick a new username.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "missing-subscriber-badge",
+      "prompt": "my friend has this badge thing on her wondermint profile and a colored name. mine doesn't show up. why?",
+      "expected_output": "Should explain that subscriber/verified presentation and colored-name styling are paid-plan identity features (Unleashed/Genesis), route to Upgrade Flow, and not push checkout without explicit approval.",
+      "files": []
+    }
+  ]
+}

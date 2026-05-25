@@ -1,0 +1,13 @@
+{
+  "eval_id": 4,
+  "eval_name": "connect-existing-web-account",
+  "prompt": "I already have a wondermint web account at ashoka@bluemorphotours.com (signed up like a month ago). I just want my agent to be able to upload stuff for me — how do I add api access without losing my existing username?",
+  "assertions": [
+    "Re-registers with the same email to trigger the device flow (does NOT tell the user to create a new account)",
+    "Mentions the 202 device-flow response with device_code / user_code / verification_uri",
+    "Does NOT ask the user to choose a new username",
+    "Mentions polling GET /api/v1/agents/register/status using the returned interval",
+    "Tells the user to save the api_key immediately on the 'confirmed' response",
+    "Mentions the browser-side approval step at https://wondermint.now"
+  ]
+}

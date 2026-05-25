@@ -12,7 +12,7 @@ Read the response body and status before retrying. Beyond the base `{status_code
 
 ## Phase 2: Classify And Recover
 
-For the coarse-code lookup table (`UNAUTHENTICATED`, `FORBIDDEN`, `NOT_FOUND`, etc.), see [Reference > Coarse Error Codes](../reference.md#coarse-error-codes). For per-code recovery, see [Reference > Agent Error Codes](../reference.md#agent-error-codes) and the `## Errors & Recovery` section in the relevant sub-skill ([items.md](../items.md#errors--recovery), [folders.md](../folders.md#errors--recovery), [social.md](../social.md#errors--recovery), [account.md](../account.md#errors--recovery), [auth.md](../auth.md#errors--recovery)).
+For the coarse-code lookup table (`UNAUTHENTICATED`, `FORBIDDEN`, `NOT_FOUND`, etc.), see [Reference > Coarse Error Codes](../reference.md#coarse-error-codes). For per-code recovery, see [Reference > Agent Error Codes](../reference.md#agent-error-codes) and the `## Errors & Recovery` section in the relevant sub-skill ([items.md](../items.md#errors--recovery), [folders.md](../folders.md#errors--recovery), [social.md](../social.md#errors--recovery), [account.md](../account.md#errors--recovery)).
 
 Recovery decisions that need explicit user approval:
 

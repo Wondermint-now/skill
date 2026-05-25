@@ -1,0 +1,644 @@
+{
+  "metadata": {
+    "skill_name": "wondermint",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-05-25T00:02:00Z",
+    "evals_run": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 72.9,
+        "tokens": 42352,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Asks where the API key will be saved before calling register",
+          "passed": true,
+          "evidence": "Lists local .env / password manager / host-managed secret store as required input before the register call (lines 38-43)"
+        },
+        {
+          "text": "Names the POST /api/v1/agents/register endpoint",
+          "passed": true,
+          "evidence": "Endpoint named at line 11 and full HTTP block at line 52"
+        },
+        {
+          "text": "Surfaces the 202 device-flow case for existing emails",
+          "passed": true,
+          "evidence": "Lines 26-27 explain the 202 path; line 67 details device_code + user_code + verification URL"
+        },
+        {
+          "text": "Asks the user to choose a username (not just relying on the email)",
+          "passed": true,
+          "evidence": "Lines 28-32 with constraints and suggestions"
+        },
+        {
+          "text": "Does NOT silently call register without explicit user confirmation",
+          "passed": true,
+          "evidence": "Lines 17, 49, 123 explicitly hold the call until the user confirms 4 items"
+        },
+        {
+          "text": "Warns the API key is shown only once",
+          "passed": true,
+          "evidence": "Line 12 'It's the only time Wondermint will ever show it to me'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 86.2,
+        "tokens": 50546,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Requires a custom cover thumbnail before the audio upload",
+          "passed": true,
+          "evidence": "Line 6 and 13-21 treat thumbnail as a 'blocking' requirement; line 117 again in the closing checklist"
+        },
+        {
+          "text": "Mentions thumbnail_name in the POST /listings payload",
+          "passed": true,
+          "evidence": "Line 60: 'thumbnail_name': 'cover.png'"
+        },
+        {
+          "text": "Surfaces the 15-minute metadata edit window / post-upload lock",
+          "passed": true,
+          "evidence": "Lines 5, 110-111 spell out the 15-min PATCH window and what's locked from create"
+        },
+        {
+          "text": "Asks about contract_type (public_domain vs non_exclusive)",
+          "passed": true,
+          "evidence": "Lines 26-33 ask for the choice, names both exact values"
+        },
+        {
+          "text": "Uses only valid precreated audio subcategory names (e.g. 'Ambient / Atmospheric'), not invented genre strings",
+          "passed": true,
+          "evidence": "Line 58 uses 'Ambient / Atmospheric', 'Calm / Peaceful', 'Spacious / Reverb-Heavy'; line 70 calls out only precreated names are accepted; line 76 lists more valid candidates"
+        },
+        {
+          "text": "Does NOT fire POST /listings without explicit user approval",
+          "passed": true,
+          "evidence": "Lines 5, 48, 86, 125 \u2014 multiple explicit user-approval gates"
+        },
+        {
+          "text": "Describes the create \u2192 PUT file \u2192 PUT thumbnail \u2192 /uploaded \u2192 poll sequence",
+          "passed": true,
+          "evidence": "Lines 84-92 lay out the 5-step sequence"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 62.2,
+        "tokens": 43664,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Starts with GET /api/v1/agents/home as the primary endpoint",
+          "passed": true,
+          "evidence": "Step 1 (lines 7-10) is GET /api/v1/agents/home"
+        },
+        {
+          "text": "Prioritizes responding to comments on own items first",
+          "passed": true,
+          "evidence": "Step 3 (line 55): '1. Replies/comments on your items (they expect a response)'"
+        },
+        {
+          "text": "Mentions reading what_to_do_next from the response",
+          "passed": true,
+          "evidence": "Line 28 'what_to_do_next \u2014 the platform's prioritized suggestions (this drives the rest of the check-in)'"
+        },
+        {
+          "text": "Mentions cross-checking /notifications when unread_notification_count exceeds the activity-array sum",
+          "passed": true,
+          "evidence": "Step 2 (lines 33-47) covers the exact recency-windowed cross-check"
+        },
+        {
+          "text": "Does NOT refer to /home as 'the dashboard' or 'the Agentic Dashboard'",
+          "passed": true,
+          "evidence": "Lines 105-106 explicitly distinguishes /agents/home from the dashboard"
+        },
+        {
+          "text": "Asks before taking any public/social action (no silent likes, replies, marking read)",
+          "passed": true,
+          "evidence": "Line 49 and lines 83-92 list everything that requires approval"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 91.9,
+        "tokens": 49349,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Names the Free 30 rpm rate limit explicitly",
+          "passed": true,
+          "evidence": "Line 5 '30 requests per minute (plan-level, 60-second sliding window)'; line 51"
+        },
+        {
+          "text": "Mentions honoring the Retry-After header when present",
+          "passed": true,
+          "evidence": "Line 31 'If a Retry-After header came back on the 429, I'll honor that first'"
+        },
+        {
+          "text": "Mentions GET /api/v1/agents/rate-limit to check the current budget",
+          "passed": true,
+          "evidence": "Line 27 includes the exact endpoint"
+        },
+        {
+          "text": "Surfaces upgrade option with specific Unleashed (120 rpm) and Genesis (600 rpm) numbers",
+          "passed": true,
+          "evidence": "Line 10 names both tiers and rpm; table at lines 60-64"
+        },
+        {
+          "text": "Does NOT silently retry or auto-create a Stripe checkout link",
+          "passed": true,
+          "evidence": "Line 66 'I will not create a Stripe checkout link without your explicit approval'"
+        },
+        {
+          "text": "Recommends pacing the upload (one-active-upload-at-a-time or similar) on Free",
+          "passed": true,
+          "evidence": "Lines 50-52 'One active upload at a time'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 74.6,
+        "tokens": 43091,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Re-registers with the same email to trigger the device flow (does NOT tell the user to create a new account)",
+          "passed": true,
+          "evidence": "Lines 3 and 11 \u2014 're-register through the API with the same email'"
+        },
+        {
+          "text": "Mentions the 202 device-flow response with device_code / user_code / verification_uri",
+          "passed": true,
+          "evidence": "Line 9 'RFC 8628 device authorization flow'; line 12 '202 pending_confirmation'; lines 54-65 full response shape"
+        },
+        {
+          "text": "Does NOT ask the user to choose a new username",
+          "passed": true,
+          "evidence": "Line 4 'No new username'; line 25 'I am not asking you to pick a new one'"
+        },
+        {
+          "text": "Mentions polling GET /api/v1/agents/register/status using the returned interval",
+          "passed": true,
+          "evidence": "Line 81 endpoint; line 84 'I poll every interval seconds (5s by default \u2014 not faster, the server may throttle)'"
+        },
+        {
+          "text": "Tells the user to save the api_key immediately on the 'confirmed' response",
+          "passed": true,
+          "evidence": "Lines 15 and 87 cover save-immediately on confirmed"
+        },
+        {
+          "text": "Mentions the browser-side approval step at https://wondermint.now",
+          "passed": true,
+          "evidence": "Line 13 and line 74 'https://wondermint.now/device?user_code=...'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 55.6,
+        "tokens": 47053,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies the missing badge + colored name as paid-plan identity features (not a bug)",
+          "passed": true,
+          "evidence": "Line 3 'paid-plan identity features. They're not bugs'"
+        },
+        {
+          "text": "Names Unleashed as the tier that unlocks subscriber/verified presentation",
+          "passed": true,
+          "evidence": "Line 9 and table at line 33"
+        },
+        {
+          "text": "Names Genesis as the tier that unlocks signature name color / founder identity",
+          "passed": true,
+          "evidence": "Line 10 and table at line 34"
+        },
+        {
+          "text": "Suggests checking current plan first via GET /api/v1/agents/subscription",
+          "passed": true,
+          "evidence": "Lines 18-25 read-only call; line 42 reiterates"
+        },
+        {
+          "text": "Does NOT auto-create a Stripe checkout link without user approval",
+          "passed": true,
+          "evidence": "Line 46 'I won't create a Stripe checkout or billing-portal link until you've confirmed plan and billing interval'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.6666666666666666,
+        "passed": 4,
+        "failed": 2,
+        "total": 6,
+        "time_seconds": 61.1,
+        "tokens": 29810,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Asks where the API key will be saved before calling register",
+          "passed": true,
+          "evidence": "Line 68 mentions storing in password manager or .env, though less prescriptive than the skill version"
+        },
+        {
+          "text": "Names the POST /api/v1/agents/register endpoint",
+          "passed": false,
+          "evidence": "Invents POST /v1/accounts (line 38) \u2014 wrong path"
+        },
+        {
+          "text": "Surfaces the 202 device-flow case for existing emails",
+          "passed": false,
+          "evidence": "No mention of device flow or the existing-email case"
+        },
+        {
+          "text": "Asks the user to choose a username (not just relying on the email)",
+          "passed": true,
+          "evidence": "Line 14 asks for handle"
+        },
+        {
+          "text": "Does NOT silently call register without explicit user confirmation",
+          "passed": true,
+          "evidence": "Line 74 'I will not create the account silently'"
+        },
+        {
+          "text": "Warns the API key is shown only once",
+          "passed": true,
+          "evidence": "Line 68 'The response will include the key once'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.14285714285714285,
+        "passed": 1,
+        "failed": 6,
+        "total": 7,
+        "time_seconds": 74.8,
+        "tokens": 30691,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Requires a custom cover thumbnail before the audio upload",
+          "passed": false,
+          "evidence": "Line 23 treats cover as 'nice to have'; default would be 'ship without art' \u2014 opposite of the skill's rule"
+        },
+        {
+          "text": "Mentions thumbnail_name in the POST /listings payload",
+          "passed": false,
+          "evidence": "Invented payload has no thumbnail_name field"
+        },
+        {
+          "text": "Surfaces the 15-minute metadata edit window / post-upload lock",
+          "passed": false,
+          "evidence": "No mention of any edit window or post-create lock"
+        },
+        {
+          "text": "Asks about contract_type (public_domain vs non_exclusive)",
+          "passed": false,
+          "evidence": "Line 24 mentions generic 'visibility / licensing' without naming the actual contract_type values"
+        },
+        {
+          "text": "Uses only valid precreated audio subcategory names (e.g. 'Ambient / Atmospheric'), not invented genre strings",
+          "passed": false,
+          "evidence": "Treats genre as free-form tags ('ambient', 'generative', 'suno') with no subcategory selection"
+        },
+        {
+          "text": "Does NOT fire POST /listings without explicit user approval",
+          "passed": true,
+          "evidence": "Lines 131-132 'I'll start with sanity checks and come back to you before any write call'"
+        },
+        {
+          "text": "Describes the create \u2192 PUT file \u2192 PUT thumbnail \u2192 /uploaded \u2192 poll sequence",
+          "passed": false,
+          "evidence": "Sketches a generic create-PUT-finalize-poll sequence (lines 55-95) but does not include the thumbnail PUT step"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.3333333333333333,
+        "passed": 2,
+        "failed": 4,
+        "total": 6,
+        "time_seconds": 56.4,
+        "tokens": 29668,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Starts with GET /api/v1/agents/home as the primary endpoint",
+          "passed": false,
+          "evidence": "Invents /v1/notifications, /v1/me/posts, /v1/messages, /v1/account/alerts \u2014 doesn't know about /home"
+        },
+        {
+          "text": "Prioritizes responding to comments on own items first",
+          "passed": false,
+          "evidence": "Summary draft (line 88) mentions a comment in 'needs attention' but does not establish a replies-first priority"
+        },
+        {
+          "text": "Mentions reading what_to_do_next from the response",
+          "passed": false,
+          "evidence": "Doesn't know about what_to_do_next"
+        },
+        {
+          "text": "Mentions cross-checking /notifications when unread_notification_count exceeds the activity-array sum",
+          "passed": false,
+          "evidence": "Doesn't know about the recency-windowed pattern"
+        },
+        {
+          "text": "Does NOT refer to /home as 'the dashboard' or 'the Agentic Dashboard'",
+          "passed": true,
+          "evidence": "Doesn't mention /home at all, so trivially passes"
+        },
+        {
+          "text": "Asks before taking any public/social action (no silent likes, replies, marking read)",
+          "passed": true,
+          "evidence": "Line 27 'I will only read. I won't mark notifications as read, reply, follow back, or post anything'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.5,
+        "passed": 3,
+        "failed": 3,
+        "total": 6,
+        "time_seconds": 59.9,
+        "tokens": 29990,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Names the Free 30 rpm rate limit explicitly",
+          "passed": false,
+          "evidence": "No specific rate-limit number; guesses '10/min' as an illustrative draft message (line 95)"
+        },
+        {
+          "text": "Mentions honoring the Retry-After header when present",
+          "passed": true,
+          "evidence": "Line 31 'Respect Retry-After if present'"
+        },
+        {
+          "text": "Mentions GET /api/v1/agents/rate-limit to check the current budget",
+          "passed": false,
+          "evidence": "Doesn't know the endpoint exists"
+        },
+        {
+          "text": "Surfaces upgrade option with specific Unleashed (120 rpm) and Genesis (600 rpm) numbers",
+          "passed": false,
+          "evidence": "Generic 'consider upgrading' (lines 101-110) without naming Wondermint tiers or specific rpm numbers"
+        },
+        {
+          "text": "Does NOT silently retry or auto-create a Stripe checkout link",
+          "passed": true,
+          "evidence": "Defers all action to user; no auto-checkout proposed"
+        },
+        {
+          "text": "Recommends pacing the upload (one-active-upload-at-a-time or similar) on Free",
+          "passed": true,
+          "evidence": "Lines 33-34 explicit serial pacing with delay-between-each"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.3333333333333333,
+        "passed": 2,
+        "failed": 4,
+        "total": 6,
+        "time_seconds": 66.5,
+        "tokens": 30151,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Re-registers with the same email to trigger the device flow (does NOT tell the user to create a new account)",
+          "passed": false,
+          "evidence": "Treats device flow as one of three guessed patterns (line 46-47); doesn't know that re-registering with the same email IS Wondermint's specific path"
+        },
+        {
+          "text": "Mentions the 202 device-flow response with device_code / user_code / verification_uri",
+          "passed": false,
+          "evidence": "Lines 46-47 mention device code flow generically; no 202, no device_code, no user_code"
+        },
+        {
+          "text": "Does NOT ask the user to choose a new username",
+          "passed": true,
+          "evidence": "Line 49 'You are not signing up again'"
+        },
+        {
+          "text": "Mentions polling GET /api/v1/agents/register/status using the returned interval",
+          "passed": false,
+          "evidence": "Doesn't know about /register/status"
+        },
+        {
+          "text": "Tells the user to save the api_key immediately on the 'confirmed' response",
+          "passed": true,
+          "evidence": "Line 22 mentions .env storage; line 119 reinforces no-logging"
+        },
+        {
+          "text": "Mentions the browser-side approval step at https://wondermint.now",
+          "passed": false,
+          "evidence": "Uses wrong domain wondermint.com (line 35) and points at a generic Settings \u2192 Developers section that doesn't exist on Wondermint"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.4,
+        "passed": 2,
+        "failed": 3,
+        "total": 5,
+        "time_seconds": 62.3,
+        "tokens": 29751,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies the missing badge + colored name as paid-plan identity features (not a bug)",
+          "passed": true,
+          "evidence": "Lines 3 and 15 \u2014 names paid subscription as the most likely cause"
+        },
+        {
+          "text": "Names Unleashed as the tier that unlocks subscriber/verified presentation",
+          "passed": false,
+          "evidence": "Doesn't know the tier names; line 21 speculates 'Pro, Plus, Premium, Gold'"
+        },
+        {
+          "text": "Names Genesis as the tier that unlocks signature name color / founder identity",
+          "passed": false,
+          "evidence": "Doesn't know the tier names"
+        },
+        {
+          "text": "Suggests checking current plan first via GET /api/v1/agents/subscription",
+          "passed": false,
+          "evidence": "Invents /v1/me with a subscription_tier field; doesn't know the actual endpoint"
+        },
+        {
+          "text": "Does NOT auto-create a Stripe checkout link without user approval",
+          "passed": true,
+          "evidence": "Line 99 'I'd flag the subscription call as paid/irreversible and require an explicit confirmation step'"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 73.9,
+        "stddev": 13.7736,
+        "min": 55.6,
+        "max": 91.9
+      },
+      "tokens": {
+        "mean": 46009.1667,
+        "stddev": 3470.3689,
+        "min": 42352,
+        "max": 50546
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.396,
+        "stddev": 0.1767,
+        "min": 0.1429,
+        "max": 0.6667
+      },
+      "time_seconds": {
+        "mean": 63.5,
+        "stddev": 6.4383,
+        "min": 56.4,
+        "max": 74.8
+      },
+      "tokens": {
+        "mean": 30010.1667,
+        "stddev": 376.3208,
+        "min": 29668,
+        "max": 30691
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.60",
+      "time_seconds": "+10.4",
+      "tokens": "+15999"
+    }
+  },
+  "notes": []
+}

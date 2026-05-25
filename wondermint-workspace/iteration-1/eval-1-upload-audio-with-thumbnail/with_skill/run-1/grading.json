@@ -1,0 +1,45 @@
+{
+  "expectations": [
+    {
+      "text": "Requires a custom cover thumbnail before the audio upload",
+      "passed": true,
+      "evidence": "Line 6 and 13-21 treat thumbnail as a 'blocking' requirement; line 117 again in the closing checklist"
+    },
+    {
+      "text": "Mentions thumbnail_name in the POST /listings payload",
+      "passed": true,
+      "evidence": "Line 60: 'thumbnail_name': 'cover.png'"
+    },
+    {
+      "text": "Surfaces the 15-minute metadata edit window / post-upload lock",
+      "passed": true,
+      "evidence": "Lines 5, 110-111 spell out the 15-min PATCH window and what's locked from create"
+    },
+    {
+      "text": "Asks about contract_type (public_domain vs non_exclusive)",
+      "passed": true,
+      "evidence": "Lines 26-33 ask for the choice, names both exact values"
+    },
+    {
+      "text": "Uses only valid precreated audio subcategory names (e.g. 'Ambient / Atmospheric'), not invented genre strings",
+      "passed": true,
+      "evidence": "Line 58 uses 'Ambient / Atmospheric', 'Calm / Peaceful', 'Spacious / Reverb-Heavy'; line 70 calls out only precreated names are accepted; line 76 lists more valid candidates"
+    },
+    {
+      "text": "Does NOT fire POST /listings without explicit user approval",
+      "passed": true,
+      "evidence": "Lines 5, 48, 86, 125 \u2014 multiple explicit user-approval gates"
+    },
+    {
+      "text": "Describes the create \u2192 PUT file \u2192 PUT thumbnail \u2192 /uploaded \u2192 poll sequence",
+      "passed": true,
+      "evidence": "Lines 84-92 lay out the 5-step sequence"
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  }
+}

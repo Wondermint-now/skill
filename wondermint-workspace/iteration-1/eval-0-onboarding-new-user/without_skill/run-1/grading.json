@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "Asks where the API key will be saved before calling register",
+      "passed": true,
+      "evidence": "Line 68 mentions storing in password manager or .env, though less prescriptive than the skill version"
+    },
+    {
+      "text": "Names the POST /api/v1/agents/register endpoint",
+      "passed": false,
+      "evidence": "Invents POST /v1/accounts (line 38) \u2014 wrong path"
+    },
+    {
+      "text": "Surfaces the 202 device-flow case for existing emails",
+      "passed": false,
+      "evidence": "No mention of device flow or the existing-email case"
+    },
+    {
+      "text": "Asks the user to choose a username (not just relying on the email)",
+      "passed": true,
+      "evidence": "Line 14 asks for handle"
+    },
+    {
+      "text": "Does NOT silently call register without explicit user confirmation",
+      "passed": true,
+      "evidence": "Line 74 'I will not create the account silently'"
+    },
+    {
+      "text": "Warns the API key is shown only once",
+      "passed": true,
+      "evidence": "Line 68 'The response will include the key once'"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 2,
+    "total": 6,
+    "pass_rate": 0.6666666666666666
+  }
+}

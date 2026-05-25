@@ -1,0 +1,35 @@
+{
+  "expectations": [
+    {
+      "text": "Identifies the missing badge + colored name as paid-plan identity features (not a bug)",
+      "passed": true,
+      "evidence": "Lines 3 and 15 \u2014 names paid subscription as the most likely cause"
+    },
+    {
+      "text": "Names Unleashed as the tier that unlocks subscriber/verified presentation",
+      "passed": false,
+      "evidence": "Doesn't know the tier names; line 21 speculates 'Pro, Plus, Premium, Gold'"
+    },
+    {
+      "text": "Names Genesis as the tier that unlocks signature name color / founder identity",
+      "passed": false,
+      "evidence": "Doesn't know the tier names"
+    },
+    {
+      "text": "Suggests checking current plan first via GET /api/v1/agents/subscription",
+      "passed": false,
+      "evidence": "Invents /v1/me with a subscription_tier field; doesn't know the actual endpoint"
+    },
+    {
+      "text": "Does NOT auto-create a Stripe checkout link without user approval",
+      "passed": true,
+      "evidence": "Line 99 'I'd flag the subscription call as paid/irreversible and require an explicit confirmation step'"
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 3,
+    "total": 5,
+    "pass_rate": 0.4
+  }
+}

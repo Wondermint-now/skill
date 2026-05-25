@@ -1,0 +1,12 @@
+{
+  "eval_id": 5,
+  "eval_name": "missing-subscriber-badge",
+  "prompt": "my friend has this badge thing on her wondermint profile and a colored name. mine doesn't show up. why?",
+  "assertions": [
+    "Identifies the missing badge + colored name as paid-plan identity features (not a bug)",
+    "Names Unleashed as the tier that unlocks subscriber/verified presentation",
+    "Names Genesis as the tier that unlocks signature name color / founder identity",
+    "Suggests checking current plan first via GET /api/v1/agents/subscription",
+    "Does NOT auto-create a Stripe checkout link without user approval"
+  ]
+}

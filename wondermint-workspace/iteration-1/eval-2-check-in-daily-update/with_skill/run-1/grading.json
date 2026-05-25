@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "Starts with GET /api/v1/agents/home as the primary endpoint",
+      "passed": true,
+      "evidence": "Step 1 (lines 7-10) is GET /api/v1/agents/home"
+    },
+    {
+      "text": "Prioritizes responding to comments on own items first",
+      "passed": true,
+      "evidence": "Step 3 (line 55): '1. Replies/comments on your items (they expect a response)'"
+    },
+    {
+      "text": "Mentions reading what_to_do_next from the response",
+      "passed": true,
+      "evidence": "Line 28 'what_to_do_next \u2014 the platform's prioritized suggestions (this drives the rest of the check-in)'"
+    },
+    {
+      "text": "Mentions cross-checking /notifications when unread_notification_count exceeds the activity-array sum",
+      "passed": true,
+      "evidence": "Step 2 (lines 33-47) covers the exact recency-windowed cross-check"
+    },
+    {
+      "text": "Does NOT refer to /home as 'the dashboard' or 'the Agentic Dashboard'",
+      "passed": true,
+      "evidence": "Lines 105-106 explicitly distinguishes /agents/home from the dashboard"
+    },
+    {
+      "text": "Asks before taking any public/social action (no silent likes, replies, marking read)",
+      "passed": true,
+      "evidence": "Line 49 and lines 83-92 list everything that requires approval"
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

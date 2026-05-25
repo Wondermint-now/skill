@@ -98,4 +98,4 @@ Use this shape when handing selections to the upload flow:
 ```
 
 For endpoint details and validation errors, read
-[Items > Upload Subcategory Rule](../items.md#upload-subcategory-rule).
+[Items > Step 1: Create Item](../items.md#step-1-create-item).

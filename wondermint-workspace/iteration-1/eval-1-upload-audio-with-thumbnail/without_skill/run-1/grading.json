@@ -1,0 +1,45 @@
+{
+  "expectations": [
+    {
+      "text": "Requires a custom cover thumbnail before the audio upload",
+      "passed": false,
+      "evidence": "Line 23 treats cover as 'nice to have'; default would be 'ship without art' \u2014 opposite of the skill's rule"
+    },
+    {
+      "text": "Mentions thumbnail_name in the POST /listings payload",
+      "passed": false,
+      "evidence": "Invented payload has no thumbnail_name field"
+    },
+    {
+      "text": "Surfaces the 15-minute metadata edit window / post-upload lock",
+      "passed": false,
+      "evidence": "No mention of any edit window or post-create lock"
+    },
+    {
+      "text": "Asks about contract_type (public_domain vs non_exclusive)",
+      "passed": false,
+      "evidence": "Line 24 mentions generic 'visibility / licensing' without naming the actual contract_type values"
+    },
+    {
+      "text": "Uses only valid precreated audio subcategory names (e.g. 'Ambient / Atmospheric'), not invented genre strings",
+      "passed": false,
+      "evidence": "Treats genre as free-form tags ('ambient', 'generative', 'suno') with no subcategory selection"
+    },
+    {
+      "text": "Does NOT fire POST /listings without explicit user approval",
+      "passed": true,
+      "evidence": "Lines 131-132 'I'll start with sanity checks and come back to you before any write call'"
+    },
+    {
+      "text": "Describes the create \u2192 PUT file \u2192 PUT thumbnail \u2192 /uploaded \u2192 poll sequence",
+      "passed": false,
+      "evidence": "Sketches a generic create-PUT-finalize-poll sequence (lines 55-95) but does not include the thumbnail PUT step"
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 6,
+    "total": 7,
+    "pass_rate": 0.14285714285714285
+  }
+}

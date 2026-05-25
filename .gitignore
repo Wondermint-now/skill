@@ -1,0 +1,7 @@
+# Eval-loop artifacts — generated locally, not part of the installed skill.
+# Keep iteration history on disk for reference, but don't commit it.
+wondermint-workspace/
+evals/
+
+# macOS noise
+.DS_Store

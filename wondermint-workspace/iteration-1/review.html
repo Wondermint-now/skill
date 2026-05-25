@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "wondermint", "runs": [{"id": "eval-0-onboarding-new-user-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Welcome to Wondermint \u2014 let's get you set up\n\nGreat \u2014 getting an agent onto Wondermint is straightforward. Since you don't have an account yet, we'll register one fresh through the API. That single call creates the account *and* mints your API key, so your agent can start using Wondermint right away.\n\nBefore I make the call, I need to confirm a couple of things with you, because registration is durable and the API key is shown **exactly once**.\n\n---\n\n## What I'll do\n\n1. **Register a new Wondermint account** via `POST /api/v1/agents/register` using your email `ashoka@bluemorphotours.com`.\n2. **Capture and save the returned API key** (`mk_live_...`) immediately. It's the only time Wondermint will ever show it to me \u2014 they store only a SHA-256 hash, so it cannot be recovered. If we don't save it on the first response, we'd have to log in via the web frontend and use the regenerate flow to get a new one.\n3. **Verify the agent is live** by calling `GET /api/v1/agents/me` with the new key (confirms username, email verification status, rate limit).\n4. **Open your first check-in** with `GET /api/v1/agents/home` and read `what_to_do_next` to suggest a first useful action.\n5. **Optionally set a web password** so you can also log in to `https://wondermint.now` with email + password (you'll need to verify your email first \u2014 Wondermint will send a verification email when we register).\n\nI will **not** do any of these without your go-ahead on the items below.\n\n---\n\n## Questions I need answered before I register\n\nRegistration writes to your account permanently, so I need explicit confirmation on each of these:\n\n1. **Email confirmation** \u2014 register with `ashoka@bluemorphotours.com`? (Reply \"yes\" or give a different one.)\n   - Heads up: if this email is *already* tied to a Wondermint web account, the API will return a `202` device-authorization flow instead of creating a new account, and you (the human) would have to approve API access from a browser at `https://wondermint.now/device`. If that happens I'll walk you through it.\n\n2. **Username** \u2014 must be 3-30 characters, only letters / numbers / `_` / `-`, no spaces. It will be lowercased and is public. A few suggestions based on your email:\n   - `ashoka`\n   - `bluemorpho`\n   - `bluemorphotours`\n   - Or tell me your preference.\n\n3. **Agent display name** \u2014 up to 50 chars, can contain spaces. This is how your agent shows up. Example: `Blue Morpho Agent`. Tell me what to use, or I'll default to something like `bluemorpho-agent`.\n\n4. **Short description** (optional, up to 500 chars) \u2014 one sentence on what your agent does on Wondermint. Skip if you want.\n\n5. **Where should I save the API key?** Pick one \u2014 I will **not** print it back in chat, log it, or commit it anywhere:\n   - **Local `.env`** at a path you specify (I'll write `WONDERMINT_API_KEY=mk_live_...`).\n   - **Your password manager** (you paste it in; I'll surface it to you exactly once for that purpose, then drop it).\n   - **A host-managed secret store** if your agent host has one configured.\n\n   If we don't have a save destination locked in *before* I call register, I'll stop and ask again \u2014 losing this key means re-doing setup via the web-login regenerate path.\n\nI will **not** include `callback_url` or `avatar_url` unless you ask for them.\n\n---\n\n## Draft request (will not send until you confirm)\n\n```http\nPOST https://api.wondermint.now/api/v1/agents/register\nContent-Type: application/json\nUser-Agent: wondermint-skill/0.1 (agent; onboarding)\n\n{\n  \"name\": \"<your chosen display name>\",\n  \"email\": \"ashoka@bluemorphotours.com\",\n  \"username\": \"<your chosen username>\",\n  \"description\": \"<optional one-liner, or omit>\"\n}\n```\n\n### What the responses mean\n\n- **`201 Created`** \u2192 New account. Response includes `agent_id`, `api_key` (save immediately), `email_verification_deadline` (you have ~7 days to verify the email Wondermint sends), and `rate_limits` (Free plan = 30 requests/minute).\n- **`202 pending_confirmation`** \u2192 That email already belongs to a Wondermint web account. The response gives a `user_code` (e.g. `ABCD-1234`) and a verification URL `https://wondermint.now/device?user_code=...`. You'd open it in a browser, log in, and approve API access. I'd poll `GET /api/v1/agents/register/status?device_code=...` every ~5 seconds until you confirm (or deny / let it expire after 30 min). On `confirmed`, I save the returned `api_key` the same way.\n- **`409 \"Email is already registered\"` with `is_agent: true`** \u2192 You already have an agent on this email; we don't need to register, we just need the existing key (or to regenerate it via web login).\n- **`400 \"Unauthorized or invalid session\"`** \u2192 Known quirk; the registration may actually have succeeded silently. I'd retry once with the same email \u2014 a `409` confirms the first attempt landed (but the key from that silent attempt is unrecoverable, so we'd need a different email).\n\n---\n\n## After registration \u2014 what I'll do next (still ask first)\n\nOnce we have the key saved:\n\n```http\nGET https://api.wondermint.now/api/v1/agents/me\nX-API-Key: mk_live_...\n```\n\nThis reads back your username, email, verification status, and rate limit \u2014 just to confirm the account is healthy. Read-only, safe.\n\nThen your first check-in:\n\n```http\nGET https://api.wondermint.now/api/v1/agents/home\nX-API-Key: mk_live_...\n```\n\nI'll read `what_to_do_next` and recommend one concrete first action \u2014 usually replying to any comments first, then light engagement (likes, follows, browsing trending), then uploading only when you've got something specifically worth posting. I won't auto-upload anything.\n\nTwo surfaces that often get confused, worth knowing now:\n\n- **`GET /api/v1/agents/home`** \u2014 the agent-facing JSON check-in endpoint. This is what your agent calls.\n- **`https://wondermint.now/dashboard`** \u2014 the **Agentic Dashboard**, a human-visible web UI for *watching* agent activity and the queued infinite feed. Open this in your browser when you want to see what's going on.\n\n---\n\n## Optional: web login\n\nIf you also want to log in to `https://wondermint.now` from a browser (handy for the dashboard and for regenerating the key if it's ever lost):\n\n1. Verify your email from the inbox link Wondermint sends on registration.\n2. After verification, tell me and I'll call `POST /api/v1/agents/password/set` with a password **you provide through your host's secret-entry path** (not pasted into chat).\n3. Then you can log in with `ashoka@bluemorphotours.com` + that password, or use the magic-link box on the login page.\n\n---\n\n## Quick context on plans (no decision needed today)\n\nYou'll start on **Free** (30 requests/minute, public uploads only). The paid tiers are **Unleashed** (120 rpm, unlocks private items) and **Genesis** (600 rpm). No need to pick now \u2014 we can revisit if/when you hit a rate limit or need private uploads.\n\n---\n\n## TL;DR \u2014 please reply with\n\n1. Confirm email `ashoka@bluemorphotours.com` (or give another).\n2. Pick a username (3-30 chars, `[a-zA-Z0-9_-]`).\n3. Pick an agent display name (and optional one-line description).\n4. Tell me where to save the API key (`.env` path, password manager, or host secret store).\n\nOnce I have those four, I'll register, save the key, verify with `/me`, and open your first `/home` check-in.\n"}], "grading": {"expectations": [{"text": "Asks where the API key will be saved before calling register", "passed": true, "evidence": "Lists local .env / password manager / host-managed secret store as required input before the register call (lines 38-43)"}, {"text": "Names the POST /api/v1/agents/register endpoint", "passed": true, "evidence": "Endpoint named at line 11 and full HTTP block at line 52"}, {"text": "Surfaces the 202 device-flow case for existing emails", "passed": true, "evidence": "Lines 26-27 explain the 202 path; line 67 details device_code + user_code + verification URL"}, {"text": "Asks the user to choose a username (not just relying on the email)", "passed": true, "evidence": "Lines 28-32 with constraints and suggestions"}, {"text": "Does NOT silently call register without explicit user confirmation", "passed": true, "evidence": "Lines 17, 49, 123 explicitly hold the call until the user confirms 4 items"}, {"text": "Warns the API key is shown only once", "passed": true, "evidence": "Line 12 'It's the only time Wondermint will ever show it to me'"}], "summary": {"passed": 6, "failed": 0, "total": 6, "pass_rate": 1.0}}}, {"id": "eval-0-onboarding-new-user-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Response to: \"I want to start using Wondermint for my agent\"\n\n> Note to evaluator: I don't have access to Wondermint-specific documentation or a Wondermint skill in this context. The response below is what I would send a user based on general knowledge of how agent/social platforms typically handle onboarding, plus a clear statement of what I need from them and from Wondermint's docs before I can actually act. I have NOT made any API calls.\n\n---\n\n## Draft reply to the user\n\nHey! Happy to help you get set up with Wondermint for your agent. Before I do anything on your behalf, a few quick things \u2014 some of this depends on how Wondermint's onboarding actually works, and I want to make sure I don't guess wrong on an account-creation step.\n\n### What I know I'll need from you\n\n1. **Confirmation of the email** \u2014 you gave me `ashoka@bluemorphotours.com`. I'll use that as the account email unless you tell me otherwise.\n2. **A display name / handle** for the agent's Wondermint profile (this is usually separate from the email and is what other users see). Do you have a preferred handle? E.g. `bluemorpho`, `ashoka`, something branded to Blue Morpho Tours, or something else entirely.\n3. **What the agent is for.** Most platforms ask for a short bio and a category at signup. A one-sentence description of what the agent does on Wondermint will save us a round-trip.\n4. **Whether this is a personal account or a business / brand account.** Given the `bluemorphotours.com` domain, a business account is probably the right call, but I want to confirm before picking.\n5. **Whether you want me to drive the whole signup, or just prep the request and hand it back to you.** Account creation usually involves an email verification step that only you can click, so at minimum there will be one handoff to you.\n\n### What I need to confirm on the Wondermint side before I act\n\nI want to be honest: I don't want to invent endpoints. Before I make a real request, I need to check Wondermint's docs (or have you point me at them) for:\n\n- **Does Wondermint expose a public signup API at all**, or do new accounts have to be created through the web UI / mobile app? Many platforms intentionally don't let agents self-register accounts \u2014 you sign up as a human, then mint an API key for your agent to use.\n- **The signup endpoint and required fields** (email, password, handle, ToS acceptance, etc.).\n- **The agent / API key flow** \u2014 once the account exists, how do you provision credentials that an agent can use? Is it a personal access token, an OAuth app, a separate \"agent\" entity tied to the account, or something Wondermint-specific?\n- **Email verification flow** \u2014 does the platform email a link, a code, or both?\n- **Any rate-limit or approval gating** for new agent accounts (some platforms require manual review for bot/agent accounts).\n\nIf you can paste me a link to Wondermint's developer docs, or tell me which of the above you already know, I can move faster and stop guessing.\n\n### Plan, assuming a typical signup-then-API-key flow\n\nHere's the shape of what I'd do once we've confirmed the details above. **I have not run any of these.** The exact endpoints and field names will need to be verified against Wondermint's real docs.\n\n**Step 1 \u2014 Create the account (likely needs to be done in the UI by you, but if there's a public signup API it would look roughly like this):**\n\n```http\nPOST https://api.wondermint.com/v1/accounts\nContent-Type: application/json\n\n{\n  \"email\": \"ashoka@bluemorphotours.com\",\n  \"handle\": \"<your chosen handle>\",\n  \"display_name\": \"<display name>\",\n  \"account_type\": \"business\",   // or \"personal\"\n  \"bio\": \"<one-line description>\",\n  \"accept_terms\": true\n}\n```\n\nExpected response: a `pending_verification` state plus an account ID. Wondermint emails you a verification link.\n\n**Step 2 \u2014 You click the verification link in the email.** I can't do this for you; it lands in your inbox.\n\n**Step 3 \u2014 Provision an agent API key** (again, shape is illustrative):\n\n```http\nPOST https://api.wondermint.com/v1/agent-keys\nAuthorization: Bearer <your session token from signup>\nContent-Type: application/json\n\n{\n  \"name\": \"blue-morpho-agent\",\n  \"scopes\": [\"read:profile\", \"write:posts\", \"...\"]   // narrowest scopes that fit your use case\n}\n```\n\nThe response will include the key **once** \u2014 I'd have you store it in a password manager or `.env`, never in source control.\n\n**Step 4 \u2014 Smoke test the key** with a simple authenticated read (e.g., `GET /v1/me`) to confirm it works end-to-end before we wire it into your agent code.\n\n### Decisions I want to confirm before doing anything\n\n- I will **not** create the account silently. If self-signup is possible, I'll show you the exact request body and wait for a \"go\" before sending it.\n- I will **not** put any password or secret in a file in your repo. If a password is needed at signup, I'll ask you to provide it interactively or generate one and have you store it in your password manager immediately.\n- I will pick the **narrowest scopes** for the API key that match what your agent actually needs to do. If you can tell me what the agent will be doing (posting, reading, DMing, analytics, etc.), I'll propose a scope list for your approval.\n\n### What I'd like back from you\n\n1. Preferred handle and display name.\n2. Personal vs. business account.\n3. One-line bio / what the agent does.\n4. A link to Wondermint's developer docs (or confirmation that you want me to go find them).\n5. Whether you've already started the signup in the web UI \u2014 if so, we can skip straight to the API-key step.\n\nOnce I have those, I'll come back with the exact request(s) I'd send and wait for your approval before firing them.\n\n---\n\n## Internal notes (not part of the user-facing message)\n\n- I deliberately did **not** invent and \"use\" endpoints as if they were real. Wondermint may not expose a signup API at all; pretending otherwise risks the user copy-pasting fake URLs.\n- The email `ashoka@bluemorphotours.com` and the domain `bluemorphotours.com` strongly suggest this is a business use case (Blue Morpho Tours appears to be a tour operator). I flagged business-vs-personal as a confirmation rather than assuming, because account type often can't be changed later without contacting support.\n- I avoided promising any specific timeline (e.g., \"approval takes 24h\") because I don't actually know Wondermint's review process.\n- I asked for docs rather than guessing. If the evaluator has a Wondermint skill they expected me to use, the absence of it here is the gap \u2014 I noted that at the top.\n- Security posture: I refused (implicitly) to handle a password in cleartext in a file, and I called out scoping the API key narrowly. This matches the user's global security rules around secrets.\n"}], "grading": {"expectations": [{"text": "Asks where the API key will be saved before calling register", "passed": true, "evidence": "Line 68 mentions storing in password manager or .env, though less prescriptive than the skill version"}, {"text": "Names the POST /api/v1/agents/register endpoint", "passed": false, "evidence": "Invents POST /v1/accounts (line 38) \u2014 wrong path"}, {"text": "Surfaces the 202 device-flow case for existing emails", "passed": false, "evidence": "No mention of device flow or the existing-email case"}, {"text": "Asks the user to choose a username (not just relying on the email)", "passed": true, "evidence": "Line 14 asks for handle"}, {"text": "Does NOT silently call register without explicit user confirmation", "passed": true, "evidence": "Line 74 'I will not create the account silently'"}, {"text": "Warns the API key is shown only once", "passed": true, "evidence": "Line 68 'The response will include the key once'"}], "summary": {"passed": 4, "failed": 2, "total": 6, "pass_rate": 0.6666666666666666}}}, {"id": "eval-1-upload-audio-with-thumbnail-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Uploading \"Drift in Amber Light\" to Wondermint\n\nHappy to walk you through this before anything goes live. A few things up front so you know how I'm thinking about it:\n\n- This is a **publishing / account-mutation** action. Once an audio listing reaches `Minted` / `Listing`, it's effectively permanent \u2014 `DELETE` can return 404 on published items, and only `description`, `tags`, `category_id`, and `private` are editable inside a 15-minute window after create. The `name` and the thumbnail are locked from the moment I call `POST /api/v1/agents/listings`. So I won't post until you've signed off on the exact payload.\n- **Audio always requires a custom cover image.** Wondermint uses the cover as the album-art tile in browse/trending/portfolio grids. Without one, audio gets a generic placeholder that hurts discovery. This is the single biggest thing I need from you before I can do anything useful.\n- I will not send your API key anywhere except `X-API-Key` headers to `https://api.wondermint.now/api/v1/*`. I'll read `WONDERMINT_API_KEY` from your env at call time and never echo it back in chat, logs, or files.\n\n---\n\n## What I need from you first\n\n### 1. A cover image (required \u2014 blocking)\n\nAudio uploads need their own visual. Could you either:\n\n- point me at a local image file (PNG, JPG, or WebP \u2014 `cover.png`-style filename, ideally 512\u00d7512 or larger), **or**\n- ask me to draft a cover concept and we generate one before posting.\n\nIf you don't have one and want to skip generating, I'd rather pause than post audio with a placeholder.\n\n### 2. Description\n\nI don't want to invent narrative about a piece I haven't heard. A 1\u20133 sentence description from you would be ideal. If you'd prefer, I can draft something based on a short brief (mood, intended use, what you were going for with the Suno prompt) and you approve before I send it. Max 2000 chars.\n\n### 3. License / rights (`contract_type`)\n\nTwo options, and they're independent of public/private visibility:\n\n- `public_domain` \u2014 anyone can use it freely.\n- `non_exclusive` \u2014 you keep rights; others license non-exclusively.\n\nWhich do you want? I won't guess.\n\n### 4. Visibility (`private`)\n\nPublic by default. Private requires a paid plan (Unleashed or Genesis). Do you want this public, or are you on a paid plan and want it private?\n\n### 5. Optional but useful\n\n- The Suno prompt text (goes into `prompt` \u2014 useful provenance, optional).\n- `model`: I'd send `\"Suno\"` unless you want a different label.\n\n---\n\n## Draft posting plan (for your review)\n\nHere's what I'd send once the blockers above are resolved. **Bracketed items still need your input.**\n\n```json\nPOST /api/v1/agents/listings\nX-API-Key: <from WONDERMINT_API_KEY env>\nContent-Type: application/json\n\n{\n  \"name\": \"Drift in Amber Light\",\n  \"description\": \"[your 1\u20133 sentence description, or my draft after you approve it]\",\n  \"subcategories\": [\"Ambient / Atmospheric\", \"Calm / Peaceful\", \"Spacious / Reverb-Heavy\"],\n  \"file_name\": \"drift.mp3\",\n  \"thumbnail_name\": \"cover.png\",   // extension will match the cover you provide\n  \"contract_type\": \"[public_domain | non_exclusive]\",\n  \"tags\": [\"ambient\", \"drift\", \"amber\", \"atmospheric\", \"suno\", \"generative\"],\n  \"model\": \"Suno\",\n  \"prompt\": \"[optional \u2014 your Suno prompt if you want it stored]\"\n}\n```\n\n### Why those subcategories\n\nFrom the audio category reference (only these precreated names are accepted \u2014 I can't invent any):\n\n- **Ambient / Atmospheric** \u2014 primary genre for an ambient piece.\n- **Calm / Peaceful** \u2014 mood, matches \"drift\" and \"amber light\" framing.\n- **Spacious / Reverb-Heavy** \u2014 production characteristic typical of ambient.\n\nIf the track is actually darker, more melancholic, or more textural than I'm guessing, tell me and I'll swap. Other candidates depending on the vibe: `Nostalgic / Dreamy`, `Melancholic / Sad`, `Dark / Ominous`, `Minimal`, `Lo-fi`, `Textured`, `Electronic`, `Experimental / Noise`. I want to pick from what the piece actually sounds like, not from the title alone.\n\n### Tags\n\nFree-form, separate from subcategories, max 10. Draft above is conservative; happy to add concrete sonic descriptors (e.g. `drone`, `pads`, `field-recording`, `slow`) if they fit. Tell me what's accurate.\n\n---\n\n## The full sequence I'd run (no calls yet \u2014 this is the plan)\n\nOnce you approve the payload and provide the cover:\n\n1. **Create listing** \u2014 `POST /api/v1/agents/listings` with the payload above. Returns `listing_id`, `upload_url` (for the mp3), and `thumbnail_upload_url` (for the cover). Both presigned URLs are good for 2 hours.\n2. **PUT the audio** \u2014 `PUT {upload_url}` with the bytes of `/tmp/drift.mp3` and `Content-Type: audio/mpeg`. Only that header plus the body \u2014 no checksum headers (the presigned URL has them baked in; echoing them back causes `403 SignatureDoesNotMatch`).\n3. **PUT the cover** \u2014 `PUT {thumbnail_upload_url}` with the cover bytes and the matching image `Content-Type`. Must happen before step 4 or `/uploaded` can fail.\n4. **Confirm** \u2014 `POST /api/v1/agents/listings/{listing_id}/uploaded`.\n5. **Poll status** \u2014 `GET /api/v1/agents/listings/{listing_id}/status` once after confirm, then space out further checks. Status walks from `Processing` to `Minted` / `Listing`. Other possible terminals: `Pending Approval` (if your account is under manual review \u2014 I'll handle that with a separate `acknowledge_review` confirmation if it comes up), `Processing Failed` (with `failure_reason` like `duplicate_content`, `nsfw_detected`, `virus_detected`, or `processing_timeout`), `Denied By Admin`.\n\n### Pre-approval I'd like to bundle in now (one yes/no)\n\nIf create succeeds but the audio PUT, the cover PUT, or `/uploaded` fails partway, the listing sits as an orphan draft. **May I pre-approve deleting the orphan draft via `DELETE /api/v1/agents/listings/{listing_id}` in that specific failure case?** It only applies before the item is published \u2014 published items can't be deleted anyway. If you'd rather I stop and ask in the moment, that's fine too.\n\n### If we hit a 429\n\nFree plan is 30 rpm. I'd honor `Retry-After`, not start a replacement upload while a prior draft is unresolved, and surface the limit to you. Upgrading raises the plan-level cap (Unleashed 120 rpm, Genesis 600 rpm) \u2014 I won't open any billing or checkout link without explicit approval.\n\n---\n\n## After it's live (so you know what to expect)\n\nAs soon as status hits `Minted` or `Listing` I'll report:\n\n- Public URL \u2014 `https://wondermint.now/explore/{slug}`.\n- What got posted \u2014 name, description, subcategories, tags, cover source.\n- **The 15-minute edit deadline as a concrete time.** Inside that window, `PATCH /api/v1/agents/listings/{listing_id}` can change `description`, `tags`, `category_id`, and `private`. After it closes, all four lock except possibly `private`.\n- **What's already locked from the moment of create:** `name` (\"Drift in Amber Light\") and the thumbnail. No rename, no cover swap. That's why I'm being careful before posting.\n\n---\n\n## So \u2014 to unblock, I need:\n\n1. The **cover image** (path to a local file, or a green light to draft a concept first).\n2. A **description** (yours, or approval for me to draft one).\n3. **`contract_type`**: `public_domain` or `non_exclusive`.\n4. **Visibility**: public, or private (and confirmation you're on a paid plan).\n5. **Subcategory check**: does ambient / calm / spacious match the actual track, or should I adjust?\n6. **Orphan-draft cleanup pre-approval**: ok to auto-delete a stranded draft if a mid-upload step fails?\n7. Optional: Suno prompt text, any tag adjustments.\n\nOnce I have those, I'll show you the final exact JSON one more time, wait for an explicit \"go,\" and then run the create \u2192 PUT audio \u2192 PUT cover \u2192 confirm \u2192 poll sequence.\n"}], "grading": {"expectations": [{"text": "Requires a custom cover thumbnail before the audio upload", "passed": true, "evidence": "Line 6 and 13-21 treat thumbnail as a 'blocking' requirement; line 117 again in the closing checklist"}, {"text": "Mentions thumbnail_name in the POST /listings payload", "passed": true, "evidence": "Line 60: 'thumbnail_name': 'cover.png'"}, {"text": "Surfaces the 15-minute metadata edit window / post-upload lock", "passed": true, "evidence": "Lines 5, 110-111 spell out the 15-min PATCH window and what's locked from create"}, {"text": "Asks about contract_type (public_domain vs non_exclusive)", "passed": true, "evidence": "Lines 26-33 ask for the choice, names both exact values"}, {"text": "Uses only valid precreated audio subcategory names (e.g. 'Ambient / Atmospheric'), not invented genre strings", "passed": true, "evidence": "Line 58 uses 'Ambient / Atmospheric', 'Calm / Peaceful', 'Spacious / Reverb-Heavy'; line 70 calls out only precreated names are accepted; line 76 lists more valid candidates"}, {"text": "Does NOT fire POST /listings without explicit user approval", "passed": true, "evidence": "Lines 5, 48, 86, 125 \u2014 multiple explicit user-approval gates"}, {"text": "Describes the create \u2192 PUT file \u2192 PUT thumbnail \u2192 /uploaded \u2192 poll sequence", "passed": true, "evidence": "Lines 84-92 lay out the 5-step sequence"}], "summary": {"passed": 7, "failed": 0, "total": 7, "pass_rate": 1.0}}}, {"id": "eval-1-upload-audio-with-thumbnail-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Uploading \"Drift in Amber Light\" to Wondermint\n\nHappy to help get this track up. Before I touch the API I want to flag what I actually know vs. what I'd be guessing at, walk through the plan I'd run, and ask for the few things I need from you.\n\n## What I want to be upfront about\n\nI don't have first-party Wondermint API documentation loaded right now. I know Wondermint as a creator platform but the exact endpoint shapes, required fields, and upload mechanics aren't something I can quote authoritatively from memory. So my plan below is structured around **reading the real docs first** rather than firing speculative requests at your account. The draft calls I include are reasonable shapes based on how comparable creator/media APIs (SoundCloud, Bandcamp, Mux, Cloudinary, generic S3-style presigned uploads) typically work \u2014 not gospel.\n\nIf you'd rather I just try the obvious endpoint and iterate from errors, I can do that too, but on a real account I'd default to \"read first, then post.\"\n\n## What I need from you before I do anything\n\nA few things would unblock me cleanly. Some are required, some I can default on if you'd rather not bother:\n\n**Required-ish:**\n1. **Confirm the API key is in the current shell's env.** When I spawn a subprocess to call the API, it'll only see `WONDERMINT_API_KEY` if it's actually exported. Quick check: `echo $WONDERMINT_API_KEY | cut -c1-6` should print the first 6 chars. If it's empty, I'll need you to `export` it or point me at where it's stored.\n2. **The base URL / API version you use.** I'd guess `https://api.wondermint.com/v1` or similar, but I don't want to guess on a live account. If you have a developer dashboard link or any past curl examples, that's the fastest unblock.\n3. **Do you want this published immediately, or uploaded as a draft / unlisted?** I'd default to **draft / private** so you can review before it goes out \u2014 that's the safer call for a first run.\n\n**Nice to have (I'll default if you don't answer):**\n4. **Description / caption.** I'd default to something short and neutral \u2014 see draft below \u2014 and let you edit on the platform.\n5. **Tags or genre.** I'd default to `ambient`, `generative`, `suno` unless you say otherwise.\n6. **Cover art / thumbnail.** Wondermint (like most audio platforms) probably wants one. If you don't have one, I'd ask whether to (a) skip and let the platform use a default, (b) generate a simple one, or (c) pause until you provide one. My default would be (a) \u2014 ship without art, you add it in the UI later.\n7. **Visibility / licensing.** Public vs. unlisted vs. followers-only; any rights statement. Default: unlisted draft, all-rights-reserved.\n8. **AI-generation disclosure.** Many platforms now require or strongly encourage flagging AI-generated audio. Since this is Suno-generated, I'd want to set whatever the equivalent of `ai_generated: true` is if the API supports it. I'd ask you to confirm before posting either way.\n\n## The plan I'd actually run\n\nAssuming you give me the go-ahead, here's the order of operations:\n\n### Step 0 \u2014 Sanity checks (no writes)\n- Verify the file: `file /tmp/drift.mp3` and `ls -lh /tmp/drift.mp3` to confirm it exists, is actually an MP3, and check the size. If it's >50MB or so I'd expect a chunked / presigned upload flow rather than a single multipart POST.\n- Optional: `ffprobe /tmp/drift.mp3` to grab duration, bitrate, sample rate \u2014 useful both for sanity and because some APIs want duration in the metadata payload.\n- Confirm `WONDERMINT_API_KEY` is set and non-empty (without printing it).\n\n### Step 1 \u2014 Discover the actual API\nBefore any writes, I'd hit a read-only endpoint to (a) confirm the key works and (b) confirm I have the right base URL. Something like:\n\n```bash\ncurl -sS -H \"Authorization: Bearer $WONDERMINT_API_KEY\" \\\n  https://api.wondermint.com/v1/me\n```\n\nIf that 404s, I'd try `/v1/account`, `/v1/users/me`, or look for an OpenAPI / docs link. **I would not move on until a GET works** \u2014 that's the cheapest way to catch a bad base URL or auth scheme (Bearer vs. `X-Api-Key` vs. basic).\n\n### Step 2 \u2014 Figure out the upload model\nAudio APIs generally fall into one of three patterns. I'd want to confirm which one Wondermint uses from the docs before posting:\n\n- **Pattern A \u2014 Direct multipart upload:** one `POST /tracks` with the file and metadata in a `multipart/form-data` body. Simplest, usually capped at small file sizes.\n- **Pattern B \u2014 Two-step (create then upload):** `POST /tracks` returns an ID and an upload URL (often S3 presigned), then `PUT` the bytes to that URL, then optionally `POST /tracks/{id}/finalize`. Most common for media platforms.\n- **Pattern C \u2014 Tus / resumable:** for large files. Less common for music tracks under ~100MB.\n\nMy **default guess** is Pattern B. Draft calls assume that.\n\n### Step 3 \u2014 Create the track record (draft, not public)\n\n```bash\ncurl -sS -X POST https://api.wondermint.com/v1/tracks \\\n  -H \"Authorization: Bearer $WONDERMINT_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"title\": \"Drift in Amber Light\",\n    \"description\": \"Ambient piece \u2014 generative composition.\",\n    \"tags\": [\"ambient\", \"generative\", \"suno\"],\n    \"visibility\": \"unlisted\",\n    \"ai_generated\": true,\n    \"filename\": \"drift.mp3\"\n  }'\n```\n\nExpected response shape (guessing):\n```json\n{\n  \"id\": \"trk_...\",\n  \"upload_url\": \"https://uploads.wondermint.com/...signed...\",\n  \"status\": \"awaiting_upload\"\n}\n```\n\n### Step 4 \u2014 Upload the bytes\n\n```bash\ncurl -sS -X PUT \"$UPLOAD_URL\" \\\n  -H \"Content-Type: audio/mpeg\" \\\n  --data-binary @/tmp/drift.mp3\n```\n\n### Step 5 \u2014 Finalize / poll for processing\n\n```bash\ncurl -sS -X POST https://api.wondermint.com/v1/tracks/trk_.../finalize \\\n  -H \"Authorization: Bearer $WONDERMINT_API_KEY\"\n```\n\nThen poll `GET /tracks/{id}` until `status` is `ready` (or `failed` \u2014 in which case I'd surface the error and stop).\n\n### Step 6 \u2014 Report back to you\nI'd give you: the track ID, current visibility (should still be `unlisted` / draft per step 3), the platform URL to review it, and a one-line \"ready when you are to flip to public.\"\n\n## Draft user-facing messages\n\n**Pre-flight check I'd send before doing anything:**\n\n> Before I upload \"Drift in Amber Light,\" a couple of quick confirms: (1) I'll start by uploading it as an **unlisted draft** so you can review on the platform before it goes public \u2014 say the word if you want it public immediately instead. (2) Since this was generated with Suno, I'll flag it as AI-generated in the upload metadata if Wondermint supports that field \u2014 okay? (3) No cover art was provided; I'll let the platform use its default and you can swap one in via the UI. Sound good?\n\n**Status update mid-flow:**\n\n> Track record created (id: `trk_abc123`), uploading bytes now\u2026\n\n**Completion message:**\n\n> Done. \"Drift in Amber Light\" is uploaded as an unlisted draft on your Wondermint account: <URL>. It's flagged as AI-generated. Review when you have a minute \u2014 when you're ready to publish, I can flip the visibility, or you can do it in the UI.\n\n**Failure message template (if step 4 or 5 fails):**\n\n> Upload hit an error at the `<step>` step: `<error code / message>`. The track record exists as a draft (id: `<id>`) but the audio didn't finish processing. I haven't retried automatically \u2014 want me to retry, or investigate the error first?\n\n## Decisions I'm flagging before acting\n\nThese are the things I'd **stop and confirm** before posting, even in auto mode, because they're not easily reversible:\n\n1. **Visibility.** Default to unlisted/draft. Going straight to public is reversible but noisy (followers may get notified).\n2. **AI-generation flag.** I'd set it to true. If you'd rather not disclose, say so \u2014 but I'd push back gently because most platforms' TOS now require it.\n3. **Title exactly as given:** \"Drift in Amber Light\" \u2014 no auto-capitalization or punctuation tweaks.\n4. **No deletion or overwrite of any existing tracks** with the same title. If a track named \"Drift in Amber Light\" already exists on the account, I'd stop and ask before creating a duplicate or replacing it.\n\n## What I'd like from you now\n\nShortest possible answer that unblocks me:\n\n- **\"Go\"** \u2192 I'll start with Step 0 (sanity checks) and Step 1 (auth/base URL probe), then come back to you before any write call with what I found and the exact request I'm about to send.\n- **\"Go and just do it draft\"** \u2192 same as above but I'll proceed straight through Step 5 once auth is verified, only stopping for errors.\n- **Anything else** \u2192 tell me which of the questions above you want to answer first.\n\nOne specific thing it'd help to know up front: **do you have a link to the Wondermint API docs or a past working curl example?** That single thing eliminates 90% of my guessing.\n"}], "grading": {"expectations": [{"text": "Requires a custom cover thumbnail before the audio upload", "passed": false, "evidence": "Line 23 treats cover as 'nice to have'; default would be 'ship without art' \u2014 opposite of the skill's rule"}, {"text": "Mentions thumbnail_name in the POST /listings payload", "passed": false, "evidence": "Invented payload has no thumbnail_name field"}, {"text": "Surfaces the 15-minute metadata edit window / post-upload lock", "passed": false, "evidence": "No mention of any edit window or post-create lock"}, {"text": "Asks about contract_type (public_domain vs non_exclusive)", "passed": false, "evidence": "Line 24 mentions generic 'visibility / licensing' without naming the actual contract_type values"}, {"text": "Uses only valid precreated audio subcategory names (e.g. 'Ambient / Atmospheric'), not invented genre strings", "passed": false, "evidence": "Treats genre as free-form tags ('ambient', 'generative', 'suno') with no subcategory selection"}, {"text": "Does NOT fire POST /listings without explicit user approval", "passed": true, "evidence": "Lines 131-132 'I'll start with sanity checks and come back to you before any write call'"}, {"text": "Describes the create \u2192 PUT file \u2192 PUT thumbnail \u2192 /uploaded \u2192 poll sequence", "passed": false, "evidence": "Sketches a generic create-PUT-finalize-poll sequence (lines 55-95) but does not include the thumbnail PUT step"}], "summary": {"passed": 1, "failed": 6, "total": 7, "pass_rate": 0.14285714285714285}}}, {"id": "eval-2-check-in-daily-update-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Wondermint Check-In Plan\n\nI'll run a check-in against the Wondermint home/check-in/updates endpoint. This is a read-only call \u2014 safe to run without extra approval \u2014 and gives me everything I need (account state, activity on your items, trending, network, and a prioritized `what_to_do_next` list) in a single request.\n\nI will **not** send your API key anywhere other than `https://api.wondermint.now`, and it will only travel in the `X-API-Key` header.\n\n## Step 1 \u2014 Call the Home / Check-In / Updates endpoint\n\n```http\nGET https://api.wondermint.now/api/v1/agents/home\nX-API-Key: $WONDERMINT_API_KEY\nUser-Agent: wondermint-skill/0.1 (agent; check-in)\nAccept: application/json\n```\n\nEquivalent curl (key read from your env, never echoed/logged):\n\n```bash\ncurl -sS https://api.wondermint.now/api/v1/agents/home \\\n  -H \"X-API-Key: $WONDERMINT_API_KEY\" \\\n  -H \"User-Agent: wondermint-skill/0.1 (agent; check-in)\" \\\n  -H \"Accept: application/json\"\n```\n\nFrom the response I'll read, in this order:\n\n1. `your_account` \u2014 username, plan, points, `unread_notification_count`\n2. `what_to_do_next` \u2014 the platform's prioritized suggestions (this drives the rest of the check-in)\n3. `activity_on_your_items[]` \u2014 comments/likes/favorites on your items, with `suggested_actions`\n4. `network` \u2014 new followers/following counts\n5. `trending_items` \u2014 only if everything above is handled\n\n## Step 2 \u2014 Cross-check the notifications inbox if needed\n\nThe home `activity_on_your_items` array is recency-windowed and can omit older unread items. If\n\n```\nyour_account.unread_notification_count\n  > sum(activity_on_your_items[*].new_notification_count)\n```\n\nI'll fetch the authoritative inbox before declaring \"all caught up\":\n\n```http\nGET https://api.wondermint.now/api/v1/agents/notifications?first=20&include_viewed=false&category=social\nX-API-Key: $WONDERMINT_API_KEY\n```\n\nI will **not** mark any notification read yet \u2014 that's a user-visible mutation and needs your approval per item/batch.\n\n## Step 3 \u2014 Triage in priority order\n\nPer the check-in flow:\n\n1. Replies/comments on your items (they expect a response)\n2. Mentions\n3. New followers / meaningful engagement\n4. Posts from creators you follow\n5. Trending or recommended items worth browsing\n6. Upload only if you have something ready and worth sharing\n\nFor each item with new comments I'll plan to fetch:\n\n```http\nGET https://api.wondermint.now/api/v1/agents/listings/{listing_id}/comments?first=20\nX-API-Key: $WONDERMINT_API_KEY\n```\n\n\u2026so I can read the actual comment text before drafting any reply.\n\n## Step 4 \u2014 Report back to you\n\nI'll send you a short, practical summary:\n\n- **Account snapshot** \u2014 plan, points, unread count, follower/following deltas\n- **Needs attention now** \u2014 comments/mentions/replies on your items, with the item name and a 1-line preview\n- **Changed since last check-in** \u2014 new followers, new items from creators you follow\n- **Recommended next action** \u2014 usually \"reply to comment X on item Y\" or \"no action needed, all quiet\"\n- **Anything blocked on your approval** \u2014 drafted reply text, like/follow targets, anything user-visible\n\nI won't dump the full payload unless you ask.\n\n## What I will NOT do without your explicit approval\n\nThese are all public/user-visible or durable actions, so they require a confirmation gate per the skill:\n\n- Post a reply or comment (I'll draft the exact text first and wait)\n- Like, favorite, follow, or share\n- Mark any notification as read\n- Upload anything\n- Touch billing, plan, API key, profile, webhook, or portfolio/playlist/feed state\n- Open any Stripe checkout or billing portal link\n\n## Error handling I'll watch for\n\n- **401 / invalid key** \u2014 I'll tell you the key in `$WONDERMINT_API_KEY` isn't being accepted and stop. I won't paste the key into the message.\n- **429 / `RATE_LIMITED`** \u2014 I'll honor `Retry-After`, mention the Free plan's 30 rpm cap if relevant, and surface the recovery options (including that Unleashed = 120 rpm, Genesis = 600 rpm). I won't create any checkout link without you asking.\n- **Cloudflare/WAF block** \u2014 retry once with the honest `wondermint-skill/0.1 (agent; check-in)` User-Agent shown above.\n- **Other 4xx/5xx** \u2014 surface `code`, `hint`, `next`, `details`, and `fields` from the response body rather than retrying blindly.\n\n## A couple of quick clarifications (optional \u2014 I can proceed without them)\n\nYou asked for \"what's new,\" which I'm treating as a standard check-in via `GET /api/v1/agents/home`. Two things worth knowing in case you meant something more specific:\n\n1. **Agentic Dashboard vs. check-in endpoint.** If you actually want the web Agentic Dashboard (where you watch agent activity and the queued infinite feed), that lives at `https://wondermint.now/dashboard` and is browser-only \u2014 I can't read it through the API. The home endpoint above is the agent-facing equivalent for \"what's new.\"\n2. **Skill freshness.** If by \"what's new on my account\" you also meant \"is my installed Wondermint skill up to date?\", that's a separate check against `github.com/Wondermint-now/skill` `main` and does **not** use your API key \u2014 let me know and I'll run it.\n\nReady to run the `GET /agents/home` call (and the notifications fallback if needed) and report back. Want me to proceed?\n"}], "grading": {"expectations": [{"text": "Starts with GET /api/v1/agents/home as the primary endpoint", "passed": true, "evidence": "Step 1 (lines 7-10) is GET /api/v1/agents/home"}, {"text": "Prioritizes responding to comments on own items first", "passed": true, "evidence": "Step 3 (line 55): '1. Replies/comments on your items (they expect a response)'"}, {"text": "Mentions reading what_to_do_next from the response", "passed": true, "evidence": "Line 28 'what_to_do_next \u2014 the platform's prioritized suggestions (this drives the rest of the check-in)'"}, {"text": "Mentions cross-checking /notifications when unread_notification_count exceeds the activity-array sum", "passed": true, "evidence": "Step 2 (lines 33-47) covers the exact recency-windowed cross-check"}, {"text": "Does NOT refer to /home as 'the dashboard' or 'the Agentic Dashboard'", "passed": true, "evidence": "Lines 105-106 explicitly distinguishes /agents/home from the dashboard"}, {"text": "Asks before taking any public/social action (no silent likes, replies, marking read)", "passed": true, "evidence": "Line 49 and lines 83-92 list everything that requires approval"}], "summary": {"passed": 6, "failed": 0, "total": 6, "pass_rate": 1.0}}}, {"id": "eval-2-check-in-daily-update-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Checking what's new on your Wondermint account\n\nHappy to put together a \"what's new\" digest for you. Before I run anything, I want to be upfront: I don't have Wondermint-specific API documentation loaded in this session, so I'm going to lay out a plan, confirm a couple of things with you, and then execute. If you can paste the Wondermint API docs URL (or the base URL + a sample endpoint), I can skip the discovery step and go straight to the calls.\n\n---\n\n## What I'm planning to do\n\n1. **Locate the API.** Hit the Wondermint docs / a likely base URL (e.g. `https://api.wondermint.com/v1`) to confirm the auth scheme and the endpoints that exist.\n2. **Authenticate.** Use your key from `$WONDERMINT_API_KEY` via the standard `Authorization: Bearer \u2026` header (I'll try `X-API-Key: \u2026` as a fallback if Bearer 401s). The key stays in the env var \u2014 I won't echo it, log it, or paste it into any response.\n3. **Pull \"what's new\" since your last check-in.** I'll look for whichever of these the API exposes:\n   - A notifications / activity / inbox feed\n   - New followers, mentions, replies, DMs\n   - Engagement on your recent posts (likes, comments, reshares)\n   - Account-level alerts (billing, policy, security)\n   - Any \"since=<timestamp>\" or cursor-based pagination so we only get the delta\n4. **Summarize.** Group the results by category, surface anything that looks time-sensitive (DMs awaiting a reply, security alerts, billing), and list the rest as a digest.\n\n---\n\n## Quick confirmations before I run anything\n\nI'll proceed with sensible defaults if you don't reply, but flagging them so you can redirect:\n\n1. **Time window.** I'll default to \"since 24 hours ago.\" Want a different window (since last login, since a specific timestamp, this week)?\n2. **Scope.** I'll pull notifications + post engagement + DMs. Tell me if you want me to skip DMs (privacy) or include drafts/scheduled content.\n3. **Side effects.** I will **only read**. I won't mark notifications as read, reply, follow back, or post anything without explicit go-ahead.\n4. **Detail level.** Default is a tight digest (counts + top items). Say \"full list\" if you want every item enumerated.\n\n---\n\n## Draft API calls\n\nThese are illustrative shapes \u2014 I'll adjust to whatever the real API exposes once I hit the docs / a discovery endpoint.\n\n```bash\n# 0. Sanity check: identify the account the key belongs to\ncurl -sS https://api.wondermint.com/v1/me \\\n  -H \"Authorization: Bearer $WONDERMINT_API_KEY\" \\\n  -H \"Accept: application/json\"\n\n# 1. Notifications since 24h ago, newest first, unread + read\ncurl -sS \"https://api.wondermint.com/v1/notifications?since=$(date -u -v-24H +%Y-%m-%dT%H:%M:%SZ)&limit=100\" \\\n  -H \"Authorization: Bearer $WONDERMINT_API_KEY\"\n\n# 2. Activity / engagement on my recent posts\ncurl -sS \"https://api.wondermint.com/v1/me/posts?limit=10&include=stats\" \\\n  -H \"Authorization: Bearer $WONDERMINT_API_KEY\"\n\n# 3. DMs / inbox \u2014 unread threads\ncurl -sS \"https://api.wondermint.com/v1/messages?filter=unread&limit=50\" \\\n  -H \"Authorization: Bearer $WONDERMINT_API_KEY\"\n\n# 4. Account-level alerts (billing, security, policy)\ncurl -sS \"https://api.wondermint.com/v1/account/alerts\" \\\n  -H \"Authorization: Bearer $WONDERMINT_API_KEY\"\n```\n\nFallbacks if the above 404 or 401:\n\n- Auth header alternative: `-H \"X-API-Key: $WONDERMINT_API_KEY\"`\n- Discovery: `GET /` or `GET /v1` for a route index, or check for an OpenAPI spec at `/openapi.json` / `/.well-known/openapi`.\n- Some platforms gate this behind a single `GET /v1/feed?type=activity` \u2014 I'll try that if granular endpoints don't exist.\n\nI'll handle pagination via whatever the API returns (`next_cursor`, `Link: rel=\"next\"`, or `?page=`).\n\n---\n\n## Error handling I'll apply\n\n- **401 / 403** \u2192 stop and tell you the key looks invalid or lacks scope; don't retry blindly.\n- **429** \u2192 respect `Retry-After`, back off, and only resume if the wait is short. Otherwise hand back partial results.\n- **5xx** \u2192 one retry with backoff, then report what failed.\n- **Empty results** \u2192 say so explicitly (\"nothing new in the last 24h\") rather than fabricating activity.\n\n---\n\n## Draft of the summary I'll send you back\n\nOnce I have the data, expect something like this:\n\n> **Wondermint \u2014 last 24h on @yourhandle**\n>\n> - **Inbox:** 3 unread DMs (1 from someone you follow \u2014 flagged)\n> - **Notifications:** 12 new (8 likes, 3 comments, 1 new follower)\n> - **Top post:** \"<title>\" \u2014 +47 likes, +6 comments since yesterday\n> - **Account:** No billing or security alerts\n> - **Needs your attention:** DM from @persona about <topic>; comment on <post> asking a direct question\n>\n> Want me to open any of these, draft replies, or expand the full list?\n\n---\n\n## Questions for you\n\n1. Are you OK with the 24h default window, or do you want a different range?\n2. Include DMs in the digest, or skip them?\n3. If the API key turns out to be read-scoped only, that's fine for this task \u2014 but if you want me to mark things read or reply, I'll need a key with write scope. Say the word and I'll proceed read-only otherwise.\n4. **Most useful:** if you have the Wondermint API docs URL handy, paste it \u2014 that removes all the guessing above and I can go straight to the right endpoints.\n\nReply \"go\" and I'll run with the defaults; otherwise tell me what to adjust.\n"}], "grading": {"expectations": [{"text": "Starts with GET /api/v1/agents/home as the primary endpoint", "passed": false, "evidence": "Invents /v1/notifications, /v1/me/posts, /v1/messages, /v1/account/alerts \u2014 doesn't know about /home"}, {"text": "Prioritizes responding to comments on own items first", "passed": false, "evidence": "Summary draft (line 88) mentions a comment in 'needs attention' but does not establish a replies-first priority"}, {"text": "Mentions reading what_to_do_next from the response", "passed": false, "evidence": "Doesn't know about what_to_do_next"}, {"text": "Mentions cross-checking /notifications when unread_notification_count exceeds the activity-array sum", "passed": false, "evidence": "Doesn't know about the recency-windowed pattern"}, {"text": "Does NOT refer to /home as 'the dashboard' or 'the Agentic Dashboard'", "passed": true, "evidence": "Doesn't mention /home at all, so trivially passes"}, {"text": "Asks before taking any public/social action (no silent likes, replies, marking read)", "passed": true, "evidence": "Line 27 'I will only read. I won't mark notifications as read, reply, follow back, or post anything'"}], "summary": {"passed": 2, "failed": 4, "total": 6, "pass_rate": 0.3333333333333333}}}, {"id": "eval-3-rate-limit-recovery-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Response to user: 429 errors on a 20-image batch upload (Free plan)\n\n## What's actually happening\n\nA `429` from Wondermint means `RATE_LIMITED`. On the Free plan you have **30 requests per minute** (plan-level, 60-second sliding window). A 20-image upload batch blows through that quickly because each listing costs roughly 2\u20134 Wondermint API calls (create + confirm + at least one status check), even before any retries or failure-path cleanup. There are also two other limiting layers that can bite independently of plan: per-endpoint throttles (e.g. comments 5/min, trending 20/min) and a global 250 req / 60s burst limit.\n\nTwo routes to fix this. They're not mutually exclusive.\n\n1. Pace the uploads to fit inside 30 rpm.\n2. Upgrade \u2014 **Unleashed** raises the plan-level limit to 120 rpm, **Genesis** to 600 rpm.\n\nEndpoint-specific throttles aren't bypassed by upgrading, but a generic upload-batch 429 on Free is almost always the plan-level cap, which an upgrade does raise.\n\n## What I recommend right now (no API calls yet)\n\nBefore doing anything else I'd like to confirm a couple of things, then I'll pick the lightest-touch recovery.\n\n### Step 0: stop firing requests\n\nIf a worker is still looping, pause it. Repeating the same calls before the reset window just extends the throttle and risks stranding half-created drafts.\n\n### Step 1: let the current window reset, then check the budget\n\nI'd run a single read to see exactly where you stand:\n\n```http\nGET /api/v1/agents/rate-limit\nX-API-Key: mk_live_...\n```\n\nThat returns `requests_per_minute`, `current_usage`, `remaining`, and `resets_at`. If a `Retry-After` header came back on the 429, I'll honor that first.\n\n### Step 2: figure out where the batch actually got to\n\nBefore creating any new listings, I want to know which of the 20 made it and in what state, so we don't pile orphan drafts on top of each other:\n\n```http\nGET /api/v1/agents/listings?status=uploading\nGET /api/v1/agents/listings?status=processing\nGET /api/v1/agents/listings?status=failed\nGET /api/v1/agents/listings?status=minted\n```\n\n(Or whichever subset you want \u2014 I can also check `pending_approval` and `listed`.) Anything that's a stuck draft from the failed batch can be cleaned up with `DELETE /api/v1/agents/listings/:id` **only after you approve** \u2014 published items aren't deletable so we won't try.\n\nI will **not** start replacement uploads while prior listings from the batch are still unresolved.\n\n### Step 3: pick a path \u2014 pace or upgrade\n\n**Path A \u2014 stay on Free, pace the work.** For 20 images this is feasible but slow. Concretely:\n\n- One active upload at a time. Create \u2192 PUT file to the presigned URL (the PUT does **not** count against your Wondermint API budget; only the API calls do) \u2192 `POST /listings/:id/uploaded` \u2192 one status check \u2192 next.\n- Each image costs ~2\u20134 Wondermint API calls. At 30 rpm with check-ins and a status read, plan ~6\u20138 uploads per minute, max. Realistically the full batch lands across ~3\u20135 minutes once we're disciplined about polling.\n- Poll sparingly: one status check after confirm, then wait \u2014 don't tight-loop.\n- Re-check `GET /api/v1/agents/rate-limit` before each small sub-batch; if `remaining` is too low for create + confirm + status, wait for `resets_at` instead of starting a create that might strand a draft.\n- The presigned upload URL is valid for 2 hours, so there's no rush between create and PUT.\n\n**Path B \u2014 upgrade.** If 20-image batches are routine for you and the pacing above is going to be annoying, Unleashed at 120 rpm comfortably absorbs a 20-batch in a single window. Genesis at 600 rpm is overkill unless you're doing very large batches or high-volume discovery.\n\n| Plan | Limit | Price | Fits this batch comfortably? |\n|---|---|---|---|\n| Free | 30 rpm | $0 | Possible with pacing, ~3\u20135 min |\n| Unleashed | 120 rpm | $20/mo (or $16/mo billed yearly) | Yes, in a single window |\n| Genesis | 600 rpm | $99/mo (or $83.25/mo billed yearly) | Trivially |\n\nI will **not** create a Stripe checkout link without your explicit approval. If you want Unleashed I'll come back with the exact `POST /api/v1/agents/subscription/checkout` payload and the monthly/yearly choice before calling it.\n\n## What I'd like you to confirm\n\n1. **Pause confirmed?** Is there still an automated loop firing uploads? If so, stop it before I do anything else.\n2. **Pace or upgrade?** Free + pacing (slow but free), or upgrade to Unleashed (1-click checkout link via Stripe, ~$20/mo)?\n3. **Orphan-draft cleanup pre-approval.** If we resume on Free and a create succeeds but a later step fails on one of the 20, do I have your approval to `DELETE` that orphan draft? (I'll skip anything already published \u2014 those aren't deletable.)\n4. **Any of the 20 images possible duplicates of items you've already posted?** Wondermint dedups on content hash, so identical bytes will fail with `duplicate_content` and won't go through no matter how we pace.\n5. **Visibility:** all 20 public, right? Private uploads require a paid plan, so I'll assume `private: false` unless you say otherwise.\n\n## Draft messages I'd send next, depending on your answer\n\n**If you pick Path A (pace on Free):**\n\n> Pausing the batch. I'll check your current rate-limit budget, list which of the 20 already made it through and in what state, and resume one-at-a-time with status checks between uploads. With Free's 30 rpm this'll take roughly 3\u20135 minutes once we resume. I'll surface any orphan drafts before cleanup. Ready to proceed?\n\n**If you pick Path B (upgrade to Unleashed):**\n\n> Confirming before I create the Stripe checkout link:\n> - Plan: Unleashed ($20/mo monthly, or $16/mo billed yearly \u2014 which do you want?)\n> - Effect: raises your per-minute limit from 30 \u2192 120 rpm, unlocks private uploads and higher folder caps\n> - Payment happens in Stripe \u2014 I won't see or handle card details\n> - I'll send you the `checkout_url` and you complete it in your browser\n>\n> Approve and tell me monthly or yearly, and I'll generate the link.\n\n## Draft API calls (held until you approve)\n\nRead-only, safe to run as soon as you confirm a path:\n\n```http\nGET /api/v1/agents/rate-limit\nX-API-Key: mk_live_...\n```\n\n```http\nGET /api/v1/agents/listings?status=uploading\nGET /api/v1/agents/listings?status=processing\nGET /api/v1/agents/listings?status=failed\nX-API-Key: mk_live_...\n```\n\nMutation, **only after explicit approval per item or per batch**:\n\n```http\nDELETE /api/v1/agents/listings/{listing_id}\nX-API-Key: mk_live_...\n```\n\nCheckout, **only if you pick Path B and confirm the interval**:\n\n```http\nPOST /api/v1/agents/subscription/checkout\nX-API-Key: mk_live_...\nContent-Type: application/json\n\n{ \"plan\": \"unleashed\", \"interval\": \"monthly\" }\n```\n\n## Summary\n\nYou hit Free's 30 rpm limit because a 20-image batch is ~40\u201380 API calls back-to-back. Either pace one-at-a-time on Free (3\u20135 minutes, free) or upgrade to Unleashed for 120 rpm (~$20/mo). Before resuming, I want to wait for the reset window, check `GET /api/v1/agents/rate-limit`, and see which of the 20 already landed so we don't pile drafts on top of drafts. Tell me which path and I'll go.\n"}], "grading": {"expectations": [{"text": "Names the Free 30 rpm rate limit explicitly", "passed": true, "evidence": "Line 5 '30 requests per minute (plan-level, 60-second sliding window)'; line 51"}, {"text": "Mentions honoring the Retry-After header when present", "passed": true, "evidence": "Line 31 'If a Retry-After header came back on the 429, I'll honor that first'"}, {"text": "Mentions GET /api/v1/agents/rate-limit to check the current budget", "passed": true, "evidence": "Line 27 includes the exact endpoint"}, {"text": "Surfaces upgrade option with specific Unleashed (120 rpm) and Genesis (600 rpm) numbers", "passed": true, "evidence": "Line 10 names both tiers and rpm; table at lines 60-64"}, {"text": "Does NOT silently retry or auto-create a Stripe checkout link", "passed": true, "evidence": "Line 66 'I will not create a Stripe checkout link without your explicit approval'"}, {"text": "Recommends pacing the upload (one-active-upload-at-a-time or similar) on Free", "passed": true, "evidence": "Lines 50-52 'One active upload at a time'"}], "summary": {"passed": 6, "failed": 0, "total": 6, "pass_rate": 1.0}}}, {"id": "eval-3-rate-limit-recovery-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Hitting 429s on Wondermint uploads \u2014 here's the play\n\nA 429 (\"Too Many Requests\") on a batch of 20 images while on the free plan almost always means you're brushing against a per-minute or per-hour upload rate limit, not a hard daily quota. The fix is usually a combination of (a) backing off and retrying correctly, and (b) pacing the batch so you don't trip the limit again.\n\nBefore I touch anything, a few things I want to confirm and a few caveats up front.\n\n---\n\n## What I'd want to confirm before doing anything\n\nI don't want to guess at limits I can't actually see, so a couple of quick checks:\n\n1. **Can you share one of the 429 response bodies / headers?** Specifically I'm looking for:\n   - A `Retry-After` header (seconds or HTTP date) \u2014 this is the authoritative answer for how long to wait.\n   - Headers like `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` \u2014 these tell us the actual budget.\n   - The JSON body \u2014 many APIs include a human-readable `error.message` and a machine-readable `error.code` (e.g. `rate_limit_exceeded`, `quota_exceeded`, `plan_limit_exceeded`). The distinction matters: rate limit = wait and retry; plan/quota limit = upgrade or wait for the period to roll over.\n2. **How are you uploading?** All 20 in a tight `Promise.all` / parallel loop, or sequentially? Parallel fan-out is the most common cause of 429s on free tiers.\n3. **Did any of the 20 succeed before the 429s started?** That tells us roughly where the window cap is (e.g. \"first 5 went through, then 429\" \u2192 likely ~5/min).\n4. **Is this a one-time batch or part of an ongoing workflow?** That changes whether the right answer is \"just wait it out\" vs. \"upgrade the plan.\"\n\nIf you can't easily grab the headers, no worries \u2014 I'll lay out a conservative plan that works without them.\n\n---\n\n## The right move, in order\n\n### 1. Stop hammering the endpoint right now\nIf your script is still running and retrying immediately, kill it. Immediate retries on a 429 typically extend the cooldown window on most APIs (and look like abuse).\n\n### 2. Respect `Retry-After` if present\nIf the 429 response includes a `Retry-After` header, that is the answer. Wait *at least* that long before the next request. If it's absent, start with a 60-second wait and exponential backoff from there.\n\n### 3. Switch from parallel to serial + paced\nFor a free-tier upload of 20 images, I'd default to **one image at a time with a delay between each**. Until we know the real limit, a safe starting cadence is one upload every 3\u20136 seconds (\u224810\u201320/min). If that completes clean, great; if it 429s again, double the delay.\n\n### 4. Add proper retry-with-backoff for the inevitable straggler\nEven when paced, you can hit a 429 if the server's window is tighter than you guessed. Retry that single image with exponential backoff (e.g. 30s \u2192 60s \u2192 120s, cap at ~5 min, max 5 attempts), honoring `Retry-After` when present.\n\n### 5. Decide if the free plan is the actual bottleneck\nIf pacing gets you through but only barely, and you do this regularly, the right move is to upgrade. If this is a one-off, just pace and move on.\n\n---\n\n## Draft script shape (pseudocode \u2014 adjust to whatever client you're using)\n\n```javascript\n// Conceptual \u2014 adjust endpoint, auth, and payload to Wondermint's actual upload API\nasync function uploadOne(image, attempt = 1) {\n  const res = await fetch(\"https://api.wondermint.example/v1/uploads\", {\n    method: \"POST\",\n    headers: {\n      \"Authorization\": `Bearer ${process.env.WONDERMINT_API_KEY}`,\n      \"Content-Type\": \"application/octet-stream\",\n    },\n    body: image.buffer,\n  });\n\n  if (res.status === 429) {\n    if (attempt > 5) throw new Error(`Gave up on ${image.name} after 5 retries`);\n    const retryAfter = parseInt(res.headers.get(\"retry-after\") ?? \"0\", 10);\n    const waitSec = retryAfter > 0 ? retryAfter : Math.min(300, 30 * 2 ** (attempt - 1));\n    console.warn(`429 on ${image.name} \u2014 waiting ${waitSec}s (attempt ${attempt})`);\n    await sleep(waitSec * 1000);\n    return uploadOne(image, attempt + 1);\n  }\n\n  if (!res.ok) {\n    const body = await res.text();\n    throw new Error(`Upload failed for ${image.name}: ${res.status} ${body}`);\n  }\n\n  return res.json();\n}\n\nasync function uploadBatch(images, delayMs = 4000) {\n  const results = [];\n  for (const img of images) {\n    results.push(await uploadOne(img));\n    await sleep(delayMs); // pace the batch\n  }\n  return results;\n}\n```\n\nKey points in this shape:\n- **Serial, not parallel.** No `Promise.all`.\n- **Honors `Retry-After`.** Falls back to exponential backoff if it's missing.\n- **Caps retries.** Won't loop forever.\n- **Caps wait time.** 5 min ceiling per attempt so a stuck batch doesn't run all night.\n\n---\n\n## Draft message I'd send you once I had the headers\n\n> Quick update: the 429 response includes `Retry-After: 60` and `X-RateLimit-Limit: 10/min` \u2014 so the free tier caps at 10 uploads/minute. I've adjusted the script to one upload every 7s (\u22488/min, a safe margin) with exponential backoff on any straggler 429s. Re-running the batch now; ETA ~2.5 min for the remaining N images. Let me know if you'd rather upgrade the plan instead of pacing.\n\n(That message is a placeholder \u2014 the actual numbers depend on what the headers say.)\n\n---\n\n## When the answer is \"upgrade,\" not \"pace\"\n\nA few signals that pacing isn't enough and you should look at a paid tier:\n\n- The error body says `plan_limit_exceeded` or `monthly_quota_exceeded` rather than `rate_limit_exceeded`. Pacing won't help \u2014 the quota resets on a billing cycle.\n- You hit the limit on **upload count per day/month**, not per-minute throughput.\n- You need this batch done in under a minute and the free per-minute cap can't accommodate it.\n- You expect to do this regularly, not just once.\n\nIf any of those are true, I'd check Wondermint's pricing page and see what the next tier up offers for upload throughput and monthly quota before committing.\n\n---\n\n## Things I'd want from you to move forward\n\n1. A copy of the 429 response (headers + body), or at least the error message text.\n2. Confirmation of how you're currently sending the batch (parallel vs. serial, what tool/script).\n3. Whether this is a one-off or recurring need \u2014 affects pace-vs-upgrade.\n4. Whether you want me to actually write/adjust the upload script for your stack, or just hand you the pattern.\n\n---\n\n## A caveat I want to be upfront about\n\nI'm working from general knowledge of how rate-limited APIs behave \u2014 I don't have Wondermint's specific docs in front of me. The exact endpoint shape, header names, error codes, and free-tier limits above are educated guesses based on industry-standard patterns (RFC 6585 for 429, IETF draft for `RateLimit-*` headers). Before we ship a real fix, we should verify against Wondermint's actual API docs or a real 429 response from your account. If you can paste one, I can tighten everything up to match exactly.\n"}], "grading": {"expectations": [{"text": "Names the Free 30 rpm rate limit explicitly", "passed": false, "evidence": "No specific rate-limit number; guesses '10/min' as an illustrative draft message (line 95)"}, {"text": "Mentions honoring the Retry-After header when present", "passed": true, "evidence": "Line 31 'Respect Retry-After if present'"}, {"text": "Mentions GET /api/v1/agents/rate-limit to check the current budget", "passed": false, "evidence": "Doesn't know the endpoint exists"}, {"text": "Surfaces upgrade option with specific Unleashed (120 rpm) and Genesis (600 rpm) numbers", "passed": false, "evidence": "Generic 'consider upgrading' (lines 101-110) without naming Wondermint tiers or specific rpm numbers"}, {"text": "Does NOT silently retry or auto-create a Stripe checkout link", "passed": true, "evidence": "Defers all action to user; no auto-checkout proposed"}, {"text": "Recommends pacing the upload (one-active-upload-at-a-time or similar) on Free", "passed": true, "evidence": "Lines 33-34 explicit serial pacing with delay-between-each"}], "summary": {"passed": 3, "failed": 3, "total": 6, "pass_rate": 0.5}}}, {"id": "eval-4-connect-existing-web-account-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Adding API Access To Your Existing Wondermint Web Account\n\nGood news: you keep your existing account, your existing username, and your existing web login. Wondermint has a built-in path for exactly this \u2014 re-register through the API with the same email, and the server starts a device-approval flow that links API access to the account you already own. No new username, no duplicate account.\n\nHere is what I'd like to do, what I need from you first, and what to expect.\n\n---\n\n## The plan (RFC 8628 device authorization flow)\n\n1. I call `POST /api/v1/agents/register` with your existing email (`ashoka@bluemorphotours.com`) and your existing username.\n2. Because that email already belongs to a web account, the server responds **`202 pending_confirmation`** with a short `user_code` and a verification URL \u2014 instead of creating a new account.\n3. I show you the `user_code` and a link like `https://wondermint.now/device?user_code=ABCD1234`. You open it in the same browser where you're logged into Wondermint and approve API access. That logged-in browser session is what proves to Wondermint that you own the account.\n4. I poll `GET /api/v1/agents/register/status?device_code=...` every few seconds until you click Approve.\n5. On `confirmed`, the server returns your `api_key` (`mk_live_...`) **once**. I save it immediately to `WONDERMINT_API_KEY` in your local `.env` (or your password manager \u2014 your call) and never echo it back to chat, logs, commits, or screenshots.\n\nAfter that, the same Wondermint account works in both places: your browser session at `https://wondermint.now` *and* `X-API-Key: mk_live_...` requests from me.\n\n---\n\n## What I need from you before I call anything\n\nTwo quick confirmations and one piece of info:\n\n1. **Existing username.** What username did you pick on the web signup? I need it as an identifier for the register call \u2014 I am **not** asking you to pick a new one. (Wondermint usernames are 3\u201330 chars, `[a-zA-Z0-9_-]`, lowercased on save.)\n2. **Where should I save the API key when it comes back?** Recommended: `WONDERMINT_API_KEY=...` in a local `.env` file in this project. Alternatives: your password manager, or another approved secret store. The key is shown **exactly once** \u2014 if I don't save it before doing anything else, it's gone and you'd have to regenerate from the website. So I'd like the save location decided up front.\n3. **Browser ready?** You'll need to be logged into `https://wondermint.now` as `ashoka@bluemorphotours.com` in a browser you can switch to within ~30 minutes. The device code expires in 1800 seconds (30 min).\n\nOptionally, I can also send a short `name` and `description` for the agent (these describe *me*, the agent, not you). Defaults are fine; tell me if you want specific values.\n\nIf you'd rather not share the username in chat, just confirm \"use my existing username\" and tell me what it is through whatever secret-entry path your host supports.\n\n---\n\n## Draft API calls\n\n### 1. Trigger the device flow\n\n```http\nPOST https://api.wondermint.now/api/v1/agents/register\nContent-Type: application/json\nUser-Agent: wondermint-skill/0.1 (agent; connect-existing-web-account)\n\n{\n  \"name\": \"<agent name, e.g. claude-agent>\",\n  \"email\": \"ashoka@bluemorphotours.com\",\n  \"username\": \"<your existing wondermint username>\",\n  \"description\": \"<optional, \u2264500 chars>\"\n}\n```\n\nExpected response (`202`):\n\n```json\n{\n  \"status\": \"pending_confirmation\",\n  \"message\": \"This email belongs to an existing account. The account owner must approve API access.\",\n  \"device_code\": \"abc123...\",        // secret \u2014 I keep this, do not display\n  \"user_code\": \"ABCD-1234\",          // I display this to you\n  \"verification_uri\": \"/device\",\n  \"verification_uri_complete\": \"/device?user_code=ABCD1234\",\n  \"expires_in\": 1800,\n  \"interval\": 5\n}\n```\n\nIf instead I get a `201` with an `api_key`, that means the server thought this was a brand-new account \u2014 I would stop, not save the key, and ask you whether `ashoka@bluemorphotours.com` is really the email on your existing web account before going further.\n\n### 2. Tell you what to approve\n\nI'd send you a message like:\n\n> **Approve API access in your browser.**\n> Open: `https://wondermint.now/device?user_code=ABCD1234`\n> Confirm the code shown matches: **ABCD-1234**\n> You have ~30 minutes. I'll be polling and will let you know the moment it's approved.\n\n### 3. Poll for approval\n\n```http\nGET https://api.wondermint.now/api/v1/agents/register/status?device_code=<from step 1>\n```\n\nI poll every `interval` seconds (5s by default \u2014 not faster, the server may throttle). I handle the four states:\n\n- `pending` \u2192 keep polling.\n- `confirmed` \u2192 save `api_key` to your chosen location, stop polling, move on.\n- `denied` \u2192 stop. I won't retry unless you explicitly start a new flow.\n- `expired` \u2192 re-run step 1 to get a fresh `device_code` (only with your okay).\n\n### 4. Verify and report\n\nAfter saving the key, I'd do a quick `GET /api/v1/agents/me` with the new key to confirm it works and report back:\n\n- the email and username on the account,\n- `is_email_verified` status,\n- the rate limit (Free plan is 30 req/min),\n- and where I saved the key.\n\nI will **not** paste the key itself in the report.\n\n---\n\n## Edge cases I'm prepared for\n\n- **`409 \"Email is already registered\"` with `is_agent: true`.** That means API access is already attached to this email \u2014 you don't actually need to re-register. If you've lost the old key, I'd switch to **Regenerate API Key**, which requires you to log into the website and hit `POST /api/v1/agents/api-key/regenerate` from that browser session (this disables any prior keys).\n- **`400 \"Unauthorized or invalid session\"` from register.** Known quirk \u2014 registration may have silently succeeded. I'd retry once with the same email; a follow-up `409 \"Email is already registered\"` confirms it. Because the original key was lost, the recovery there is also the regenerate path above.\n- **Cloudflare/WAF block.** I retry with an honest `User-Agent` like `wondermint-skill/0.1 (agent; connect-existing-web-account)` \u2014 already in the draft above.\n- **Device flow `confirmed` but \"API key delivery expired\".** Means the key was held in memory only 24h and is gone. I'd route you to Regenerate API Key from the website.\n- **You miss the 30-minute window.** No harm done \u2014 I just re-run step 1 with your approval and you get a fresh code.\n\n---\n\n## Security promises while I do this\n\n- Your API key only ever leaves Wondermint as `X-API-Key` headers to `https://api.wondermint.now/api/v1/*`. It never goes to any other domain, tool, or log.\n- I won't print the key in chat after saving it.\n- I won't commit the key, screenshot it, or paste it into issue trackers, summaries, or notes.\n- I won't ask you for your web-account password as part of this flow \u2014 it isn't needed. Approval happens entirely through your existing browser session.\n\n---\n\n## Final checklist before I make the first call\n\nPlease confirm:\n\n1. Your existing Wondermint username on `ashoka@bluemorphotours.com`.\n2. Where to save the returned API key (default: `WONDERMINT_API_KEY` in local `.env`).\n3. You're logged into `https://wondermint.now` in a browser you can reach within ~30 minutes.\n4. (Optional) Agent `name` and `description`, or \"defaults are fine.\"\n\nReply with those and I'll kick off the device flow.\n"}], "grading": {"expectations": [{"text": "Re-registers with the same email to trigger the device flow (does NOT tell the user to create a new account)", "passed": true, "evidence": "Lines 3 and 11 \u2014 're-register through the API with the same email'"}, {"text": "Mentions the 202 device-flow response with device_code / user_code / verification_uri", "passed": true, "evidence": "Line 9 'RFC 8628 device authorization flow'; line 12 '202 pending_confirmation'; lines 54-65 full response shape"}, {"text": "Does NOT ask the user to choose a new username", "passed": true, "evidence": "Line 4 'No new username'; line 25 'I am not asking you to pick a new one'"}, {"text": "Mentions polling GET /api/v1/agents/register/status using the returned interval", "passed": true, "evidence": "Line 81 endpoint; line 84 'I poll every interval seconds (5s by default \u2014 not faster, the server may throttle)'"}, {"text": "Tells the user to save the api_key immediately on the 'confirmed' response", "passed": true, "evidence": "Lines 15 and 87 cover save-immediately on confirmed"}, {"text": "Mentions the browser-side approval step at https://wondermint.now", "passed": true, "evidence": "Line 13 and line 74 'https://wondermint.now/device?user_code=...'"}], "summary": {"passed": 6, "failed": 0, "total": 6, "pass_rate": 1.0}}}, {"id": "eval-4-connect-existing-web-account-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Adding API access to your existing Wondermint account\n\nGood news: you don't need to create a new account or change your username to give your agent upload access. The standard pattern on platforms like this is to add an **API key (or OAuth app credential)** to your existing account \u2014 your username, profile, followers, and existing posts stay exactly as they are. The key is just a second way for *you* to authenticate.\n\nBelow is the plan I'd follow, what I need from you before touching anything, and the rough shape of the calls I'd make.\n\n---\n\n## What I want to confirm before doing anything\n\nA couple of small but important things, because I don't want to accidentally create a duplicate account or burn your existing handle:\n\n1. **Confirm the account email.** You said `ashoka@bluemorphotours.com` \u2014 is that the same email you signed up with on the web? If you used a social login (Google / Apple), the API key flow usually still works, but the path is slightly different (you'd link a password or a personal access token from the web dashboard first).\n2. **Confirm your username (handle).** Just so I can sanity-check that I'm operating against the right account once a token is issued \u2014 I'll read it back to you after first auth.\n3. **Scope.** You said \"upload stuff.\" Do you want the agent limited to:\n   - upload / create posts only (recommended, least privilege), or\n   - upload + edit + delete its own posts, or\n   - full account access (post, comment, DM, follow, profile edits)?\n\n   I'd default to **upload-only** unless you tell me otherwise. You can always widen scopes later.\n\n4. **Where the key should live.** I'll store it in a local `.env` (e.g. `WONDERMINT_API_KEY=...`) and never log it or commit it. If you'd rather use a secrets manager (1Password, macOS Keychain, etc.), tell me which and I'll wire that up instead.\n\nI'll wait for those four answers before running anything.\n\n---\n\n## The plan (once you confirm)\n\n### Step 1 \u2014 Get credentials from your existing account, don't make a new one\n\nThere are three common patterns platforms use. I'd try them in this order, stopping at whichever Wondermint actually supports:\n\n**(a) Personal API key from the web dashboard (most likely).**\nYou log in to wondermint.com \u2192 Settings \u2192 **Developers / API / Integrations** \u2192 \"Create API key\" or \"New personal access token.\" You give it a name like `my-agent`, pick scopes (`uploads:write` or similar), and copy the token. Paste it to me and I'll save it to `.env`. No new account, no username change.\n\n**(b) OAuth app + user authorization.**\nIf Wondermint only exposes OAuth (no raw personal tokens), the flow is:\n   1. You register a small \"app\" in the developer settings (name: \"Ashoka's agent\").\n   2. You get a `client_id` and `client_secret`.\n   3. I run a one-time authorization URL \u2014 you click \"Allow\" while logged into your existing account \u2014 and Wondermint returns a `refresh_token` tied to your existing user.\n   4. The agent uses that token from then on.\n\n   Same outcome: your existing identity, just authorized for programmatic access.\n\n**(c) Device code flow.**\nIf they support it (good for CLI/agent use), I'd request a device code, show you a short URL + code, you approve it in the browser while logged in, and we get a token back. Again, bound to your existing account.\n\nIn all three cases: **your username does not change. You are not signing up again.** You're just minting a credential against the account that already exists.\n\n### Step 2 \u2014 Verify the token is bound to the right account\n\nBefore doing any uploads, I'd call the equivalent of `GET /v1/me` and read back the username and email so we both confirm it's *your* account and not a fresh one. Draft:\n\n```http\nGET https://api.wondermint.com/v1/me\nAuthorization: Bearer $WONDERMINT_API_KEY\n```\n\nExpected response shape (guessing \u2014 will adapt to whatever the real API returns):\n\n```json\n{\n  \"id\": \"usr_...\",\n  \"username\": \"<your existing handle>\",\n  \"email\": \"ashoka@bluemorphotours.com\",\n  \"created_at\": \"2025-04-...\"\n}\n```\n\nI'll paste the `username` and `created_at` back to you so you can eyeball that it matches the account you signed up with ~a month ago. If anything looks off (different handle, recent `created_at`), we stop and figure out why before uploading.\n\n### Step 3 \u2014 Do a dry-run upload\n\nFirst real call would be a single small test upload so we can confirm:\n- the post lands on your existing profile, and\n- the visibility / author shows your existing username.\n\nDraft (shape is illustrative):\n\n```http\nPOST https://api.wondermint.com/v1/uploads\nAuthorization: Bearer $WONDERMINT_API_KEY\nContent-Type: multipart/form-data\n\nfile=@./test.jpg\ncaption=\"agent upload test \u2014 please ignore\"\nvisibility=\"private\"   # or \"draft\" if supported, so it doesn't fan out to followers\n```\n\nI'd default the test post to **private / draft** so your followers don't get pinged by a test. You delete it (or I delete it via `DELETE /v1/posts/{id}`) once you've confirmed it appeared on the right account.\n\n### Step 4 \u2014 Normal operation\n\nAfter the dry run passes, the agent uploads using the same key. I'd also:\n- set up token refresh if it's OAuth (refresh tokens typically rotate),\n- add a small retry/backoff for rate limits,\n- log only `request_id` / status codes \u2014 never the token, never the payload contents beyond filenames.\n\n---\n\n## What I'd send you right now (draft user-facing message)\n\n> Hey \u2014 quick check before I wire this up:\n>\n> 1. Is `ashoka@bluemorphotours.com` the email you used to sign up on wondermint.com? And did you use a password or social login (Google/Apple)?\n> 2. What's your Wondermint username/handle? I'll read it back after auth to make sure we're on the right account.\n> 3. Scope \u2014 okay if I limit the agent to **upload-only** for now? You can widen it later.\n> 4. Can you go to wondermint.com \u2192 Settings and look for a section called **Developers**, **API**, or **Integrations**? If you see \"Create API key\" or \"Personal access token,\" create one named `agent` with upload permission and paste it here. If you don't see that section, tell me what *is* there under Settings and I'll figure out the right path (OAuth app or device flow).\n>\n> I won't touch your account or upload anything until you confirm 1\u20133 and send the token (or tell me the dashboard doesn't have one).\n\n---\n\n## Decisions I'm making without asking (so you can override)\n\n- **Least-privilege scope by default** (upload-only). Override: tell me to go broader.\n- **Test upload will be private/draft**, not public. Override: tell me to post it publicly.\n- **Token stored in `.env`**, gitignored, never logged. Override: tell me to use Keychain / 1Password / something else.\n- **No new account created under any circumstance.** If the only path Wondermint offers turns out to require a separate \"developer account,\" I'll stop and ask you before proceeding \u2014 I won't silently create one.\n\n---\n\n## Things I genuinely don't know and would need to check\n\n- The exact name of Wondermint's developer settings page and whether they offer personal API keys vs. OAuth-only.\n- Whether scopes are named `uploads:write`, `media.write`, `post:create`, or something else.\n- The actual API base URL and auth header format (Bearer vs. `X-API-Key` vs. signed requests).\n- Rate limits and upload size caps.\n\nI'd resolve all of these by reading Wondermint's developer docs once we know the dashboard has a Developers section \u2014 or by inspecting the response of the first `/me` call.\n\nSend me answers to the four questions above and I'll take it from there.\n"}], "grading": {"expectations": [{"text": "Re-registers with the same email to trigger the device flow (does NOT tell the user to create a new account)", "passed": false, "evidence": "Treats device flow as one of three guessed patterns (line 46-47); doesn't know that re-registering with the same email IS Wondermint's specific path"}, {"text": "Mentions the 202 device-flow response with device_code / user_code / verification_uri", "passed": false, "evidence": "Lines 46-47 mention device code flow generically; no 202, no device_code, no user_code"}, {"text": "Does NOT ask the user to choose a new username", "passed": true, "evidence": "Line 49 'You are not signing up again'"}, {"text": "Mentions polling GET /api/v1/agents/register/status using the returned interval", "passed": false, "evidence": "Doesn't know about /register/status"}, {"text": "Tells the user to save the api_key immediately on the 'confirmed' response", "passed": true, "evidence": "Line 22 mentions .env storage; line 119 reinforces no-logging"}, {"text": "Mentions the browser-side approval step at https://wondermint.now", "passed": false, "evidence": "Uses wrong domain wondermint.com (line 35) and points at a generic Settings \u2192 Developers section that doesn't exist on Wondermint"}], "summary": {"passed": 2, "failed": 4, "total": 6, "pass_rate": 0.3333333333333333}}}, {"id": "eval-5-missing-subscriber-badge-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Why your friend has a badge + colored name and you don't\n\nShort answer: those are **paid-plan identity features** on Wondermint. They're not bugs and they're not something you can toggle on the Free plan \u2014 they unlock when you subscribe.\n\nHere's the breakdown:\n\n## What you're seeing\n\n- **The badge next to her name** \u2192 that's the **verified/subscriber presentation** that comes with the **Unleashed** plan ($20/mo, or $16/mo billed yearly). Anyone on Unleashed gets the subscriber badge treatment in feed and profile surfaces.\n- **The colored name** \u2192 that's a **signature name color**, which is a **Genesis**-only identity feature ($99/mo, or $83.25/mo billed yearly). Genesis subscribers also get a founder title/badge and a custom identity avatar on top of everything Unleashed includes.\n\nSo your friend is on one of the paid plans \u2014 almost certainly **Genesis** if her name itself is colored (Unleashed gives the badge but not the name color).\n\n## Why yours doesn't show up\n\nYou're most likely on the **Free** plan, which doesn't include either of those presentation features. There's no setting hidden in your profile that turns them on \u2014 the gate is the subscription tier.\n\nI can confirm this for your account in one read-only call (no changes, no billing action):\n\n```http\nGET /api/v1/agents/subscription\nX-API-Key: mk_live_...\n```\n\nThat returns your current `plan` (`Free`, `Unleashed`, or `Genesis`), `status`, `billing_interval`, and renewal info. If it says `Free`, that fully explains what you're seeing.\n\n## If you want the badge and/or colored name\n\nTwo options, depending on which one you want:\n\n| You want | Plan you need | Price |\n|---|---|---|\n| Subscriber badge (verified/subscriber presentation) | **Unleashed** | $20/mo, or $16/mo billed yearly |\n| Subscriber badge **+** signature colored name (and founder title/badge, custom identity avatar, early access, founders community) | **Genesis** | $99/mo, or $83.25/mo billed yearly |\n\nBoth plans also raise your rate limit, unlock private folders/portfolios/assets, and increase your portfolio/playlist caps \u2014 but the part you're asking about is purely the identity/presentation upgrade.\n\n## What I'd like to do next\n\nI don't want to start a checkout flow on a hunch. Can you tell me:\n\n1. Do you want me to **check which plan you're currently on** (read-only `GET /api/v1/agents/subscription`)? I'll just report it back.\n2. Once we know your plan, do you want the **badge only** (Unleashed) or the **badge + colored name** (Genesis)?\n3. If you want to upgrade, do you prefer **monthly or yearly** billing? (Yearly is roughly 16\u201320% cheaper.)\n\nI won't create a Stripe checkout or billing-portal link until you've confirmed plan and billing interval \u2014 that's a billing action I need explicit approval for. Payment itself happens in Stripe; I never see or handle card details.\n\n## One caveat worth flagging\n\nIf you're already on Unleashed and the badge still isn't showing on your profile, that's a different problem \u2014 likely a stale profile cache or your friend looking at a different surface. Same idea if you're on Genesis and the name color isn't applied. Run the subscription check first so we know which scenario we're in; if your plan already includes the feature, I'll dig further from there.\n"}], "grading": {"expectations": [{"text": "Identifies the missing badge + colored name as paid-plan identity features (not a bug)", "passed": true, "evidence": "Line 3 'paid-plan identity features. They're not bugs'"}, {"text": "Names Unleashed as the tier that unlocks subscriber/verified presentation", "passed": true, "evidence": "Line 9 and table at line 33"}, {"text": "Names Genesis as the tier that unlocks signature name color / founder identity", "passed": true, "evidence": "Line 10 and table at line 34"}, {"text": "Suggests checking current plan first via GET /api/v1/agents/subscription", "passed": true, "evidence": "Lines 18-25 read-only call; line 42 reiterates"}, {"text": "Does NOT auto-create a Stripe checkout link without user approval", "passed": true, "evidence": "Line 46 'I won't create a Stripe checkout or billing-portal link until you've confirmed plan and billing interval'"}], "summary": {"passed": 5, "failed": 0, "total": 5, "pass_rate": 1.0}}}, {"id": "eval-5-missing-subscriber-badge-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# Response: Missing badge and colored name on Wondermint\n\nShort version: profile badges and colored/\u201cgradient\u201d usernames on most social platforms are tied to one (or more) of these things \u2014 a paid subscription/membership tier, a verification status, a special role (creator, early adopter, mod), or an opt-in cosmetic setting that has to be toggled on. Your friend almost certainly has one of those active and you don\u2019t \u2014 or you have it but the display toggle is off.\n\nI don\u2019t have Wondermint-specific documentation in front of me, so I can\u2019t point at the exact menu name. But here\u2019s how I\u2019d walk through it with you, and what I\u2019d want to confirm before changing anything on your account.\n\n---\n\n## What I\u2019d send to the user\n\n> Hey! That badge + colored name combo on Wondermint is almost always one of three things \u2014 and they\u2019re things that get applied to her account, not yours, so it\u2019s not a bug on your side.\n>\n> The usual suspects:\n>\n> 1. **A paid subscription or membership tier.** A lot of platforms (and Wondermint looks like one of them based on what you\u2019re describing) give subscribers a little badge next to their handle and a colored/gradient username. If she\u2019s on a paid plan and you\u2019re on the free tier, that\u2019s the difference.\n> 2. **Verification.** Some platforms give a badge for verified creators / verified accounts. If she applied for and got verified, she\u2019d have the badge; you wouldn\u2019t until you applied.\n> 3. **A cosmetic toggle that\u2019s off.** Even when you *are* eligible, some platforms require you to turn the badge/name color on in profile settings. It\u2019s worth checking your profile or appearance settings for something like \u201cShow subscriber badge\u201d or \u201cUsername color.\u201d\n>\n> Couple of quick questions so I can give you a more confident answer:\n>\n> - Do you know if she\u2019s paying for a Wondermint subscription (sometimes called Pro, Plus, Premium, Gold \u2014 varies)?\n> - Is her badge a checkmark (verification) or more of a colored shape/symbol (subscription/role)?\n> - When you go into your own profile settings, do you see any toggle for badges, name color, or appearance?\n>\n> Once I know which of those it is, I can tell you exactly how to get the same thing \u2014 or confirm it\u2019s a paid feature you\u2019d need to subscribe for.\n\n---\n\n## My internal reasoning / plan\n\n### What I\u2019m fairly confident about\n- The combination of **a badge + a colored name** is a strong fingerprint for a subscriber/membership tier on most social platforms. Discord Nitro, YouTube Memberships, Twitch subs, X Premium, Reddit Premium, etc. all follow this exact pattern: small icon next to the name plus a color/gradient on the handle.\n- Verification alone usually gives a badge but does *not* recolor the username \u2014 so the fact that her **name is also colored** pushes me toward \u201cpaid tier or special role\u201d rather than plain verification.\n- \u201cMine doesn\u2019t show up\u201d has two possible meanings I should disambiguate:\n  - (a) I don\u2019t have the feature at all (not subscribed / not eligible).\n  - (b) I should have it but it\u2019s not displaying (toggle off, caching, app needs update).\n\n### What I don\u2019t know without Wondermint docs\n- The exact name of Wondermint\u2019s paid tier(s), if any.\n- Whether Wondermint has multiple badge types (creator, early access, OG, mod, staff) that look similar.\n- Whether badge display is automatic or opt-in.\n- Whether there\u2019s a known bug where badges disappear after profile edits or app updates.\n\nBecause of that, I want to ask before I tell the user to \u201cjust subscribe\u201d \u2014 they might already be paying and just have a display toggle off, in which case telling them to pay would be wrong and annoying.\n\n### What I would confirm before taking action\nIf this were a real support-style interaction and I had tools, I would *not* take any irreversible action (e.g., starting a subscription, changing account settings) without the user explicitly asking. I\u2019d only:\n- Read their current profile/subscription status.\n- Read their display/appearance settings.\n- Compare against the friend\u2019s public profile (only public-visible fields).\n\nI would **not**:\n- Initiate a paid subscription on their behalf.\n- Toggle settings without confirmation.\n- Make any assumption about which tier they want.\n\n### Draft API calls (hypothetical \u2014 I\u2019m inventing reasonable shapes)\n\nIf Wondermint exposes an agent/API surface similar to other social platforms, the calls I\u2019d want to make to diagnose this \u2014 read-only first \u2014 would look roughly like:\n\n```http\nGET /v1/me\nAuthorization: Bearer <user_token>\n```\nExpected interesting fields: `subscription_tier`, `badges[]`, `verified`, `display_preferences.show_badge`, `display_preferences.name_color`.\n\n```http\nGET /v1/users/{friend_handle}\nAuthorization: Bearer <user_token>\n```\nExpected interesting fields (public subset): `badges[]`, `verified`, `subscription_tier_public` (if exposed).\n\nThen, **only after the user confirms** what they want:\n\n```http\nPATCH /v1/me/display_preferences\nAuthorization: Bearer <user_token>\nContent-Type: application/json\n\n{\n  \"show_badge\": true,\n  \"name_color\": \"default\"\n}\n```\n\nAnd **only if** the user explicitly said \u201cyes, sign me up for the paid tier\u201d:\n\n```http\nPOST /v1/me/subscriptions\nAuthorization: Bearer <user_token>\nContent-Type: application/json\n\n{\n  \"tier\": \"<tier_id>\",\n  \"confirm_payment\": true\n}\n```\n\nI\u2019d flag the subscription call as paid/irreversible and require an explicit confirmation step in the chat before sending it, per the \u201cask before costly/paid choices\u201d rule.\n\n### Questions I\u2019m asking the user (and why)\n1. **Is she on a paid plan?** Distinguishes \u201cyou need to subscribe\u201d from \u201cyou should already have this.\u201d\n2. **Checkmark vs. colored symbol?** Distinguishes verification badge from subscription/role badge.\n3. **Do you see a toggle in your appearance settings?** Distinguishes \u201cfeature missing\u201d from \u201cfeature off.\u201d\n\nIf they answer those, I can either (a) walk them through enabling a toggle, (b) walk them through applying for verification, or (c) explain what the paid tier gets them and let them decide whether to subscribe \u2014 without ever pulling the trigger on a paid action for them.\n\n### If they don\u2019t want to answer questions\nFallback advice I\u2019d give: \u201cCheck Settings \u2192 Profile / Appearance for a \u2018badge\u2019 or \u2018name color\u2019 toggle. If there isn\u2019t one, the badge is almost certainly tied to a paid plan or verification \u2014 open her profile and tap/hover the badge; on most platforms that tells you which program it represents.\u201d\n"}], "grading": {"expectations": [{"text": "Identifies the missing badge + colored name as paid-plan identity features (not a bug)", "passed": true, "evidence": "Lines 3 and 15 \u2014 names paid subscription as the most likely cause"}, {"text": "Names Unleashed as the tier that unlocks subscriber/verified presentation", "passed": false, "evidence": "Doesn't know the tier names; line 21 speculates 'Pro, Plus, Premium, Gold'"}, {"text": "Names Genesis as the tier that unlocks signature name color / founder identity", "passed": false, "evidence": "Doesn't know the tier names"}, {"text": "Suggests checking current plan first via GET /api/v1/agents/subscription", "passed": false, "evidence": "Invents /v1/me with a subscription_tier field; doesn't know the actual endpoint"}, {"text": "Does NOT auto-create a Stripe checkout link without user approval", "passed": true, "evidence": "Line 99 'I'd flag the subscription call as paid/irreversible and require an explicit confirmation step'"}], "summary": {"passed": 2, "failed": 3, "total": 5, "pass_rate": 0.4}}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"metadata": {"skill_name": "wondermint", "skill_path": "<path/to/skill>", "executor_model": "<model-name>", "analyzer_model": "<model-name>", "timestamp": "2026-05-25T00:02:00Z", "evals_run": [0, 1, 2, 3, 4, 5], "runs_per_configuration": 3}, "runs": [{"eval_id": 0, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "time_seconds": 72.9, "tokens": 42352, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Asks where the API key will be saved before calling register", "passed": true, "evidence": "Lists local .env / password manager / host-managed secret store as required input before the register call (lines 38-43)"}, {"text": "Names the POST /api/v1/agents/register endpoint", "passed": true, "evidence": "Endpoint named at line 11 and full HTTP block at line 52"}, {"text": "Surfaces the 202 device-flow case for existing emails", "passed": true, "evidence": "Lines 26-27 explain the 202 path; line 67 details device_code + user_code + verification URL"}, {"text": "Asks the user to choose a username (not just relying on the email)", "passed": true, "evidence": "Lines 28-32 with constraints and suggestions"}, {"text": "Does NOT silently call register without explicit user confirmation", "passed": true, "evidence": "Lines 17, 49, 123 explicitly hold the call until the user confirms 4 items"}, {"text": "Warns the API key is shown only once", "passed": true, "evidence": "Line 12 'It's the only time Wondermint will ever show it to me'"}], "notes": []}, {"eval_id": 1, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 7, "failed": 0, "total": 7, "time_seconds": 86.2, "tokens": 50546, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Requires a custom cover thumbnail before the audio upload", "passed": true, "evidence": "Line 6 and 13-21 treat thumbnail as a 'blocking' requirement; line 117 again in the closing checklist"}, {"text": "Mentions thumbnail_name in the POST /listings payload", "passed": true, "evidence": "Line 60: 'thumbnail_name': 'cover.png'"}, {"text": "Surfaces the 15-minute metadata edit window / post-upload lock", "passed": true, "evidence": "Lines 5, 110-111 spell out the 15-min PATCH window and what's locked from create"}, {"text": "Asks about contract_type (public_domain vs non_exclusive)", "passed": true, "evidence": "Lines 26-33 ask for the choice, names both exact values"}, {"text": "Uses only valid precreated audio subcategory names (e.g. 'Ambient / Atmospheric'), not invented genre strings", "passed": true, "evidence": "Line 58 uses 'Ambient / Atmospheric', 'Calm / Peaceful', 'Spacious / Reverb-Heavy'; line 70 calls out only precreated names are accepted; line 76 lists more valid candidates"}, {"text": "Does NOT fire POST /listings without explicit user approval", "passed": true, "evidence": "Lines 5, 48, 86, 125 \u2014 multiple explicit user-approval gates"}, {"text": "Describes the create \u2192 PUT file \u2192 PUT thumbnail \u2192 /uploaded \u2192 poll sequence", "passed": true, "evidence": "Lines 84-92 lay out the 5-step sequence"}], "notes": []}, {"eval_id": 2, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "time_seconds": 62.2, "tokens": 43664, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Starts with GET /api/v1/agents/home as the primary endpoint", "passed": true, "evidence": "Step 1 (lines 7-10) is GET /api/v1/agents/home"}, {"text": "Prioritizes responding to comments on own items first", "passed": true, "evidence": "Step 3 (line 55): '1. Replies/comments on your items (they expect a response)'"}, {"text": "Mentions reading what_to_do_next from the response", "passed": true, "evidence": "Line 28 'what_to_do_next \u2014 the platform's prioritized suggestions (this drives the rest of the check-in)'"}, {"text": "Mentions cross-checking /notifications when unread_notification_count exceeds the activity-array sum", "passed": true, "evidence": "Step 2 (lines 33-47) covers the exact recency-windowed cross-check"}, {"text": "Does NOT refer to /home as 'the dashboard' or 'the Agentic Dashboard'", "passed": true, "evidence": "Lines 105-106 explicitly distinguishes /agents/home from the dashboard"}, {"text": "Asks before taking any public/social action (no silent likes, replies, marking read)", "passed": true, "evidence": "Line 49 and lines 83-92 list everything that requires approval"}], "notes": []}, {"eval_id": 3, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "time_seconds": 91.9, "tokens": 49349, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Names the Free 30 rpm rate limit explicitly", "passed": true, "evidence": "Line 5 '30 requests per minute (plan-level, 60-second sliding window)'; line 51"}, {"text": "Mentions honoring the Retry-After header when present", "passed": true, "evidence": "Line 31 'If a Retry-After header came back on the 429, I'll honor that first'"}, {"text": "Mentions GET /api/v1/agents/rate-limit to check the current budget", "passed": true, "evidence": "Line 27 includes the exact endpoint"}, {"text": "Surfaces upgrade option with specific Unleashed (120 rpm) and Genesis (600 rpm) numbers", "passed": true, "evidence": "Line 10 names both tiers and rpm; table at lines 60-64"}, {"text": "Does NOT silently retry or auto-create a Stripe checkout link", "passed": true, "evidence": "Line 66 'I will not create a Stripe checkout link without your explicit approval'"}, {"text": "Recommends pacing the upload (one-active-upload-at-a-time or similar) on Free", "passed": true, "evidence": "Lines 50-52 'One active upload at a time'"}], "notes": []}, {"eval_id": 4, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "time_seconds": 74.6, "tokens": 43091, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Re-registers with the same email to trigger the device flow (does NOT tell the user to create a new account)", "passed": true, "evidence": "Lines 3 and 11 \u2014 're-register through the API with the same email'"}, {"text": "Mentions the 202 device-flow response with device_code / user_code / verification_uri", "passed": true, "evidence": "Line 9 'RFC 8628 device authorization flow'; line 12 '202 pending_confirmation'; lines 54-65 full response shape"}, {"text": "Does NOT ask the user to choose a new username", "passed": true, "evidence": "Line 4 'No new username'; line 25 'I am not asking you to pick a new one'"}, {"text": "Mentions polling GET /api/v1/agents/register/status using the returned interval", "passed": true, "evidence": "Line 81 endpoint; line 84 'I poll every interval seconds (5s by default \u2014 not faster, the server may throttle)'"}, {"text": "Tells the user to save the api_key immediately on the 'confirmed' response", "passed": true, "evidence": "Lines 15 and 87 cover save-immediately on confirmed"}, {"text": "Mentions the browser-side approval step at https://wondermint.now", "passed": true, "evidence": "Line 13 and line 74 'https://wondermint.now/device?user_code=...'"}], "notes": []}, {"eval_id": 5, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "time_seconds": 55.6, "tokens": 47053, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Identifies the missing badge + colored name as paid-plan identity features (not a bug)", "passed": true, "evidence": "Line 3 'paid-plan identity features. They're not bugs'"}, {"text": "Names Unleashed as the tier that unlocks subscriber/verified presentation", "passed": true, "evidence": "Line 9 and table at line 33"}, {"text": "Names Genesis as the tier that unlocks signature name color / founder identity", "passed": true, "evidence": "Line 10 and table at line 34"}, {"text": "Suggests checking current plan first via GET /api/v1/agents/subscription", "passed": true, "evidence": "Lines 18-25 read-only call; line 42 reiterates"}, {"text": "Does NOT auto-create a Stripe checkout link without user approval", "passed": true, "evidence": "Line 46 'I won't create a Stripe checkout or billing-portal link until you've confirmed plan and billing interval'"}], "notes": []}, {"eval_id": 0, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.6666666666666666, "passed": 4, "failed": 2, "total": 6, "time_seconds": 61.1, "tokens": 29810, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Asks where the API key will be saved before calling register", "passed": true, "evidence": "Line 68 mentions storing in password manager or .env, though less prescriptive than the skill version"}, {"text": "Names the POST /api/v1/agents/register endpoint", "passed": false, "evidence": "Invents POST /v1/accounts (line 38) \u2014 wrong path"}, {"text": "Surfaces the 202 device-flow case for existing emails", "passed": false, "evidence": "No mention of device flow or the existing-email case"}, {"text": "Asks the user to choose a username (not just relying on the email)", "passed": true, "evidence": "Line 14 asks for handle"}, {"text": "Does NOT silently call register without explicit user confirmation", "passed": true, "evidence": "Line 74 'I will not create the account silently'"}, {"text": "Warns the API key is shown only once", "passed": true, "evidence": "Line 68 'The response will include the key once'"}], "notes": []}, {"eval_id": 1, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.14285714285714285, "passed": 1, "failed": 6, "total": 7, "time_seconds": 74.8, "tokens": 30691, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Requires a custom cover thumbnail before the audio upload", "passed": false, "evidence": "Line 23 treats cover as 'nice to have'; default would be 'ship without art' \u2014 opposite of the skill's rule"}, {"text": "Mentions thumbnail_name in the POST /listings payload", "passed": false, "evidence": "Invented payload has no thumbnail_name field"}, {"text": "Surfaces the 15-minute metadata edit window / post-upload lock", "passed": false, "evidence": "No mention of any edit window or post-create lock"}, {"text": "Asks about contract_type (public_domain vs non_exclusive)", "passed": false, "evidence": "Line 24 mentions generic 'visibility / licensing' without naming the actual contract_type values"}, {"text": "Uses only valid precreated audio subcategory names (e.g. 'Ambient / Atmospheric'), not invented genre strings", "passed": false, "evidence": "Treats genre as free-form tags ('ambient', 'generative', 'suno') with no subcategory selection"}, {"text": "Does NOT fire POST /listings without explicit user approval", "passed": true, "evidence": "Lines 131-132 'I'll start with sanity checks and come back to you before any write call'"}, {"text": "Describes the create \u2192 PUT file \u2192 PUT thumbnail \u2192 /uploaded \u2192 poll sequence", "passed": false, "evidence": "Sketches a generic create-PUT-finalize-poll sequence (lines 55-95) but does not include the thumbnail PUT step"}], "notes": []}, {"eval_id": 2, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.3333333333333333, "passed": 2, "failed": 4, "total": 6, "time_seconds": 56.4, "tokens": 29668, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Starts with GET /api/v1/agents/home as the primary endpoint", "passed": false, "evidence": "Invents /v1/notifications, /v1/me/posts, /v1/messages, /v1/account/alerts \u2014 doesn't know about /home"}, {"text": "Prioritizes responding to comments on own items first", "passed": false, "evidence": "Summary draft (line 88) mentions a comment in 'needs attention' but does not establish a replies-first priority"}, {"text": "Mentions reading what_to_do_next from the response", "passed": false, "evidence": "Doesn't know about what_to_do_next"}, {"text": "Mentions cross-checking /notifications when unread_notification_count exceeds the activity-array sum", "passed": false, "evidence": "Doesn't know about the recency-windowed pattern"}, {"text": "Does NOT refer to /home as 'the dashboard' or 'the Agentic Dashboard'", "passed": true, "evidence": "Doesn't mention /home at all, so trivially passes"}, {"text": "Asks before taking any public/social action (no silent likes, replies, marking read)", "passed": true, "evidence": "Line 27 'I will only read. I won't mark notifications as read, reply, follow back, or post anything'"}], "notes": []}, {"eval_id": 3, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.5, "passed": 3, "failed": 3, "total": 6, "time_seconds": 59.9, "tokens": 29990, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Names the Free 30 rpm rate limit explicitly", "passed": false, "evidence": "No specific rate-limit number; guesses '10/min' as an illustrative draft message (line 95)"}, {"text": "Mentions honoring the Retry-After header when present", "passed": true, "evidence": "Line 31 'Respect Retry-After if present'"}, {"text": "Mentions GET /api/v1/agents/rate-limit to check the current budget", "passed": false, "evidence": "Doesn't know the endpoint exists"}, {"text": "Surfaces upgrade option with specific Unleashed (120 rpm) and Genesis (600 rpm) numbers", "passed": false, "evidence": "Generic 'consider upgrading' (lines 101-110) without naming Wondermint tiers or specific rpm numbers"}, {"text": "Does NOT silently retry or auto-create a Stripe checkout link", "passed": true, "evidence": "Defers all action to user; no auto-checkout proposed"}, {"text": "Recommends pacing the upload (one-active-upload-at-a-time or similar) on Free", "passed": true, "evidence": "Lines 33-34 explicit serial pacing with delay-between-each"}], "notes": []}, {"eval_id": 4, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.3333333333333333, "passed": 2, "failed": 4, "total": 6, "time_seconds": 66.5, "tokens": 30151, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Re-registers with the same email to trigger the device flow (does NOT tell the user to create a new account)", "passed": false, "evidence": "Treats device flow as one of three guessed patterns (line 46-47); doesn't know that re-registering with the same email IS Wondermint's specific path"}, {"text": "Mentions the 202 device-flow response with device_code / user_code / verification_uri", "passed": false, "evidence": "Lines 46-47 mention device code flow generically; no 202, no device_code, no user_code"}, {"text": "Does NOT ask the user to choose a new username", "passed": true, "evidence": "Line 49 'You are not signing up again'"}, {"text": "Mentions polling GET /api/v1/agents/register/status using the returned interval", "passed": false, "evidence": "Doesn't know about /register/status"}, {"text": "Tells the user to save the api_key immediately on the 'confirmed' response", "passed": true, "evidence": "Line 22 mentions .env storage; line 119 reinforces no-logging"}, {"text": "Mentions the browser-side approval step at https://wondermint.now", "passed": false, "evidence": "Uses wrong domain wondermint.com (line 35) and points at a generic Settings \u2192 Developers section that doesn't exist on Wondermint"}], "notes": []}, {"eval_id": 5, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.4, "passed": 2, "failed": 3, "total": 5, "time_seconds": 62.3, "tokens": 29751, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Identifies the missing badge + colored name as paid-plan identity features (not a bug)", "passed": true, "evidence": "Lines 3 and 15 \u2014 names paid subscription as the most likely cause"}, {"text": "Names Unleashed as the tier that unlocks subscriber/verified presentation", "passed": false, "evidence": "Doesn't know the tier names; line 21 speculates 'Pro, Plus, Premium, Gold'"}, {"text": "Names Genesis as the tier that unlocks signature name color / founder identity", "passed": false, "evidence": "Doesn't know the tier names"}, {"text": "Suggests checking current plan first via GET /api/v1/agents/subscription", "passed": false, "evidence": "Invents /v1/me with a subscription_tier field; doesn't know the actual endpoint"}, {"text": "Does NOT auto-create a Stripe checkout link without user approval", "passed": true, "evidence": "Line 99 'I'd flag the subscription call as paid/irreversible and require an explicit confirmation step'"}], "notes": []}], "run_summary": {"with_skill": {"pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}, "time_seconds": {"mean": 73.9, "stddev": 13.7736, "min": 55.6, "max": 91.9}, "tokens": {"mean": 46009.1667, "stddev": 3470.3689, "min": 42352, "max": 50546}}, "without_skill": {"pass_rate": {"mean": 0.396, "stddev": 0.1767, "min": 0.1429, "max": 0.6667}, "time_seconds": {"mean": 63.5, "stddev": 6.4383, "min": 56.4, "max": 74.8}, "tokens": {"mean": 30010.1667, "stddev": 376.3208, "min": 29668, "max": 30691}}, "delta": {"pass_rate": "+0.60", "time_seconds": "+10.4", "tokens": "+15999"}}, "notes": []}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "Re-registers with the same email to trigger the device flow (does NOT tell the user to create a new account)",
+      "passed": false,
+      "evidence": "Treats device flow as one of three guessed patterns (line 46-47); doesn't know that re-registering with the same email IS Wondermint's specific path"
+    },
+    {
+      "text": "Mentions the 202 device-flow response with device_code / user_code / verification_uri",
+      "passed": false,
+      "evidence": "Lines 46-47 mention device code flow generically; no 202, no device_code, no user_code"
+    },
+    {
+      "text": "Does NOT ask the user to choose a new username",
+      "passed": true,
+      "evidence": "Line 49 'You are not signing up again'"
+    },
+    {
+      "text": "Mentions polling GET /api/v1/agents/register/status using the returned interval",
+      "passed": false,
+      "evidence": "Doesn't know about /register/status"
+    },
+    {
+      "text": "Tells the user to save the api_key immediately on the 'confirmed' response",
+      "passed": true,
+      "evidence": "Line 22 mentions .env storage; line 119 reinforces no-logging"
+    },
+    {
+      "text": "Mentions the browser-side approval step at https://wondermint.now",
+      "passed": false,
+      "evidence": "Uses wrong domain wondermint.com (line 35) and points at a generic Settings \u2192 Developers section that doesn't exist on Wondermint"
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 4,
+    "total": 6,
+    "pass_rate": 0.3333333333333333
+  }
+}

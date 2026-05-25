@@ -1,0 +1,12 @@
+{
+  "expectations": [
+    {"text": "Requires a custom cover thumbnail before the audio upload", "passed": true, "evidence": "Lines 27-33 hard-blocker callout; line 11 'this matters — confirming before the cover is in place can fail'"},
+    {"text": "Mentions thumbnail_name in the POST /listings payload", "passed": true, "evidence": "Lines 71 and 111 in the draft JSON"},
+    {"text": "Surfaces the 15-minute metadata edit window / post-upload lock", "passed": true, "evidence": "Line 3 and lines 130-131"},
+    {"text": "Asks about contract_type (public_domain vs non_exclusive)", "passed": true, "evidence": "Lines 42-49 with both values named"},
+    {"text": "Uses only valid precreated audio subcategory names (e.g. 'Ambient / Atmospheric'), not invented genre strings", "passed": true, "evidence": "Lines 77, 84-86 and the explicit 'paraphrases get rejected' note at line 90"},
+    {"text": "Does NOT fire POST /listings without explicit user approval", "passed": true, "evidence": "Line 23 'I won't proceed without this'; line 149 'explicit go-ahead before the first POST'"},
+    {"text": "Describes the create → PUT file → PUT thumbnail → /uploaded → poll sequence", "passed": true, "evidence": "Lines 13-17 (overview) and lines 100-118 (full HTTP blocks)"}
+  ],
+  "summary": {"passed": 7, "failed": 0, "total": 7, "pass_rate": 1.0}
+}

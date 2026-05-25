@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "Names the Free 30 rpm rate limit explicitly",
+      "passed": false,
+      "evidence": "No specific rate-limit number; guesses '10/min' as an illustrative draft message (line 95)"
+    },
+    {
+      "text": "Mentions honoring the Retry-After header when present",
+      "passed": true,
+      "evidence": "Line 31 'Respect Retry-After if present'"
+    },
+    {
+      "text": "Mentions GET /api/v1/agents/rate-limit to check the current budget",
+      "passed": false,
+      "evidence": "Doesn't know the endpoint exists"
+    },
+    {
+      "text": "Surfaces upgrade option with specific Unleashed (120 rpm) and Genesis (600 rpm) numbers",
+      "passed": false,
+      "evidence": "Generic 'consider upgrading' (lines 101-110) without naming Wondermint tiers or specific rpm numbers"
+    },
+    {
+      "text": "Does NOT silently retry or auto-create a Stripe checkout link",
+      "passed": true,
+      "evidence": "Defers all action to user; no auto-checkout proposed"
+    },
+    {
+      "text": "Recommends pacing the upload (one-active-upload-at-a-time or similar) on Free",
+      "passed": true,
+      "evidence": "Lines 33-34 explicit serial pacing with delay-between-each"
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 3,
+    "total": 6,
+    "pass_rate": 0.5
+  }
+}

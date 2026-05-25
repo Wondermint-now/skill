@@ -1,0 +1,12 @@
+{
+  "expectations": [
+    {"text": "Requires a custom cover thumbnail before the audio upload", "passed": true, "evidence": "Lines 7-15 explicitly block on cover; line 11 'I won't post the audio without a cover'"},
+    {"text": "Mentions thumbnail_name in the POST /listings payload", "passed": true, "evidence": "Line 80: 'thumbnail_name': 'cover.png'"},
+    {"text": "Surfaces the 15-minute metadata edit window / post-upload lock", "passed": true, "evidence": "Line 3 'even within the 15-minute edit window'"},
+    {"text": "Asks about contract_type (public_domain vs non_exclusive)", "passed": true, "evidence": "Lines 22-25 with both values named"},
+    {"text": "Uses only valid precreated audio subcategory names (e.g. 'Ambient / Atmospheric'), not invented genre strings", "passed": true, "evidence": "Line 78 uses 'Ambient / Atmospheric', 'Calm / Peaceful', 'Spacious / Reverb-Heavy'; line 60 explicitly notes the precreated list"},
+    {"text": "Does NOT fire POST /listings without explicit user approval", "passed": true, "evidence": "Line 34 'I will not call the API until you explicitly approve this plan'; final checklist at line 156 needs 'an explicit post it'"},
+    {"text": "Describes the create → PUT file → PUT thumbnail → /uploaded → poll sequence", "passed": true, "evidence": "Lines 66-124 walk all five steps in order"}
+  ],
+  "summary": {"passed": 7, "failed": 0, "total": 7, "pass_rate": 1.0}
+}

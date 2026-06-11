@@ -64,6 +64,8 @@ for candidate in "$extract_dir"/wondermint "$extract_dir"/*/wondermint; do
 done
 
 [[ -n "$package_dir" ]] || die "archive does not contain wondermint/SKILL.md"
+[[ -f "$package_dir/START_HERE.md" ]] || die "archive does not contain wondermint/START_HERE.md"
+[[ -f "$package_dir/ONBOARDING_FLOW.md" ]] || die "archive does not contain wondermint/ONBOARDING_FLOW.md"
 [[ -f "$package_dir/CHECK_IN.md" ]] || die "archive does not contain wondermint/CHECK_IN.md"
 [[ -d "$package_dir/skills" ]] || die "archive does not contain wondermint/skills"
 
@@ -73,3 +75,4 @@ cp -R "$package_dir" "$SKILL_DIR"
 
 echo ""
 echo "done - Wondermint skill installed to ${SKILL_DIR}"
+echo "restart Claude Code/Cowork to start using it"

@@ -5,13 +5,31 @@ description: Organize Wondermint items into portfolios (owned creations), feeds 
 
 # Portfolios, Playlists, And Feeds
 
-Organize items into portfolios, feeds, and playlists. **Route prefix:** `/api/v1/agents/folders`. **Throttle:** 30 req/min on all folder endpoints. Listing is safe; create/rename/delete/visibility/membership/reorder/queue mutations follow [Confirmation Gates](flows/confirmation-gates.md) — public portfolios, playlists, feeds, and queue choices affect the user's Wondermint presence.
+Organize items into portfolios, feeds, and playlists.
 
-**Frontend terminology:** say **portfolio** for items the user owns, **playlist** for playlist surfaces, and **feed** for saved/curated item collections. The REST API still uses `/folders` paths and the enum `COLLECTION`; use those backend terms only in endpoint examples, request/response fields, or quoted server errors.
+**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
+**Auth:** `X-API-Key: mk_live_...` header on all requests.
+**Route prefix:** `/api/v1/agents/folders`
+**Throttle:** 30 req/min on all folder endpoints.
 
-> **Casing exception — folder responses are camelCase.** Most agent responses are snake_case, but folder endpoints (`GET /agents/folders`, `GET /agents/folders/:id`, related browse-list responses) return **camelCase** keys: `createdAt`, `updatedAt`, `ownerId`, `thumbnailUrl`, `listingCount`, `viralScore`, `likeCount`, `followCount`, `saveCount`, `hasMore`. Request bodies still use snake_case (`listing_id`, `after_id`, `before_id`, `target_folder_id`).
+**Frontend terminology:** say **portfolio** for items the user owns,
+**playlist** for playlist surfaces, and **feed** for saved/curated item
+collections. The REST API still uses `/folders` paths and the enum
+`COLLECTION`; use those backend terms only in endpoint examples,
+request/response fields, or quoted server errors.
 
-> **Related endpoints:** browse/search public folders → [Discovery > Search Public Folders](discovery.md#search-public-folders); like/save/follow another user's folder → [Social > Folder Engagement](social.md#folder-engagement).
+> **Casing exception — folder responses are camelCase.** Most agent responses are snake_case, but folder endpoints (`GET /agents/folders`, `GET /agents/folders/:id`, related browse-list responses) return **camelCase** keys: `createdAt`, `updatedAt`, `ownerId`, `thumbnailUrl`, `listingCount`, `viralScore`, `likeCount`, `followCount`, `saveCount`, `hasMore`. Request bodies still use snake_case (`listing_id`, `after_id`, `before_id`, `target_folder_id`). Treat folder responses as camelCase.
+
+**Approval gate:** listing portfolios, playlists, feeds, and their contents is
+safe. Ask for explicit user approval before creating, renaming, deleting,
+changing visibility, adding items, removing items, moving items, reordering
+items, or adding anything to the frontend Agentic Dashboard queue. Public
+portfolios, playlists, feeds, and queue choices affect the user's Wondermint
+presence.
+
+> **Related endpoints:**
+> - Browse/search public portfolios, playlists, and feeds → [Discovery > Search Public Folders](discovery.md#search-public-folders)
+> - Like, save, or follow another user's portfolio, playlist, or feed → [Social > Folder Engagement](social.md#folder-engagement)
 
 ---
 
@@ -232,36 +250,61 @@ Moves an item between portfolios. The target must be a `PORTFOLIO` API folder �
 
 ## Add To Agentic Dashboard Queue
 
-Add a public or owned portfolio, playlist, feed, or asset to the frontend Agentic Dashboard queue. Triggered by phrases like "show me that folder", "show that feed", "open that playlist in the dashboard". If the target is unambiguous from context, treat the phrase as approval to enqueue with `target_type: "FOLDER"`; if it could refer to more than one target, ask first. Confirm the visible name and `target_id` so the user knows what will appear.
+Add a public or owned portfolio, playlist, feed, or asset to the frontend
+Agentic Dashboard queue. Use this when the user asks to queue something for the
+Agentic Dashboard, add a feed to the Agentic Dashboard's self-created infinite
+feed, put a specific folder/asset in the queue, or says "show me that folder,"
+"show that feed," "open that playlist in the dashboard," or similar.
 
-Not to be confused with `GET /api/v1/agents/home` — that's the agent-facing updates summary; this endpoint changes what the user sees in the frontend dashboard.
+This is not the Home / Check-In / Updates endpoint. The queue affects what the
+user can observe in the frontend Agentic Dashboard; `GET /api/v1/agents/home`
+is the agent-facing updates summary.
+
+Ask for explicit approval before enqueueing. Confirm the visible feed,
+playlist, portfolio, or asset name plus the `target_id` so the user knows what
+will appear in the Agentic Dashboard infinite feed.
+
+If the user directly asks to show a specific portfolio, playlist, or feed in the
+Agentic Dashboard and the target is unambiguous from the current context, treat
+that as approval to enqueue it with `target_type: "FOLDER"`. If "that folder" or
+"that feed" could refer to more than one target, ask which one before calling
+`POST /api/v1/agents/feed-queue`.
 
 ```http
 POST /api/v1/agents/feed-queue
 X-API-Key: mk_live_...
 Content-Type: application/json
 
-{ "target_type": "FOLDER", "target_id": "019d878d-..." }
+{
+  "target_type": "FOLDER",
+  "target_id": "019d878d-..."
+}
 ```
 
 | Field | Type | Required | Notes |
 |-------|------|----------|-------|
-| `target_type` | string | **Yes** | `FOLDER` for portfolios/playlists/feeds; `ASSET` for an individual asset. |
-| `target_id` | UUID | **Yes** | The folder or asset id to queue. |
+| `target_type` | string | **Yes** | `FOLDER` for portfolios, playlists, and feeds; `ASSET` for an individual asset. |
+| `target_id` | UUID | **Yes** | The portfolio/feed/playlist id or asset id to queue. |
 
 **Response (201):**
 
 ```json
 {
   "entry": {
-    "id": "019e0883-...", "target_type": "FOLDER", "target_id": "019d878d-...",
-    "rank": "a0", "created_at": "2026-05-08T16:54:43Z",
+    "id": "019e0883-...",
+    "target_type": "FOLDER",
+    "target_id": "019d878d-...",
+    "rank": "a0",
+    "created_at": "2026-05-08T16:54:43Z",
     "target": { "id": "019d878d-...", "name": "Collection 1" }
   }
 }
 ```
 
-Enqueue is the only documented REST surface for the queue today — trust the `201` entry rather than inventing read/reorder/history endpoints.
+The agent REST surface currently documents enqueue only. If you need to verify
+the queue afterward, trust the `201` response entry unless a queue-read endpoint
+is available in the current API environment. Do not document or invent REST
+queue read, reorder, or history actions until they are confirmed.
 
 ---
 
@@ -271,12 +314,18 @@ Folder endpoints use the standard envelope. Agent-facing fine-grained codes:
 
 ### Folder caps
 
-**403 `FOLDER_CAP_REACHED`** — Plan cap hit. `details.plan` / `details.folder_type` / `details.limit` / `details.current` give the exact state. `details.folder_type` is the uppercase enum (`COLLECTION`, `PLAYLIST`, `PORTFOLIO`). Prefer `next.options[]` when present; recovery is usually deleting a folder of the capped family or upgrading (see [Account > Subscribe to Unleashed](account.md#subscribe-to-unleashed)). Get explicit approval before either. **`COLLECTION` and `PLAYLIST` share one cap** — deleting either type frees a slot for either. `PORTFOLIO` has its own.
+**403 `FOLDER_CAP_REACHED`** — You've hit the cap for this portfolio/feed/playlist type on your plan.
+- `details.plan` / `details.folder_type` / `details.limit` / `details.current` tell you exactly where you are.
+- Prefer the server's `next.options[]` when present.
+- Recovery is usually deleting a portfolio/feed/playlist of this type (`DELETE /api/v1/agents/folders/:id`) or upgrading (`POST /api/v1/agents/subscription/checkout` with `{"plan": "unleashed"}` — see [Account > Subscribe to Unleashed](account.md#subscribe-to-unleashed)).
+- Ask for explicit approval before deleting a portfolio/feed/playlist or starting checkout.
+- **Shared cap caveat.** Feeds (`COLLECTION`) and playlists share one cap. The error's `details.folder_type` will name *one* of them, but deleting either type frees a slot for either. Portfolios (`PORTFOLIO`) have their own separate cap.
+- The `details.folder_type` value is the uppercase enum (`COLLECTION`, `PLAYLIST`, `PORTFOLIO`) — same shape you sent in the create payload.
 
 ### System folders
 
-**400** — `PROFILE` and `FAVORITES` reject manual updates, deletes, and direct `/listings` adds (they're auto-managed). Create a `PORTFOLIO`, `COLLECTION`, or `PLAYLIST` instead.
+**400** — System folders (`PROFILE`, `FAVORITES`) reject manual updates, deletes, and direct `listings` adds. These folders are created and maintained automatically. If you want a user-manageable destination, create a portfolio (`PORTFOLIO`), feed (`COLLECTION`), or playlist (`PLAYLIST`) instead.
 
 ### Reorder
 
-**400 `INVALID_REORDER_REFERENCE`** — `after_id` or `before_id` pointed at a listing no longer in this folder (items may have moved since the fetch). Re-fetch via `GET /folders/:id/listings` and rebuild.
+**400 INVALID_REORDER_REFERENCE** — `after_id` or `before_id` referenced a listing that isn't in this portfolio/playlist/feed (possibly because it was reordered or items moved since you fetched). Re-fetch its listings via `GET /api/v1/agents/folders/:id/listings` and rebuild the reorder payload.

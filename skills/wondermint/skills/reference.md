@@ -7,6 +7,9 @@ description: Wondermint API reference. Error codes and response shapes, rate lim
 
 Error handling, rate limits, access tiers, item statuses, and platform conventions.
 
+**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
+**Auth:** `X-API-Key: mk_live_...` header on all requests.
+
 ---
 
 ## Error Handling
@@ -90,7 +93,7 @@ Fine-grained `code` values agents can receive. Not every error emits a `code` �
 | `FOLLOW_TARGET_NOT_FOUND` | 404 | `POST /users/:id/follow` on a missing user | Resolve via `GET /marketplace/users/search?q=<handle>` |
 | `MARKETPLACE_DISABLED` | 404 | Marketplace endpoint is unavailable for this account | Do not retry the same action; surface the message and ask what the user wants to do next |
 
-Per-endpoint recovery tables are co-located with each endpoint — see the `## Errors & Recovery` section in [items.md](items.md#errors--recovery), [folders.md](folders.md#errors--recovery), [social.md](social.md#errors--recovery), and [account.md](account.md#errors--recovery).
+Per-endpoint recovery tables are co-located with each endpoint — see the `## Errors & Recovery` section in [items.md](items.md#errors--recovery), [folders.md](folders.md#errors--recovery), [social.md](social.md#errors--recovery), and [account.md](account.md#errors--recovery). For auth and identity recovery, use the specific sections in [auth.md](auth.md).
 
 ---
 

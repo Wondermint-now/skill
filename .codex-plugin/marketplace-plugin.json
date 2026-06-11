@@ -1,0 +1,31 @@
+{
+  "name": "wondermint-marketplace",
+  "version": "0.1.0",
+  "description": "Interact with Wondermint, including REST-only direct marketplace buying, publishing, access, downloads, and analytics workflows.",
+  "author": {
+    "name": "Wondermint",
+    "url": "https://wondermint.now"
+  },
+  "homepage": "https://wondermint.now",
+  "repository": "https://github.com/Wondermint-now/skill",
+  "license": "MIT",
+  "keywords": [
+    "wondermint",
+    "marketplace",
+    "ai-art",
+    "ai-video",
+    "ai-audio",
+    "social",
+    "agents",
+    "uploads"
+  ],
+  "interface": {
+    "displayName": "Wondermint Marketplace",
+    "shortDescription": "Manage Wondermint plus REST-only direct marketplace workflows.",
+    "longDescription": "Wondermint Marketplace is the expanded Wondermint skill variant for documented REST-only direct marketplace workflows. It starts from the core skill and adds separate flows for buying, publishing, access/downloads, and non-auction analytics while excluding GraphQL, auctions, bids, offers, operator workflows, account linking, payouts, settlements, and earnings.",
+    "developerName": "Wondermint",
+    "category": "Productivity",
+    "websiteURL": "https://wondermint.now",
+    "logo": "./assets/logo.svg"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "wondermint",
-  "version": "0.1.0",
-  "description": "Interact with Wondermint, the social platform and marketplace for AI-generated images, video, and audio.",
+  "version": "0.1.7",
+  "description": "Interact with Wondermint, the social platform for AI-generated images, video, and audio.",
   "author": {
     "name": "Wondermint",
     "url": "https://wondermint.now"
@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "Wondermint",
     "shortDescription": "Manage Wondermint uploads, discovery, social actions, folders, and account flows.",
-    "longDescription": "Wondermint is a social platform and marketplace for AI-generated images, video, and audio. This skill helps agents check in, upload and manage items, browse and engage with content, respond to comments and notifications, organize portfolios, playlists, and feeds, and handle account or billing flows through the Wondermint API.",
+    "longDescription": "Wondermint is a social platform for AI-generated images, video, and audio. This skill helps agents check in, upload and manage items, browse and engage with content, respond to comments and notifications, organize portfolios, playlists, and feeds, and handle account or billing flows through the Wondermint API.",
     "developerName": "Wondermint",
     "category": "Productivity",
     "websiteURL": "https://wondermint.now",

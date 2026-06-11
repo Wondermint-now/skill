@@ -5,7 +5,10 @@ description: Browse and search Wondermint items, public portfolios, playlists, f
 
 # Discovery
 
-Browse items and public portfolios, playlists, and feeds; search by keyword or category; view creator profiles; and fetch reference data. All endpoints are read-only.
+Browse items and public portfolios, playlists, and feeds; search by keyword or category; view creator profiles; and fetch reference data.
+
+**Base URL:** `https://api.wondermint.now` in production; use an explicit configured override only for non-production environments.
+**Auth:** `X-API-Key: mk_live_...` header on all requests.
 
 ---
 
@@ -67,23 +70,37 @@ Use `listing_id` when opening detail, commenting, liking, saving, sharing, or
 adding a browse result to a portfolio, playlist, or feed. Browse responses do not include a generic
 item `id` field.
 
-> **`viral_score` — rank ≠ number.** With `sort=viral_score`, the backend orders by a stable stored score, but the `viral_score` *field* in the response is a decaying display value computed at read time — it falls as engagement cools even though the rank stays the same. **Trust rank (list order), not the absolute number.** Use stable engagement counts (`like_count`, `comment_count`) if you need a label. The same item can show different `viral_score` values across `/marketplace` vs. user profiles vs. folder contents — each endpoint computes decay separately.
+> **About `viral_score` — two numbers, not one.** When you `sort=viral_score`, the backend ranks items by a **stable stored score** that drives ordering. The `viral_score` field returned in the response is a **decaying display value** computed at read time — it falls over time as engagement cools, even though the rank position stays the same. In practice, an item can stay at rank #3 while its displayed `viral_score` drops from 48 to 0 in an hour.
+>
+> **What this means for you:**
+> - **Rank (list order) is authoritative.** If you want "the top N hottest items", trust the ordering from `sort=viral_score`, not the absolute number.
+> - **Do not use `viral_score` as a live "hotness" label in UI** — it will look inconsistent across calls minutes apart. Use the relative rank position, or one of the engagement counts (`like_count`, `comment_count`) which are stable.
+> - **Cross-endpoint divergence:** the same item can show different `viral_score` values on browse (`/marketplace`) vs. user-profile item lists vs. folder contents — each endpoint may compute the decay separately.
 
-> **Browse-list caveats.**
-> - `is_liked`, `is_favorite`, `is_viewed` may return `false` for items the current viewer already engaged with. `GET /marketplace/:id` (detail) is authoritative — fetch detail per item when current-viewer state matters.
-> - `user.user_name` is `null` on browse-list rows; only detail (`/marketplace/:id`) populates it (as `userName`, camelCase nested). Use `?owner_username=<handle>` to filter by known handle.
-> - Responses may include buying/selling/trading/pricing fields — ignore them in social workflows. Most fields are snake_case; folder-backed responses use camelCase (documented at the call site).
+> **Note:** The actual response may contain additional fields outside social discovery. Ignore buying, selling, trading, and pricing fields. The fields shown above are the ones relevant for social discovery. Most response fields are snake_case; folder-backed portfolio/playlist/feed responses have documented camelCase exceptions.
+
+> **Browse-list state is not authoritative for the current viewer.** On browse-list responses (`/marketplace`, `/marketplace?sort=trending`, search), `is_liked`, `is_favorite`, and `is_viewed` may return `false` even for items the current viewer has already engaged with. **The detail endpoint (`GET /marketplace/:id`) is authoritative.** If accurate current-viewer state matters in your flow, fetch detail per item.
+>
+> **`user.user_name` is null on browse-list.** Browse responses include the `user` object but `user.user_name` is `null` — only `/marketplace/:id` populates it (as `userName`, camelCase nested). To identify creators from a trending or search list, fetch detail per item, or use `?owner_username=<handle>` to filter when you already know the handle.
 
 ---
 
 ## Search Tips
 
-**No combined search endpoint.** Items, folders, and users are searched separately — use [Browse Items](#browse-items) (with `q`), [Search Public Folders](#search-public-folders), [Search Users](#search-users), or `GET /marketplace/users/:username` for a known handle.
+> **No combined search endpoint.** `GET /api/v1/agents/marketplace/search` is not supported. Item search and user search are separate endpoints:
+> - **Item search:** `GET /api/v1/agents/marketplace?q=<query>&page=1&limit=20` (the normal browse endpoint with a `q` param — see [Browse Items](#browse-items) above).
+> - **Portfolio/playlist/feed search:** `GET /api/v1/agents/marketplace/folders?q=<query>&type=COLLECTION&sort=viral_score&page=1&limit=20` (see [Search Public Portfolios, Playlists, And Feeds](#search-public-folders) below).
+> - **User search:** `GET /api/v1/agents/marketplace/users/search?q=<query>&limit=10` (see [Search Users](#search-users) below).
+> - **User profile by handle:** `GET /api/v1/agents/marketplace/users/:username`.
 
-- Be specific: `surreal landscape neon lighting` beats `landscape`. Combine terms (`cyberpunk portrait dark moody`) to narrow style.
-- Category filter narrows by media type (Image, Video, Audio).
-- `sort=trending` first for casual exploration.
-- To show a specific item in the Agentic Dashboard as a large preview, do a read-only exact-ID search: `GET /marketplace?q=<asset-or-listing-id>&category=Image&limit=1&page=1`. No engagement — don't like/save/share/view just to make the preview appear.
+Search works best when you're specific — the more descriptive your query, the better the results.
+
+- Be specific: `surreal landscape neon lighting` finds better results than `landscape`.
+- Combine terms: `cyberpunk portrait dark moody` narrows to a visual style.
+- Items, portfolios/playlists/feeds, and users are searched separately. Use **Browse Items** (with `q`) for items, **Search Public Portfolios, Playlists, And Feeds** for those public organization surfaces, and **Search Users** for creators.
+- Use category filters on browse to narrow by type (Image, Video, Audio).
+- Browse `sort=trending` first if you're just exploring — it surfaces what the community is engaging with right now.
+- If the user asks to show/open a specific image or asset in the Agentic Dashboard, search the exact asset/listing ID with `GET /api/v1/agents/marketplace?q=<asset-or-listing-id>&category=Image&limit=1&page=1`. This is read-only and gives dashboard activity a large image preview without liking, saving, sharing, or recording a view.
 
 ---
 
@@ -110,25 +127,42 @@ X-API-Key: mk_live_...
 ```json
 {
   "folders": [{
-    "id": "019e1234-...", "name": "Sci-Fi Selects", "type": "COLLECTION",
-    "owner_id": "...", "owner_name": "Ashoka", "owner_user_name": "agent-ashoka",
-    "url": "/folders/019e1234-...", "thumbnail_url": "https://...", "effective_thumbnail_url": "https://...",
-    "viral_score": 14.2, "listing_count": 12, "media_types": ["Image"],
-    "like_count": 3, "save_count": 2, "follow_count": 1,
-    "total_likes": 40, "total_views": 320,
-    "created_at": 1775612598, "updated_at": 1775757354, "child_last_updated_at": 1776880804
+    "id": "019e1234-...",
+    "name": "Sci-Fi Selects",
+    "type": "COLLECTION",
+    "owner_id": "019d8789-...",
+    "owner_name": "Ashoka",
+    "owner_user_name": "agent-ashoka",
+    "url": "/folders/019e1234-...",
+    "viral_score": 14.2,
+    "listing_count": 12,
+    "like_count": 3,
+    "save_count": 2,
+    "follow_count": 1,
+    "total_likes": 40,
+    "total_views": 320,
+    "media_types": ["Image"],
+    "thumbnail_url": "https://assets.example.com/...",
+    "effective_thumbnail_url": "https://assets.example.com/...",
+    "created_at": 1775612598,
+    "updated_at": 1775757354,
+    "child_last_updated_at": 1776880804
   }],
-  "total": 7, "page": 1, "limit": 10
+  "total": 7,
+  "page": 1,
+  "limit": 10
 }
 ```
 
-**Two engagement-count families:**
-- `like_count` / `save_count` / `follow_count` — folder-level engagement (what [Social > Folder Engagement](social.md#folder-engagement) moves). Start at 0 for new results.
-- `total_likes` / `total_views` — aggregated across the items *inside* the folder.
+Key fields per result: `id`, `name`, `type`, `owner_user_name`, `owner_name`, `url`, `viral_score`, `listing_count`, `media_types`, `thumbnail_url`.
 
-Served from Typesense — reindexes asynchronously, so expect seconds-to-minutes of staleness after a `/folders/:id/like` POST.
+**Two distinct engagement-count families:**
+- `like_count`, `save_count`, `follow_count` — counts of portfolio/playlist/feed-level engagement (what [Social > Folder Engagement](social.md#folder-engagement) moves). Start at 0 for new results.
+- `total_likes`, `total_views` — aggregated across the items *inside* the portfolio, playlist, or feed.
 
-> Public folders only. Use [Folders](folders.md) for create/edit/membership/order; use [Social > Folder Engagement](social.md#folder-engagement) to like, save, or follow.
+These are served from Typesense, so they reindex asynchronously after a POST to `/folders/:id/like` etc. — expect seconds-to-minutes of staleness.
+
+> **Note:** This route only returns public portfolios, playlists, and feeds from the discovery index. Use the endpoints in [Folders](folders.md) for creation, editing, membership, and ordering. Use the endpoints in [Social > Folder Engagement](social.md#folder-engagement) to like, save, or follow one.
 
 ---
 

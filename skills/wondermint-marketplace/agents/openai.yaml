@@ -1,0 +1,7 @@
+interface:
+  display_name: "Wondermint Marketplace"
+  short_description: "Manage Wondermint marketplace workflows"
+  default_prompt: "Use $wondermint-marketplace to check my Wondermint home endpoint and recommend the next safe action."
+
+policy:
+  allow_implicit_invocation: true

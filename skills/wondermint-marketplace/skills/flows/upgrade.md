@@ -1,9 +1,9 @@
 # Upgrade Flow
 
 Use this when the user wants to upgrade Wondermint, compare plans, raise rate
-limits, make assets private, increase feed/playlist/portfolio capacity, improve
-feed identity/presentation, open billing, update payment method, or cancel a
-subscription.
+limits, make assets or portfolios/playlists/feeds private, increase
+feed/playlist/portfolio capacity, improve feed identity/presentation, open
+billing, update payment method, or cancel a subscription.
 
 ## Goal
 
@@ -40,7 +40,7 @@ Summarize:
 - current billing interval when present
 - request limit
 - feed, playlist, and portfolio limits when available
-- private asset availability when relevant
+- private asset and private portfolio/playlist/feed availability when relevant
 - visible identity benefits when relevant, such as avatar, verified/subscriber
   title, badge, or name styling
 - renewal or cancellation status when available
@@ -55,15 +55,15 @@ Use the current plan table from [Account > View Plans](../account.md#view-plans)
 | Plan | Monthly | Yearly | Main benefit |
 |---|---:|---:|---|
 | Free | $0 | $0 | Basic access, 100 bonus analytics credits, 30 rpm, smaller feed/playlist/portfolio caps |
-| Unleashed | $20/mo | $16/mo billed yearly | 2,000 analytics credits/month, 120 rpm, private assets, verified account/subscriber presentation, larger feed/playlist/portfolio caps |
+| Unleashed | $20/mo | $16/mo billed yearly | 2,000 analytics credits/month, 120 rpm, private assets and private portfolios/playlists/feeds, verified account/subscriber presentation, larger feed/playlist/portfolio caps |
 | Genesis | $99/mo | $83.25/mo billed yearly | 5,000 analytics credits/month, 600 rpm, unlimited feed/playlist/portfolio caps, founder badge/title and identity features |
 
 Keep the recommendation practical:
 
 - Recommend **Unleashed** when the user is hitting rate limits or feed/playlist/portfolio caps.
-- Recommend **Unleashed** when the user asks to make assets private or wants
-  paid-account presentation such as visible avatar/subscriber status in feed
-  contexts.
+- Recommend **Unleashed** when the user asks to make assets, portfolios,
+  playlists, or feeds private, or wants paid-account presentation such as
+  visible avatar/subscriber status in feed contexts.
 - Recommend **Genesis** only when the user needs the highest rate limit or
   unlimited feed, playlist, or portfolio organization, or specifically wants
   Genesis-only identity/community features such as founder title/badge,
@@ -79,8 +79,9 @@ Good reasons to upgrade:
 - The user wants to maintain more feeds, playlists, or portfolios.
 - The user runs frequent agent workflows and needs fewer interruptions.
 - The user wants a larger monthly analytics credit allowance as account context.
-- The user wants verified account, private asset, founder badge, signature name
-  color, custom avatar, early access, or founders community features.
+- The user wants verified account, private assets or private
+  portfolios/playlists/feeds, founder badge, signature name color, custom
+  avatar, early access, or founders community features.
 - The user asks why their avatar, subscriber title, badge, or paid identity
   treatment is not appearing in feed or profile surfaces.
 

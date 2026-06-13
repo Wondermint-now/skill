@@ -177,7 +177,9 @@ destination, or moving/adding items into a reused destination. Prefer the
 server's `next.options[]` when present.
 
 Feeds (`COLLECTION`) and playlists share one cap. Portfolios (`PORTFOLIO`) have
-their own cap.
+their own cap. Private portfolios, playlists, and feeds require a paid plan
+(Unleashed or Genesis): do not offer private visibility for them as a Free-plan
+choice, and route Free-plan users who ask for it to [Upgrade Flow](upgrade.md).
 
 ## Final Report
 

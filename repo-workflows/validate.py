@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static validation for the Wondermint skill repo."""
+"""Static validation for the Wondermint Marketplace skill repo."""
 
 from __future__ import annotations
 
@@ -11,10 +11,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 VARIANTS = {
-    "core": {
-        "roots": [ROOT / "wondermint", ROOT / "skills" / "wondermint"],
-        "skill_name": "wondermint",
-    },
     "marketplace": {
         "roots": [ROOT / "skills" / "wondermint-marketplace"],
         "skill_name": "wondermint-marketplace",
@@ -31,10 +27,6 @@ GRAPHQL_ALLOWED_RE = re.compile(
     r"REST-only|must not use GraphQL|GraphQL is not available|GraphQL operations are backend-awareness material|Exclude GraphQL|Do not include.*GraphQL"
 )
 EXCLUSION_LANGUAGE_RE = re.compile(r"\b(do not|must not|exclude|excludes|excluded|excluding|no |not include|not add)\b", re.IGNORECASE)
-CORE_MARKETPLACE_ONLY_RE = re.compile(
-    r"\b(purchase|purchasing|buyer|seller|order management|seller analytics|marketplace analytics|payout|payouts|earnings|settlement)\b",
-    re.IGNORECASE,
-)
 MARKETPLACE_EXCLUDED_RE = re.compile(
     r"(/api/v1/agents/(?:bids|offers|link)\b|/offers\b|/bids\b|/link\b|/graphql\b|query \{|mutation \{|(?<!non-)\bauctions?\b|\bbids?\b|\bcounter-?offers?\b|\boperator\b|\bclaim-?link\b|\bagent-?link\b)",
     re.IGNORECASE,
@@ -209,15 +201,6 @@ def check_graphql(errors: list[str], package_roots: list[Path]) -> None:
 
 
 def check_variant_boundaries(errors: list[str], variant: str) -> None:
-    if variant in {"core", "all"}:
-        for path in installable_markdown_files(VARIANTS["core"]["roots"]):
-            rel = path.relative_to(ROOT)
-            for lineno, line in enumerate(path.read_text().splitlines(), 1):
-                if CORE_MARKETPLACE_ONLY_RE.search(line):
-                    errors.append(
-                        f"{rel}:{lineno}: core variant references marketplace-only transactional scope"
-                    )
-
     if variant in {"marketplace", "all"}:
         for root in VARIANTS["marketplace"]["roots"]:
             rel = root.relative_to(ROOT)
@@ -285,34 +268,69 @@ def check_onboarding_routing(errors: list[str], package_roots: list[Path]) -> No
         start_here = package_root / "START_HERE.md"
         rel_skill = skill.relative_to(ROOT)
         rel_start = start_here.relative_to(ROOT)
+        legacy_onboarding_flow = package_root / "skills" / "flows" / "onboarding.md"
+
+        if legacy_onboarding_flow.exists():
+            errors.append(
+                f"{legacy_onboarding_flow.relative_to(ROOT)}: use account-setup.md; "
+                "only ONBOARDING_FLOW.md should use onboarding in the filename"
+            )
 
         if skill.exists():
             text = skill.read_text()
             compact_text = re.sub(r"\s+", " ", text)
-            if "Get started for the first time | [Wondermint Onboarding Flow](ONBOARDING_FLOW.md)" not in text:
-                errors.append(f"{rel_skill}: get-started route must point to ONBOARDING_FLOW.md")
-            if "For account registration, API-key access, or adding web login" not in compact_text:
-                errors.append(f"{rel_skill}: account setup sub-flow must be scoped separately from full onboarding")
+            if "This section is a mandatory routing gate, not a table of optional shortcuts." not in text:
+                errors.append(f"{rel_skill}: root routing must make START_HERE.md a mandatory gate")
+            if "Do not jump directly from this file to [Account Setup Flow]" not in compact_text:
+                errors.append(f"{rel_skill}: root routing must prohibit direct account-setup shortcuts")
+            if "Get started for the first time | [Wondermint Onboarding Flow](ONBOARDING_FLOW.md), but only after the `START_HERE.md` gate" not in text:
+                errors.append(f"{rel_skill}: get-started route must be gated by START_HERE.md")
 
         if start_here.exists():
             text = start_here.read_text()
+            compact_text = re.sub(r"\s+", " ", text)
+            if "user routing state file" not in text:
+                errors.append(f"{rel_start}: package START_HERE must distinguish itself from user routing state")
+            if "If either step 1 or 2 found credentials" not in text:
+                errors.append(f"{rel_start}: credentials from env or .env must bypass first-run folder detection")
+            if "continue to onboarding" in text:
+                errors.append(f"{rel_start}: first-run routing must not use ambiguous `continue to onboarding` wording")
+            if "If the user says yes and the original request was a specific task" not in text:
+                errors.append(f"{rel_start}: first-run routing must preserve specific-task intent")
             if "If the user asked a specific task and credentials are available" not in text:
                 errors.append(f"{rel_start}: incomplete onboarding must not hijack specific credentialed tasks")
             if "If the user asked a specific task but credentials are not available" not in text:
                 errors.append(f"{rel_start}: missing specific-task account-setup route for keyless users")
             if "Skill file version or update checks bypass onboarding" not in text:
                 errors.append(f"{rel_start}: skill-version checks must bypass onboarding")
-            if "No local Wondermint setup was found" not in text:
+            if "No local Wondermint setup was found" not in compact_text:
                 errors.append(f"{rel_start}: missing first-run local setup detection wording")
+
+        onboarding = package_root / "ONBOARDING_FLOW.md"
+        if onboarding.exists():
+            text = onboarding.read_text()
+            compact_text = re.sub(r"\s+", " ", text)
+            if "If the routing gate already collected email plus storefront" not in compact_text:
+                errors.append(f"{onboarding.relative_to(ROOT)}: full onboarding must not re-ask first-run email/name")
+            if "as one storefront package and ask one approval question" not in compact_text:
+                errors.append(
+                    f"{onboarding.relative_to(ROOT)}: onboarding must present bio, avatar, "
+                    "and banner as one storefront package with one approval question"
+                )
+            if "only information-gathering batch of onboarding questions" not in compact_text:
+                errors.append(
+                    f"{onboarding.relative_to(ROOT)}: onboarding must keep the single "
+                    "consolidated intake prompt"
+                )
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate Wondermint skill packages.")
+    parser = argparse.ArgumentParser(description="Validate Wondermint Marketplace skill packages.")
     parser.add_argument(
         "--variant",
-        choices=["core", "marketplace", "all"],
+        choices=["marketplace", "all"],
         default="all",
-        help="Variant to validate. Defaults to all.",
+        help="Variant to validate. Defaults to all active variants.",
     )
     return parser.parse_args()
 

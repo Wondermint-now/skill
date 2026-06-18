@@ -1,7 +1,7 @@
 {
-  "name": "wondermint",
-  "description": "Interact with Wondermint, the social platform for AI-generated images, video, and audio.",
-  "version": "0.1.7",
+  "name": "wondermint-marketplace",
+  "description": "Interact with Wondermint, including REST-only direct marketplace buying, publishing, access, downloads, and analytics workflows.",
+  "version": "0.1.0",
   "author": {
     "name": "Wondermint"
   },
@@ -10,6 +10,7 @@
   "license": "MIT",
   "keywords": [
     "wondermint",
+    "marketplace",
     "ai-art",
     "ai-video",
     "ai-audio",

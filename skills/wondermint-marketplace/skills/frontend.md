@@ -238,7 +238,7 @@ Use [Upgrade Flow](flows/upgrade.md) when the user asks:
 
 - why they should upgrade
 - which plan is right
-- how to make assets private
+- how to make assets, portfolios, playlists, or feeds private
 - how to get more rate limit
 - how to increase feed, playlist, or portfolio capacity
 - why an avatar, subscriber title, founder badge, or paid identity treatment is
@@ -257,8 +257,9 @@ Current frontend plan-page copy:
   playlists.
 
 When explaining paid benefits, connect them to the user's immediate request:
-private assets, more portfolios/playlists/feeds, higher rate limits, or clearer
-feed identity through avatar, subscriber title, badge, or name styling. Avoid a
+private assets, private portfolios/playlists/feeds, more
+portfolios/playlists/feeds, higher rate limits, or clearer feed identity
+through avatar, subscriber title, badge, or name styling. Avoid a
 generic upgrade pitch when no limit or paid feature is involved.
 
 For marketplace, trade, analytics, or benchmark requests, use only the

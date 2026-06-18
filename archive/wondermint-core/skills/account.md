@@ -192,8 +192,8 @@ Recommend an upgrade only when it solves a concrete user problem:
 
 Do not use credits or plan tier to initiate marketplace transaction behavior.
 Keep upgrade recommendations tied to account limits, organization needs, rate
-limits, private-asset needs, identity/presentation benefits, and billing
-requests.
+limits, private asset/portfolio/playlist/feed needs, identity/presentation
+benefits, and billing requests.
 
 > **Note:** The response may include additional fields. Use `name`,
 > `price_monthly_cents`, `price_yearly_cents`, and `rate_limit_per_minute`.

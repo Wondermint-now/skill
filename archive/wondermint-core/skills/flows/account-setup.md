@@ -12,7 +12,10 @@ ongoing-routine steps from this file.
 
 ## Phase 1: Determine Starting Point
 
-Ask what the user already has:
+If the starting point is already known — the onboarding flow or first-run
+prompt already asked, or email plus storefront username/name were already
+collected — do not re-ask; continue with the matching path in Phase 2.
+Otherwise ask what the user already has:
 
 - no Wondermint account yet
 - web login at `https://wondermint.now`
@@ -25,8 +28,7 @@ whether they have an API key that starts with `mk_live_`.
 
 Use `https://api.wondermint.now` as the production API host. Use
 `WONDERMINT_BASE_URL` or the host's configured Wondermint API base URL only when
-an explicit non-production override is configured. The current dev API URL is
-`https://api-dev.fullstock.ai/`.
+an explicit non-production override is configured.
 
 ## Phase 2: Create Or Connect The Account
 
@@ -36,13 +38,15 @@ Before calling registration, confirm the durable account details with the user:
 
 - email
 - username
+- store/profile name (sent as the register `name` field)
 - where the user wants the one-time API key saved: `~/Wondermint/.env`, password
   manager, or an approved agent secret store
 - that the API key is shown only once and must be saved before any other setup
   continues
 
-If this flow was reached from the first-run prompt and the user already supplied
-email plus storefront username/name, treat that reply as approval to create the
+If this flow was reached from the first-run prompt or the onboarding intake and
+the user already supplied email plus storefront/profile username and
+store/profile name, treat that reply as approval to create the
 account and save the API key to `~/Wondermint/.env`. Create `~/Wondermint/` and
 `~/Wondermint/.env` as needed, save the returned key under the
 `WONDERMINT_API_KEY` variable immediately, and continue without asking redundant

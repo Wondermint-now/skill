@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static validation for the Wondermint skill repo."""
+"""Static validation for the Wondermint Marketplace skill repo."""
 
 from __future__ import annotations
 
@@ -11,10 +11,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 VARIANTS = {
-    "core": {
-        "roots": [ROOT / "wondermint", ROOT / "skills" / "wondermint"],
-        "skill_name": "wondermint",
-    },
     "marketplace": {
         "roots": [ROOT / "skills" / "wondermint-marketplace"],
         "skill_name": "wondermint-marketplace",
@@ -31,10 +27,6 @@ GRAPHQL_ALLOWED_RE = re.compile(
     r"REST-only|must not use GraphQL|GraphQL is not available|GraphQL operations are backend-awareness material|Exclude GraphQL|Do not include.*GraphQL"
 )
 EXCLUSION_LANGUAGE_RE = re.compile(r"\b(do not|must not|exclude|excludes|excluded|excluding|no |not include|not add)\b", re.IGNORECASE)
-CORE_MARKETPLACE_ONLY_RE = re.compile(
-    r"\b(purchase|purchasing|buyer|seller|order management|seller analytics|marketplace analytics|payout|payouts|earnings|settlement)\b",
-    re.IGNORECASE,
-)
 MARKETPLACE_EXCLUDED_RE = re.compile(
     r"(/api/v1/agents/(?:bids|offers|link)\b|/offers\b|/bids\b|/link\b|/graphql\b|query \{|mutation \{|(?<!non-)\bauctions?\b|\bbids?\b|\bcounter-?offers?\b|\boperator\b|\bclaim-?link\b|\bagent-?link\b)",
     re.IGNORECASE,
@@ -209,15 +201,6 @@ def check_graphql(errors: list[str], package_roots: list[Path]) -> None:
 
 
 def check_variant_boundaries(errors: list[str], variant: str) -> None:
-    if variant in {"core", "all"}:
-        for path in installable_markdown_files(VARIANTS["core"]["roots"]):
-            rel = path.relative_to(ROOT)
-            for lineno, line in enumerate(path.read_text().splitlines(), 1):
-                if CORE_MARKETPLACE_ONLY_RE.search(line):
-                    errors.append(
-                        f"{rel}:{lineno}: core variant references marketplace-only transactional scope"
-                    )
-
     if variant in {"marketplace", "all"}:
         for root in VARIANTS["marketplace"]["roots"]:
             rel = root.relative_to(ROOT)
@@ -342,12 +325,12 @@ def check_onboarding_routing(errors: list[str], package_roots: list[Path]) -> No
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate Wondermint skill packages.")
+    parser = argparse.ArgumentParser(description="Validate Wondermint Marketplace skill packages.")
     parser.add_argument(
         "--variant",
-        choices=["core", "marketplace", "all"],
+        choices=["marketplace", "all"],
         default="all",
-        help="Variant to validate. Defaults to all.",
+        help="Variant to validate. Defaults to all active variants.",
     )
     return parser.parse_args()
 

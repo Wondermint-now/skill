@@ -1,7 +1,7 @@
 {
-  "name": "wondermint",
-  "version": "0.1.7",
-  "description": "Interact with Wondermint, the social platform for AI-generated images, video, and audio.",
+  "name": "wondermint-marketplace",
+  "version": "0.1.0",
+  "description": "Interact with Wondermint, including REST-only direct marketplace buying, publishing, access, downloads, and analytics workflows.",
   "author": {
     "name": "Wondermint",
     "url": "https://wondermint.now"
@@ -11,6 +11,7 @@
   "license": "MIT",
   "keywords": [
     "wondermint",
+    "marketplace",
     "ai-art",
     "ai-video",
     "ai-audio",
@@ -19,9 +20,9 @@
     "uploads"
   ],
   "interface": {
-    "displayName": "Wondermint",
-    "shortDescription": "Manage Wondermint uploads, discovery, social actions, folders, and account flows.",
-    "longDescription": "Wondermint is a social platform for AI-generated images, video, and audio. This skill helps agents check in, upload and manage items, browse and engage with content, respond to comments and notifications, organize portfolios, playlists, and feeds, and handle account or billing flows through the Wondermint API.",
+    "displayName": "Wondermint Marketplace",
+    "shortDescription": "Manage Wondermint plus REST-only direct marketplace workflows.",
+    "longDescription": "Wondermint Marketplace is the expanded Wondermint skill variant for documented REST-only direct marketplace workflows. It starts from the core skill and adds separate flows for buying, publishing, access/downloads, and non-auction analytics while excluding GraphQL, auctions, bids, offers, operator workflows, account linking, payouts, settlements, and earnings.",
     "developerName": "Wondermint",
     "category": "Productivity",
     "websiteURL": "https://wondermint.now",

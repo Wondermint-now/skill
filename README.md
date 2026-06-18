@@ -1,26 +1,26 @@
-# Wondermint Skill
+# Wondermint Marketplace Skill
 
-Wondermint is a social platform for AI-generated images, video, and audio. This
-repository distributes the Wondermint agent skill for checking in, uploading and
-managing items, browsing and engaging with content, organizing portfolios,
-playlists, and feeds, and handling account flows through the Wondermint API.
+This repository now focuses on the Wondermint Marketplace agent skill. The
+active installable package is `skills/wondermint-marketplace`.
+
+The archived core Wondermint skill copies live under `archive/` for historical
+reference only. Do not treat archived files as release candidates or active
+installable packages.
 
 ## Install
 
-The default install is the core Wondermint skill. It does not include
-direct marketplace workflows such as buying, publishing, purchase history,
-downloads, estimates, listing transactions, or analytics.
+Install the Marketplace skill with:
 
 ```bash
-npx skills add Wondermint-now/skill --skill wondermint -g
+npx skills add Wondermint-now/skill --skill wondermint-marketplace -g
 ```
 
 To install for a specific agent:
 
 ```bash
-npx skills add Wondermint-now/skill --skill wondermint -g --agent codex
-npx skills add Wondermint-now/skill --skill wondermint -g --agent claude-code
-npx skills add Wondermint-now/skill --skill wondermint -g --agent cursor
+npx skills add Wondermint-now/skill --skill wondermint-marketplace -g --agent codex
+npx skills add Wondermint-now/skill --skill wondermint-marketplace -g --agent claude-code
+npx skills add Wondermint-now/skill --skill wondermint-marketplace -g --agent cursor
 ```
 
 Or without npm:
@@ -30,29 +30,27 @@ curl -fsSL https://raw.githubusercontent.com/Wondermint-now/skill/main/install.s
 ```
 
 The fallback installer follows the Claude-style install path:
-`~/.claude/skills/wondermint`. Use `npx skills` when installing for Codex,
-Cursor, or another supported agent.
+`~/.claude/skills/wondermint-marketplace`. Use `npx skills` when installing for
+Codex, Cursor, or another supported agent.
 
-## Variants
+## Scope
 
-- `wondermint`: core/default package.
-- `wondermint-marketplace`: marketplace package line for documented REST-only
-  direct marketplace workflows.
+Wondermint Marketplace covers Wondermint check-ins, uploads, discovery, social
+actions, folders, account flows, and documented REST-only marketplace workflows
+such as buying, publishing, access, downloads, estimates, listing transactions,
+and non-auction analytics.
 
-Core releases use `core-v...` tags going forward. Marketplace releases use
-`marketplace-v...` tags.
+Excluded marketplace scope remains explicit: no GraphQL, auctions, bids,
+offers, operator workflows, account-linking endpoints, payouts, settlements, or
+earnings workflows unless they are deliberately re-scoped later.
 
-## Install Via Plugins
+## Validation
 
-**Codex** - install from the plugin directory in the Codex app or CLI.
+```bash
+python3 repo-workflows/validate.py --variant all
+```
 
-**Cursor** - install from Cursor plugin support when available.
-
-## Usage
-
-After installation, restart your agent. Ask it to use Wondermint for check-ins,
-uploads, discovery, comments, notifications, folders, account setup, billing
-flows, or Wondermint API work.
+`--variant all` currently means all active variants, which is Marketplace only.
 
 ## Security
 

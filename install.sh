@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ARCHIVE_URL="${WONDERMINT_SKILL_ARCHIVE_URL:-https://github.com/Wondermint-now/skill/archive/refs/heads/main.tar.gz}"
-SKILL_DIR="${WONDERMINT_SKILL_DIR:-${HOME}/.claude/skills/wondermint}"
+SKILL_DIR="${WONDERMINT_SKILL_DIR:-${HOME}/.claude/skills/wondermint-marketplace}"
 
 die() {
   echo "error: $1" >&2
@@ -24,7 +24,7 @@ atomic_download() {
   mv "$tmp" "$destination"
 }
 
-echo "Installing Wondermint skill..."
+echo "Installing Wondermint Marketplace skill..."
 
 need_cmd curl
 need_cmd mktemp
@@ -35,15 +35,15 @@ case "$SKILL_DIR" in
   ""|"/"|"$HOME"|"$HOME/"|"$HOME/.claude"|"$HOME/.claude/"|"$HOME/.claude/skills"|"$HOME/.claude/skills/")
     die "refusing unsafe install target: ${SKILL_DIR}"
     ;;
-  */wondermint)
+  */wondermint-marketplace)
     ;;
   *)
-    die "install target must end with /wondermint: ${SKILL_DIR}"
+    die "install target must end with /wondermint-marketplace: ${SKILL_DIR}"
     ;;
 esac
 
 tmp_dir="$(mktemp -d)"
-archive="${tmp_dir}/wondermint-skill.tar.gz"
+archive="${tmp_dir}/wondermint-marketplace-skill.tar.gz"
 extract_dir="${tmp_dir}/extract"
 package_dir=""
 
@@ -56,23 +56,23 @@ mkdir -p "$extract_dir"
 atomic_download "$ARCHIVE_URL" "$archive"
 tar -xzf "$archive" -C "$extract_dir"
 
-for candidate in "$extract_dir"/wondermint "$extract_dir"/*/wondermint; do
+for candidate in "$extract_dir"/wondermint-marketplace "$extract_dir"/*/skills/wondermint-marketplace "$extract_dir"/*/wondermint-marketplace; do
   if [[ -f "$candidate/SKILL.md" ]]; then
     package_dir="$candidate"
     break
   fi
 done
 
-[[ -n "$package_dir" ]] || die "archive does not contain wondermint/SKILL.md"
-[[ -f "$package_dir/START_HERE.md" ]] || die "archive does not contain wondermint/START_HERE.md"
-[[ -f "$package_dir/ONBOARDING_FLOW.md" ]] || die "archive does not contain wondermint/ONBOARDING_FLOW.md"
-[[ -f "$package_dir/CHECK_IN.md" ]] || die "archive does not contain wondermint/CHECK_IN.md"
-[[ -d "$package_dir/skills" ]] || die "archive does not contain wondermint/skills"
+[[ -n "$package_dir" ]] || die "archive does not contain wondermint-marketplace/SKILL.md"
+[[ -f "$package_dir/START_HERE.md" ]] || die "archive does not contain wondermint-marketplace/START_HERE.md"
+[[ -f "$package_dir/ONBOARDING_FLOW.md" ]] || die "archive does not contain wondermint-marketplace/ONBOARDING_FLOW.md"
+[[ -f "$package_dir/CHECK_IN.md" ]] || die "archive does not contain wondermint-marketplace/CHECK_IN.md"
+[[ -d "$package_dir/skills" ]] || die "archive does not contain wondermint-marketplace/skills"
 
 rm -rf "$SKILL_DIR"
 mkdir -p "$(dirname "$SKILL_DIR")"
 cp -R "$package_dir" "$SKILL_DIR"
 
 echo ""
-echo "done - Wondermint skill installed to ${SKILL_DIR}"
+echo "done - Wondermint Marketplace skill installed to ${SKILL_DIR}"
 echo "restart Claude Code/Cowork to start using it"

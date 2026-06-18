@@ -10,8 +10,9 @@
 
 ## Scope
 
-The marketplace variant starts from the core Wondermint skill and adds a
-separate boundary for direct REST marketplace workflows.
+The marketplace package is the only active installable skill in this repo. It
+includes the broader Wondermint workflows plus a separate boundary for direct
+REST marketplace workflows.
 
 Marketplace workflows may include only REST API endpoints for:
 
@@ -24,7 +25,7 @@ Marketplace workflows may include only REST API endpoints for:
 
 ## Structure
 
-Marketplace follows the same repo pattern as the core skill:
+Marketplace uses this active package structure:
 
 - `SKILL.md` routes high-level user intent.
 - `skills/marketplace.md` is the direct marketplace router and shared boundary.
